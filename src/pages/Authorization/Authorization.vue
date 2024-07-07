@@ -26,7 +26,7 @@ import img from '@assets/Auth.png'
                 <p class="text-[20px] leading-[24px] font-bold text-white cursor-pointer">Войти</p>
             </div>
             <a class=" text-[#A4A5A5] text-4 font-medium leading-4 pl-[13px] cursor-pointer flex justify-center items-center mt-10">Забыли пароль?</a>
-            <p class=" text-[13px] font-semibold leading-4 text-black mt-[46px] flex justify-center items-center">Нет аккаунта? <a class=" ml-1 cursor-pointer font-bold text-[#00B9C2] text-[15px] leading-[18px]">Зарегистрироваться</a></p>
+            <p class=" text-[13px] font-semibold leading-4 text-black mt-[46px] flex justify-center items-center">Нет аккаунта? <a class=" ml- cursor-pointer font-bold text-[#00B9C2] text-[15px] leading-[18px]">Зарегистрироваться</a></p>
         </div>
       </div>
 </template>
