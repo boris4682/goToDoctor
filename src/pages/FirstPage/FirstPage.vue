@@ -5,6 +5,9 @@ import arrow from '@assets/icons/arrow.svg'
 </script>
 <template>
   <MainTemplate>
+    <div class="h-[15vh]">
+
+    </div>
     <div class="px-4">
       <div class="bg-main w-36 py-1 px-2 text-white flex justify-between items-center rounded-md">
         <p>

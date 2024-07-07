@@ -6,6 +6,9 @@ import img from '@assets/Auth.png'
 
 <template>
     <MainTemplate>
+      <div class="h-[10vh]">
+
+      </div>
         <div class="px-4">
           <img :src="img" class="w-[225px] h-[248px] mx-auto"/>
         </div>

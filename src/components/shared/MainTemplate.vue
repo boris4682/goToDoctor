@@ -5,9 +5,7 @@
   <div>
     <div class="bg w-full bg-center absolute top-0 left-0">
     </div>
-    <div class="h-[15vh]">
-
-    </div>
+    
     <slot />
   </div>
 </template>
