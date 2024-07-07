@@ -654,6 +654,24 @@ elementtree@^0.1.7:
   dependencies:
     sax "1.1.4"
 
+embla-carousel-reactive-utils@8.1.6:
+  version "8.1.6"
+  resolved "https://registry.npmjs.org/embla-carousel-reactive-utils/-/embla-carousel-reactive-utils-8.1.6.tgz"
+  integrity sha512-Wg+J2YoqLqkaqsXi7fTJaLmXm6BpgDRJ0EfTdvQ4KE/ip5OsUuKGpJsEQDTt4waGXSDyZhIBlfoQtgGJeyYQ1Q==
+
+embla-carousel-vue@^8.1.6:
+  version "8.1.6"
+  resolved "https://registry.npmjs.org/embla-carousel-vue/-/embla-carousel-vue-8.1.6.tgz"
+  integrity sha512-25P5Jg1pih2PZKCYxv//FZ/FGpX6VIIMgfOV2BcOjGxzddCUpQL0ss0X+UnA5aI+PmB+tTfFXOCj/IVOvdTnAQ==
+  dependencies:
+    embla-carousel "8.1.6"
+    embla-carousel-reactive-utils "8.1.6"
+
+embla-carousel@8.1.6:
+  version "8.1.6"
+  resolved "https://registry.npmjs.org/embla-carousel/-/embla-carousel-8.1.6.tgz"
+  integrity sha512-9n7FVsbPAs1KD+JmO84DnEDOZMXPBQbLujjMQqvsBRN2CDWwgZ9hRSNapztdPnyJfzOIxowGmj0BUQ8ACYAPkA==
+
 emoji-regex@^8.0.0:
   version "8.0.0"
   resolved "https://registry.npmjs.org/emoji-regex/-/emoji-regex-8.0.0.tgz"
@@ -1622,7 +1640,7 @@ vue-tsc@^2.0.21:
     "@vue/language-core" "2.0.24"
     semver "^7.5.4"
 
-"vue@^2.6.14 || ^3.3.0", "vue@^3.0.0-0 || ^2.6.0", vue@^3.2.0, vue@^3.2.25, vue@^3.4.29, vue@3.4.31:
+"vue@^2.6.14 || ^3.3.0", "vue@^3.0.0-0 || ^2.6.0", vue@^3.2.0, vue@^3.2.25, vue@^3.2.37, vue@^3.4.29, vue@3.4.31:
   version "3.4.31"
   resolved "https://registry.npmjs.org/vue/-/vue-3.4.31.tgz"
   integrity sha512-njqRrOy7W3YLAlVqSKpBebtZpDVg21FPoaq1I7f/+qqBThK9ChAIjkRWgeP6Eat+8C+iia4P3OYqpATP21BCoQ==
