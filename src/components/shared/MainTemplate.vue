@@ -12,6 +12,6 @@
 <style>
  .bg {
   background: url('../../assets/backgrounds/HeaderBackground.png') 0 0/100% auto no-repeat;
-  height: 20vh;
+  height: 24vh;
  }
 </style>

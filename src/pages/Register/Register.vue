@@ -4,7 +4,7 @@ import img from '@assets/secondSlide.png'
 </script>
 <template>
   <MainTemplate>
-    <div class="h-[10vh]">
+    <div class="h-[15vh]">
 
     </div>
     <div class="px-4">
