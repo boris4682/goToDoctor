@@ -1,17 +1,16 @@
 <script setup lang='ts'>
-import MainTemplate from '@//components/shared/MainTemplate.vue';
 import img from '@assets/Avatar.png'
 import fon from '@assets/Fon.png'
 import Schedule from '@//components/Schedule/Schedule.vue';
 import doc from '@assets/icons/ion_document-sharp.png';
-import FooterPanel from '@//components/FooterPanel/FooterPanel.vue';
 import back from '@assets/icons/back.png'
 import setting from '@assets/icons/setting.png'
+import PagesTemplate from '@//components/shared/PagesTemplate.vue';
 
 </script>
 
 <template>
-    <MainTemplate>
+    <PagesTemplate>
       <div class="h-[15vh]">
         <img :src="fon" class="mt-[43px] mx-auto"/>
         
@@ -37,10 +36,9 @@ import setting from '@assets/icons/setting.png'
             <img :src="doc" class="ml-[30px]"/>
             <p class=" text-base font-semibold leading-5 text-[#00B9C2] mr-[35px] text-center">Методические рекомендации для врачей-стоматологов</p>
           </div>
-          <FooterPanel class="mt-[40px]"/>
         </div>
       </div>
-      </MainTemplate>
+    </PagesTemplate>
       
 </template>
 

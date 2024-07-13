@@ -20,7 +20,9 @@ import arrow from '@assets/icons/arrow.svg'
         <RouterLink to="/reg">
           <button class=" bg-main text-white w-[70%] mx-auto h-[55px] rounded-full block ">Регистрация</button>
         </RouterLink>
-        <button class=" bg-main text-white w-[70%] mx-auto h-[55px] rounded-full block ">Войти</button>
+        <RouterLink to="/auth">
+          <button class=" bg-main text-white w-[70%] mx-auto h-[55px] rounded-full block ">Войти</button>
+        </RouterLink>
       </div>
       
     </div>
