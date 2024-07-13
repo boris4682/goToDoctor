@@ -6,6 +6,7 @@ export const routes = [
   { path: "/auth", component: () => import("./Authorization"), name: "Auth" },
   { path: "/lcdoctor", component: () => import("./LCdoctor"), name: "LCdoctor" },
   { path: "/setting", component: () => import("./Setting"), name: "Setting" },
+  { path: "/changepassword", component: () => import("./ChangePassword"), name: "ChangePassword" },
 ];
 
 export { Routing };
