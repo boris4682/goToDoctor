@@ -6,7 +6,9 @@ import doc from '@assets/icons/ion_document-sharp.png';
 import back from '@assets/icons/back.png'
 import setting from '@assets/icons/setting.png'
 import PagesTemplate from '@//components/shared/PagesTemplate.vue';
+import { useRouter } from 'vue-router';
 
+const router = useRouter()
 </script>
 
 <template>
@@ -16,9 +18,11 @@ import PagesTemplate from '@//components/shared/PagesTemplate.vue';
         
       </div>
       <div class="flex">
-        <img :src="back" class=" mx-auto w-[11px] h-[16px] translate-y-[-95px] translate-x-[-15px] cursor-pointer"/>
+        <img :src="back" class=" mx-auto w-[11px] h-[16px] translate-y-[-95px] translate-x-[-15px] cursor-pointer" @click="router.back()"/>
         <img :src="img" class=" mx-auto translate-y-[-40px] translate-x-[15px]"/>
-        <img :src="setting" class=" mx-auto w-[43px] h-[40px] translate-y-[-90px] translate-x-[15px] cursor-pointer"/>
+        <RouterLink to="/setting" class=" mx-auto w-[43px] h-[40px] translate-y-[-90px] translate-x-[15px] cursor-pointer">
+          <img :src="setting" />
+        </RouterLink>
       </div>
       
       <div class="flex justify-center">
