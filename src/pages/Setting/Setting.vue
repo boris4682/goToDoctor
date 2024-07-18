@@ -16,9 +16,9 @@ const router = useRouter()
 
     </div>
     <div class="flex">
-      <img :src="back" class=" mx-auto w-[11px] h-[16px] translate-y-[-95px] translate-x-[-15px] cursor-pointer"
+      <img :src="back" class=" mx-auto w-[11px] h-[16px] translate-y-[-110px] translate-x-[-15px] cursor-pointer"
         @click="router.back()" />
-      <img :src="img" class=" mx-auto translate-y-[-40px] translate-x-[15px]" />
+      <img :src="img" class=" mx-auto translate-y-[-60px] translate-x-[15px]" />
       <img :src="setting" class=" mx-auto w-[43px] h-[40px] translate-y-[-90px] translate-x-[15px] cursor-pointer" />
     </div>
 

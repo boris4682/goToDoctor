@@ -7,6 +7,10 @@ export const routes = [
   { path: "/lcdoctor", component: () => import("./LCdoctor"), name: "LCdoctor" },
   { path: "/setting", component: () => import("./Setting"), name: "Setting" },
   { path: "/changepassword", component: () => import("./ChangePassword"), name: "ChangePassword" },
+  { path: "/successfullychanged", component: () => import("./SuccessfullyChanged"), name: "SuccessfullyChanged" },
+  { path: "/lcpatient", component: () => import("./LCpatient"), name: "LCpatient" },
+  { path: "/patientschildren", component: () => import("./PatientsChildren"), name: "PatientsChildren" },
+  { path: "/lcchild", component: () => import("./LCchild"), name: "LCchild" },
 ];
 
 export { Routing };
