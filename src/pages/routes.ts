@@ -11,6 +11,10 @@ export const routes = [
   { path: "/lcpatient", component: () => import("./LCpatient"), name: "LCpatient" },
   { path: "/patientschildren", component: () => import("./PatientsChildren"), name: "PatientsChildren" },
   { path: "/lcchild", component: () => import("./LCchild"), name: "LCchild" },
+  { path: "/medicalcards", component: () => import("./MedicalCards"), name: "MedicalCards" },
+  { path: "/records", component: () => import("./Records"), name: "Records" }, 
+  { path: "/receptionmenu", component: () => import("./ReceptionMenu"), name: "ReceptionMenu" },
+  
 ];
 
 export { Routing };
