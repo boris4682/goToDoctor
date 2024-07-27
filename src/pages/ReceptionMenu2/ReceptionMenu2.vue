@@ -1,8 +1,7 @@
 <script setup lang='ts'>
 import back from '@assets/icons/back.png'
-import first from '@assets/icons/first.png'
-import second from '@assets/icons/second.png'
-import third from '@assets/icons/third.png'
+import fourth from '@assets/icons/fourth.png'
+import fifth from '@assets/icons/fifth.png'
 import PagesTemplate from '@//components/shared/PagesTemplate.vue';
 import { useRouter } from 'vue-router';
 
@@ -30,30 +29,21 @@ const router = useRouter()
                 </div>
                 <div class=" w-full h-[124px] bg-[#E5F2FC] rounded-[10px]">
                     <div class="flex justify-between px-[15px] py-[5px]">
-                        <p class="text-[16px] font-semibold leading-6 text-[#00B9C2]">История посещений</p>
+                        <p class="text-[16px] font-semibold leading-6 text-[#00B9C2]">Запланированные</p>
                         <div class=" rounded-full border w-[30px] h-[30px] bg-gradient-to-b from-[#006879] to-[#00B9C2] flex justify-center items-center">
                             <p class=" text-center text-[16px] font-semibold leading-5 text-white">6</p>
                         </div>
                     </div>
-                    <img :src="first" class="ml-[15px]"/>
+                    <img :src="fourth" class="ml-[15px]"/>
                 </div>
                 <div class=" w-full h-[124px] bg-[#E5F2FC] rounded-[10px]">
                     <div class="flex justify-between px-[15px] py-[5px]">
-                        <p class="text-[16px] font-semibold leading-6 text-[#00B9C2]">Анкета</p>
+                        <p class="text-[16px] font-semibold leading-6 text-[#00B9C2]">Завершенные</p>
                         <div class=" rounded-full border w-[30px] h-[30px] bg-gradient-to-b from-[#006879] to-[#00B9C2] flex justify-center items-center">
                             <p class=" text-center text-[16px] font-semibold leading-5 text-white">6</p>
                         </div>
                     </div>
-                    <img :src="second" class="ml-[15px]"/>
-                </div>
-                <div class=" w-full h-[124px] bg-[#E5F2FC] rounded-[10px]">
-                    <div class="flex justify-between px-[15px] py-[5px]">
-                        <p class="text-[16px] font-semibold leading-6 text-[#00B9C2]">Чек-лист</p>
-                        <div class=" rounded-full border w-[30px] h-[30px] bg-gradient-to-b from-[#006879] to-[#00B9C2] flex justify-center items-center">
-                            <p class=" text-center text-[16px] font-semibold leading-5 text-white">6</p>
-                        </div>
-                    </div>
-                    <img :src="third" class="ml-[15px]"/>
+                    <img :src="fifth" class="ml-[15px]"/>
                 </div>
             </div>
         </div>
