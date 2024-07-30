@@ -1,7 +1,7 @@
 <script setup lang='ts'>
 import back from '@assets/icons/back.png'
 import PagesTemplate from '@//components/shared/PagesTemplate.vue';
-import Search2 from '@//components/Search2/Search2.vue';
+import Search from '@//components/Search/Search.vue';
 import { useRouter } from 'vue-router';
 
 
@@ -26,7 +26,7 @@ const router = useRouter()
                     <p class=" font-semibold text-sm leading-5 text-[#979797]">9:00</p>
                     <button class=" ml-[10px] w-[211px] h-[28px] rounded-[12px] border shadow-xl text-[#006879]">Посмотреть мой приём</button>
                 </div>
-                <Search2/>
+                <Search/>
                 <div class="mt-[26px] flex flex-col gap-[28px]">
                     <RouterLink to="/treatment"><div class="flex flex-col bg-[#F3F9FE] w-full h-[124px] rounded-[10px]">
                         <div class=" my-[20px] mx-[20px]">

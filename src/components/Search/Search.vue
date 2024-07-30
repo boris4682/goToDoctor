@@ -1,13 +1,20 @@
-<script setup lang='ts'>
-import magnifier from '@assets/icons/Magnifier.svg'
 
-
-
-
-</script>
 <template>
-  <div class="flex items-center justify-center border border-[#CDCDCD] w-full h-[49px] rounded-[15px] bg-white">
-    <input class="w-full pl-2 ml-2 h-[40px]"/>
-    <img :src="magnifier" class="w-[35px] h-[35px] mr-2 cursor-pointer"/>
-  </div>
+  <input type="text" name="search" placeholder="Наименование">
 </template>
+
+<style>
+input[type=text] {
+  width: 364px;
+  height: 49px;
+  box-sizing: border-box;
+  border: 1px solid #CDCDCD;
+  border-radius: 10px;
+  font-size: 19px;
+  background-color: white;
+  background-image: url('@assets/icons/Magnifier.svg');
+  background-position:10px; 
+  background-repeat: no-repeat;
+  padding: 12px 20px 12px 50px;
+}
+</style>

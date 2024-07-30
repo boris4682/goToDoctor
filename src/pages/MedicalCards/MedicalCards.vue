@@ -1,6 +1,6 @@
 <script setup lang='ts'>
 import back from '@assets/icons/back.png'
-import Search from '@//components/Search/Search.vue';
+import Search2 from '@//components/Search2/Search2.vue';
 import PagesTemplate from '@//components/shared/PagesTemplate.vue';
 import { useRouter } from 'vue-router';
 import Checkbox from 'primevue/checkbox';
@@ -25,7 +25,7 @@ const router = useRouter()
                     <p class=" font-semibold text-sm leading-5 text-[#979797]">9:00</p>
                 </div>
             </div>
-          <Search/>
+          <Search2/>
           <div class="mt-[26px] flex flex-col gap-[9px]">
             <RouterLink to="/checklist"><div class="flex items-center justify-center bg-[#F3F9FE] w-full h-[72px] rounded-[10px]">
               <p class="text-[20px] font-semibold leading-5 text-black">1.</p>

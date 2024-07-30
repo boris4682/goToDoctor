@@ -1,7 +1,7 @@
 <script setup lang='ts'>
 import back from '@assets/icons/back.png'
 import PagesTemplate from '@//components/shared/PagesTemplate.vue';
-import Search2 from '@//components/Search2/Search2.vue';
+import Search from '@//components/Search/Search.vue';
 import avatar from '@assets/icons/userpic.png'
 import { useRouter } from 'vue-router';
 
@@ -22,7 +22,7 @@ const router = useRouter()
       <div class="flex justify-center">
         <div class=" w-[354px] pb-[20px]">
             <div class="flex flex-col gap-[22px] translate-y-[-10px]">
-                <Search2 class=" translate-y-[-35px]"/>
+                <Search class=" translate-y-[-35px]"/>
                 <h5 class=" font-semibold text-[18px] leading-[18px] text-[#006879] translate-y-[-30px]">Приёмы в клинике</h5>
                 <div class=" flex flex-col gap-[28px]">
                     <RouterLink to="/treatment"><div class="flex flex-col bg-[#F3F9FE] w-full h-[124px] rounded-[10px]">

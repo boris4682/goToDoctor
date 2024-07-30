@@ -1,7 +1,7 @@
 <script setup lang='ts'>
 import back from '@assets/icons/back.png'
 import OnePatient from '@//components/OnePatient/OnePatient.vue';
-import Search from '@//components/Search/Search.vue';
+import Search2 from '@//components/Search2/Search2.vue';
 import PagesTemplate from '@//components/shared/PagesTemplate.vue';
 import { useRouter } from 'vue-router';
 
@@ -19,7 +19,7 @@ const router = useRouter()
       <div class="flex justify-center">
         <div class=" w-[354px] pb-[20px]">
             
-          <Search class=" translate-y-[-30px] z-50"/>
+          <Search2 class=" translate-y-[-30px] z-50"/>
           <div class="mt-[26px]">
             <OnePatient/>
             <OnePatient/>
