@@ -14,10 +14,10 @@ import imgProfile from '@//assets/icons/iconamoon_profile.png'
             <img :src="imgNotebook"/>
             <p class="text-[11px] font-medium leading-[13px] text-[#A3A3A3]">Запись</p>
         </div></RouterLink>
-        <div class="flex flex-col justify-center items-center cursor-pointer">
+        <RouterLink to="/preparation"><div class="flex flex-col justify-center items-center cursor-pointer">
             <img :src="imgMedical"/>
             <p class="text-[11px] font-medium leading-[13px] text-[#A3A3A3]">Подготовка</p>
-        </div>
+        </div></RouterLink>
         <RouterLink to="/medicalcards"><div class="flex flex-col justify-center items-center cursor-pointer">
             <img :src="imgProfile"/>
             <p class="text-[11px] font-medium leading-[13px] text-[#A3A3A3]">Медкарта</p>

@@ -2,6 +2,7 @@ import Routing from "./index.vue";
 
 export const routes = [
   { path: "/", component: () => import("./FirstPage"), name: "Main" },
+  { path: "/mainpage", component: () => import("./MainPage"), name: "MainPage" },
   { path: "/reg", component: () => import("./Register"), name: "Reg" },
   { path: "/auth", component: () => import("./Authorization"), name: "Auth" },
   { path: "/lcdoctor", component: () => import("./LCdoctor"), name: "LCdoctor" },
@@ -22,7 +23,21 @@ export const routes = [
   { path: "/checklist2", component: () => import("./CheckList2"), name: "CheckList2" },
   { path: "/treatment", component: () => import("./Treatment"), name: "Treatment" },
   { path: "/treatment2", component: () => import("./Treatment2"), name: "Treatment2" },
-  { path: "/patients", component: () => import("./Patients"), name: "Patients" },
+  { path: "/patients", component: () => import("./Patients"), name: "Patients" }, 
+  { path: "/reception", component: () => import("./Reception"), name: "Reception" }, 
+  { path: "/completedreception", component: () => import("./CompletedReception"), name: "CompletedReception" },
+  { path: "/cancelreception", component: () => import("./CancelReception"), name: "CancelReception" }, 
+  { path: "/plannedreception", component: () => import("./PlannedReception"), name: "PlannedReception" },
+  { path: "/gradereception", component: () => import("./GradeReception"), name: "GradeReception" }, 
+  { path: "/appointmentwithspecialist", component: () => import("./AppointmentWithSpecialist"), name: "AppointmentWithSpecialist" },
+  { path: "/stepone", component: () => import("./StepOne"), name: "StepOne" }, 
+  { path: "/steptwo", component: () => import("./StepTwo"), name: "StepTwo" }, 
+  { path: "/stepthree", component: () => import("./StepThree"), name: "StepThree" }, 
+  { path: "/stepfour", component: () => import("./StepFour"), name: "StepFour" }, 
+  { path: "/stepfive", component: () => import("./StepFive"), name: "StepFive" }, 
+  { path: "/successfulentry", component: () => import("./SuccessfulEntry"), name: "SuccessfulEntry" },
+  { path: "/preparation", component: () => import("./Preparation"), name: "Preparation" },
+  { path: "/whowillgo", component: () => import("./WhoWillGo"), name: "WhoWillGo" }, 
   
 ];
 
