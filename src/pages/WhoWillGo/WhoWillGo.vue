@@ -21,20 +21,20 @@ const router = useRouter()
             <div class="flex flex-col gap-[22px] translate-y-[-10px]">
                 <p class=" font-semibold text-[15px] leading-[18px] text-[#006879]">Кто пойдет на приём?</p>
             </div>
-            <div class="w-full flex justify-center items-center gap-[40px] mt-[24px]">
+            <RouterLink to="/parents"><div class="w-full flex justify-center items-center gap-[40px] mt-[24px]">
                 <img :src="photo1"/>
                 <div class="flex flex-col">
                     <p class=" font-semibold text-[24px] leading-[29px] text-[#016368]">Родитель</p>
                     <p class=" font-medium text-[15px] leading-[18px] text-[#979797]">Пойдет взрослый на приём</p>
                 </div>
-            </div>
-            <div class="w-full flex justify-center items-center gap-[40px] mt-[49px]">
+            </div></RouterLink>
+            <RouterLink to="/children"><div class="w-full flex justify-center items-center gap-[40px] mt-[49px]">
                 <div class="flex flex-col">
                     <p class=" font-semibold text-[24px] leading-[29px] text-[#016368]">Ребенок</p>
                     <p class=" font-medium text-[15px] leading-[18px] text-[#979797]">Пойдет ребенок на приём</p>
                 </div>
                 <img :src="photo2"/>
-            </div>
+            </div></RouterLink>
         </div>
       </div>
     </PagesTemplate>

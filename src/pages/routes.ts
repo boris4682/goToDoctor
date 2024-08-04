@@ -3,6 +3,7 @@ import Routing from "./index.vue";
 export const routes = [
   { path: "/", component: () => import("./FirstPage"), name: "Main" },
   { path: "/mainpage", component: () => import("./MainPage"), name: "MainPage" },
+  { path: "/mainpage2", component: () => import("./MainPage2"), name: "MainPage2" },
   { path: "/reg", component: () => import("./Register"), name: "Reg" },
   { path: "/auth", component: () => import("./Authorization"), name: "Auth" },
   { path: "/lcdoctor", component: () => import("./LCdoctor"), name: "LCdoctor" },
@@ -38,6 +39,18 @@ export const routes = [
   { path: "/successfulentry", component: () => import("./SuccessfulEntry"), name: "SuccessfulEntry" },
   { path: "/preparation", component: () => import("./Preparation"), name: "Preparation" },
   { path: "/whowillgo", component: () => import("./WhoWillGo"), name: "WhoWillGo" }, 
+  { path: "/children", component: () => import("./Children"), name: "Children" }, 
+  { path: "/parents", component: () => import("./Parents"), name: "Parents" },
+  { path: "/parents2", component: () => import("./Parents2"), name: "Parents2" },
+  { path: "/animcinema", component: () => import("./AnimCinema"), name: "AnimCinema" },
+  { path: "/trainingplay", component: () => import("./TrainingPlay"), name: "TrainingPlay" }, 
+  { path: "/video", component: () => import("./Video"), name: "Video" }, 
+  { path: "/recommendations", component: () => import("./Recommendations"), name: "Recommendations" }, 
+  { path: "/recommendations2", component: () => import("./Recommendations2"), name: "Recommendations2" }, 
+  { path: "/recommendations3", component: () => import("./Recommendations3"), name: "Recommendations3" },
+  { path: "/recommendations4", component: () => import("./Recommendations4"), name: "Recommendations4" },
+  { path: "/recommendations5", component: () => import("./Recommendations5"), name: "Recommendations5" }, 
+  { path: "/recommendations6", component: () => import("./Recommendations6"), name: "Recommendations6" },  
   
 ];
 

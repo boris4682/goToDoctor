@@ -1,0 +1,46 @@
+<script setup lang='ts'>
+import back from '@assets/icons/back.png'
+import PagesTemplate from '@//components/shared/PagesTemplate.vue';
+import photo1 from '@assets/child1.svg'
+import { useRouter } from 'vue-router';
+const router = useRouter()
+</script>
+
+<template>
+    <PagesTemplate class=" pb-[80px]">
+      <div class="h-[15vh]">
+      </div>
+      <div class="flex">
+        <img :src="back" class=" mx-auto w-[11px] h-[16px] translate-y-[-70px] translate-x-[-165px] cursor-pointer" @click="router.back()"/>
+      </div>
+      
+      <div class="flex justify-center">
+        <div class=" w-[354px] pb-[20px]">
+            <div class="flex flex-col gap-[22px] translate-y-[-10px]">
+                <p class=" font-semibold text-[15px] leading-[18px] text-[#006879]">Видеоролики</p>
+            </div>
+            <div class="flex flex-col gap-[15px] mt-[30px]">
+                
+                <div class="w-full h-[108px] border rounded-[13px] shadow-lg flex items-center">
+                    <img :src="photo1" class="w-[81px] h-[71px] ml-[26px]"/>
+                    <p class="font-semibold text-[17px] leading-[18px] text-[#00B9C2] ml-[27px] mb-[30px]">Видеоролики</p>
+                </div>
+                <div class="w-full h-[108px] border rounded-[13px] shadow-lg flex items-center">
+                    <img :src="photo1" class="w-[81px] h-[71px] ml-[26px]"/>
+                    <p class="font-semibold text-[17px] leading-[18px] text-[#00B9C2] ml-[27px] mb-[30px]">Видеоролики</p>
+                </div>
+            </div>
+        </div>
+      </div>
+    </PagesTemplate>
+      
+</template>
+
+
+
+
+
+
+
+
+

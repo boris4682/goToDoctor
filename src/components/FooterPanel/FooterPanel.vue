@@ -6,10 +6,10 @@ import imgProfile from '@//assets/icons/iconamoon_profile.png'
 </script>
 <template>
     <div class="flex justify-around pb-5">
-        <div class="flex flex-col justify-center items-center cursor-pointer">
+        <RouterLink to="/mainpage"><div class="flex flex-col justify-center items-center cursor-pointer">
             <img :src="imgHome"/>
             <p class="text-[11px] font-medium leading-[13px] text-[#A3A3A3]">Главная</p>
-        </div>
+        </div></RouterLink>
         <RouterLink to="/receptionmenu2"><div class="flex flex-col justify-center items-center cursor-pointer">
             <img :src="imgNotebook"/>
             <p class="text-[11px] font-medium leading-[13px] text-[#A3A3A3]">Запись</p>
