@@ -1,61 +1,85 @@
-<script setup lang='ts'>
-import fon from '@assets/Fon.png'
+<script setup lang="ts">
+import fon from "@assets/Fon.png";
 
-import back from '@assets/icons/back.png'
-import setting from '@assets/icons/setting.png'
-import PagesTemplate from '@//components/shared/PagesTemplate.vue';
-import { useRouter } from 'vue-router';
-import { ref, onMounted, watch } from 'vue';
-import { getUserInfo } from '../../services/User/getUserInfoService';
+import back from "@assets/icons/back.png";
+import setting from "@assets/icons/setting.png";
+import PagesTemplate from "@//components/shared/PagesTemplate.vue";
+import { useRouter } from "vue-router";
+import { ref, onMounted, watch } from "vue";
+import { getUserInfo } from "../../services/User/getUserInfoService";
 
-const router = useRouter()
+const router = useRouter();
 
-const user = ref()
+const user = ref();
 
 const fetchUserInfo = async () => {
-  const { data, status } = await getUserInfo()
+  const { data, status } = await getUserInfo();
   if (status === 200) {
     if (data.success) {
-      user.value = data.data
+      user.value = data.data;
       user.value.birthday = data.data.birthday
-        ? data.data.birthday.split('.').join('-')
-        : null
+        ? data.data.birthday.split(".").join("-")
+        : null;
     }
   }
-}
+};
 
-
-
-watch(user.value, () => {
-  console.log('cvc', user.value.birthday)
-}, { deep: true })
+watch(
+  user.value,
+  () => {
+    console.log("cvc", user.value.birthday);
+  },
+  { deep: true }
+);
 
 function UploadAvatar(event: any) {
-  user.value.personal_photo = event.target.files[0]
+  user.value.personal_photo = event.target.files[0];
 
-  const reader = new FileReader()
+  const reader = new FileReader();
 
-  reader.readAsDataURL(user.value.personal_photo)
+  reader.readAsDataURL(user.value.personal_photo);
 }
 
 onMounted(() => {
-  fetchUserInfo()
-})
+  fetchUserInfo();
+});
 </script>
 
 <template>
-  <PagesTemplate class=" pb-[80px]" v-if="user">
+  <PagesTemplate class="pb-[80px]" v-if="user">
     <div class="h-[15vh]">
       <img :src="fon" class="mt-[43px] mx-auto" />
-      <input type="file" id="avatar" @change="UploadAvatar" class="hidden" accept="image/*" />
+      <input
+        type="file"
+        id="avatar"
+        @change="UploadAvatar"
+        class="hidden"
+        accept="image/*"
+      />
       <label for="avatar" class="translate-y-[-60px] translate-x-[15px]">
-       
-        <img v-if="user.personal_photo" class="mx-auto size-[150px] object-cover rounded-full" :src="`https://idykvrachy.ru${user.personal_photo}`"
-          alt="Аватар" />
-          <svg v-else version="1.0" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%"
-          viewBox="0 0 512 512" preserveAspectRatio="xMidYMid meet" opacity="0.3">
-          <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)" fill="#000000" stroke="none">
-            <path d="M2380 5114 c-19 -2 -78 -9 -130 -14 -330 -36 -695 -160 -990 -336
+        <img
+          v-if="user.personal_photo"
+          class="mx-auto size-[150px] object-cover rounded-full"
+          :src="`https://idykvrachy.ru${user.personal_photo}`"
+          alt="Аватар"
+        />
+        <svg
+          v-else
+          version="1.0"
+          xmlns="http://www.w3.org/2000/svg"
+          width="100%"
+          height="100%"
+          viewBox="0 0 512 512"
+          preserveAspectRatio="xMidYMid meet"
+          opacity="0.3"
+        >
+          <g
+            transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
+            fill="#000000"
+            stroke="none"
+          >
+            <path
+              d="M2380 5114 c-19 -2 -78 -9 -130 -14 -330 -36 -695 -160 -990 -336
               -375 -224 -680 -529 -904 -904 -175 -292 -291 -632 -338 -990 -16 -123 -16
               -497 0 -620 82 -623 356 -1150 820 -1581 256 -239 575 -425 922 -539 274 -91
               491 -124 800 -124 228 0 329 9 530 50 689 141 1304 583 1674 1204 175 292 291
@@ -75,70 +99,127 @@ onMounted(() => {
               -178 290 -358 362 -585 26 -81 67 -271 59 -275 -1 -1 -31 -24 -67 -52 -308
               -240 -679 -394 -1095 -454 -116 -17 -454 -17 -570 0 -416 60 -787 214 -1095
               454 -36 28 -66 51 -67 52 -2 1 4 39 12 84 91 517 461 950 961 1124 221 77 431
-              98 679 66z" />
+              98 679 66z"
+            />
           </g>
         </svg>
       </label>
     </div>
     <div class="flex">
-      <img :src="back" class=" mx-auto w-[11px] h-[16px] translate-y-[-110px] translate-x-[-15px] cursor-pointer"
-        @click="router.back()" />
-      
-      <RouterLink to="/setting"
-        class=" mx-auto w-[43px] h-[40px] translate-y-[-110px] translate-x-[15px] cursor-pointer">
+      <img
+        :src="back"
+        class="mx-auto w-[11px] h-[16px] translate-y-[-110px] translate-x-[-15px] cursor-pointer"
+        @click="router.back()"
+      />
+
+      <RouterLink
+        to="/setting"
+        class="mx-auto w-[43px] h-[40px] translate-y-[-110px] translate-x-[15px] cursor-pointer"
+      >
         <img :src="setting" />
       </RouterLink>
     </div>
 
     <div class="flex justify-center">
-      <div class=" w-[354px] pb-[20px]">
+      <div class="w-[354px] pb-[20px]">
         <div class="flex justify-between pb-[31px]">
-          <p class=" text-xl font-bold leading-6 text-[#006879] cursor-pointer">Профиль</p>
-          <RouterLink to="/patientschildren"><a
-              class=" text-xl font-bold leading-6 text-[#A3A3A3] cursor-pointer">Дети</a></RouterLink>
+          <p class="text-xl font-bold leading-6 text-[#006879] cursor-pointer">
+            Профиль
+          </p>
+          <RouterLink to="/patientschildren"
+            ><a
+              class="text-xl font-bold leading-6 text-[#A3A3A3] cursor-pointer"
+              >Дети</a
+            ></RouterLink
+          >
         </div>
-        <input class=" w-full h-10 bg-[#E5F2FC] mt-[18px] rounded-[10px] pl-3" placeholder="Иван" v-model="user.name">
-        <input class=" w-full h-10 bg-[#E5F2FC] mt-[18px] rounded-[10px] pl-3" placeholder="Иванов"
-          v-model="user.last_name">
-        <input class=" w-full h-10 bg-[#E5F2FC] mt-[18px] rounded-[10px] pl-3" placeholder="Иванович"
-          v-model="user.second_name">
-        <input class=" w-full h-10 bg-[#E5F2FC] mt-[18px] rounded-[10px] px-3" placeholder="Дата рождения" type="date"
-          v-model="user.birthday">
-        <input class=" w-full h-10 bg-[#E5F2FC] mt-[18px] rounded-[10px] pl-3" placeholder="ivanov@mail.ru"
-          v-model="user.email">
-        <input class=" w-full h-10 bg-[#E5F2FC] mt-[18px] rounded-[10px] pl-3" type="number"
-          placeholder="+ 7 (903) - 465 - 37 - 26" v-model="user.personal_phone">
+        <input
+          class="w-full h-10 bg-[#E5F2FC] mt-[18px] rounded-[10px] pl-3"
+          placeholder="Иван"
+          v-model="user.name"
+        />
+        <input
+          class="w-full h-10 bg-[#E5F2FC] mt-[18px] rounded-[10px] pl-3"
+          placeholder="Иванов"
+          v-model="user.last_name"
+        />
+        <input
+          class="w-full h-10 bg-[#E5F2FC] mt-[18px] rounded-[10px] pl-3"
+          placeholder="Иванович"
+          v-model="user.second_name"
+        />
+        <input
+          class="w-full h-10 bg-[#E5F2FC] mt-[18px] rounded-[10px] px-3"
+          placeholder="Дата рождения"
+          type="date"
+          v-model="user.birthday"
+        />
+        <input
+          class="w-full h-10 bg-[#E5F2FC] mt-[18px] rounded-[10px] pl-3"
+          placeholder="ivanov@mail.ru"
+          v-model="user.email"
+        />
+        <input
+          class="w-full h-10 bg-[#E5F2FC] mt-[18px] rounded-[10px] pl-3"
+          type="number"
+          placeholder="+ 7 (903) - 465 - 37 - 26"
+          v-model="user.personal_phone"
+        />
         <div>
-          <p class=" text-[#A4A5A5] text-sm font-medium leading-4 mt-[23px] ml-[34px]">Пол</p>
+          <p
+            class="text-[#A4A5A5] text-sm font-medium leading-4 mt-[23px] ml-[34px]"
+          >
+            Пол
+          </p>
           <div class="flex gap-[17px] mt-[16px] ml-[10px]">
             <div class="flex gap-[10px]">
-              <input class=" bg-[#E5F2FC]" type="checkbox" :checked="user.gender === 'F'" v-model="user.gender"
-                value="F">
-              <p class=" text-[#A4A5A5] text-sm font-medium leading-4">Жен.</p>
+              <input
+                class="bg-[#E5F2FC]"
+                type="checkbox"
+                :checked="user.gender === 'F'"
+                v-model="user.gender"
+                value="F"
+              />
+              <p class="text-[#A4A5A5] text-sm font-medium leading-4">Жен.</p>
             </div>
             <div class="flex gap-[10px]">
-              <input class=" bg-[#E5F2FC]" type="checkbox" :checked="user.gender === 'M'" v-model="user.gender"
-                value="M">
-              <p class=" text-[#A4A5A5] text-sm font-medium leading-4">Муж.</p>
+              <input
+                class="bg-[#E5F2FC]"
+                type="checkbox"
+                :checked="user.gender === 'M'"
+                v-model="user.gender"
+                value="M"
+              />
+              <p class="text-[#A4A5A5] text-sm font-medium leading-4">Муж.</p>
             </div>
           </div>
-          <div class=" w-full h-[55px] rounded-[30px] bg-[#00B9C2] flex items-center justify-center mt-[34px]">
-            <p class="text-[20px] leading-[24px] font-bold text-white cursor-pointer">Сохранить</p>
+          <div
+            class="w-full h-[55px] rounded-[30px] bg-[#00B9C2] flex items-center justify-center mt-[34px]"
+          >
+            <p
+              class="text-[20px] leading-[24px] font-bold text-white cursor-pointer"
+            >
+              Сохранить
+            </p>
           </div>
-          <div class=" w-full h-[55px] rounded-[30px] bg-[#00B9C2] flex items-center justify-center mt-[34px]">
-            <p class="text-[20px] leading-[24px] font-bold text-white cursor-pointer">Оформить подписку</p>
+          <div
+            class="w-full h-[55px] rounded-[30px] bg-[#00B9C2] flex items-center justify-center mt-[34px]"
+          >
+            <p
+              class="text-[20px] leading-[24px] font-bold text-white cursor-pointer"
+            >
+              Оформить подписку
+            </p>
           </div>
-
         </div>
       </div>
-
     </div>
   </PagesTemplate>
-
+  <div v-else class="">Зарегистируйтесь</div>
 </template>
 <style>
 .p-datepicker-input {
-  background: #E5F2FC;
+  background: #e5f2fc;
   border: none;
   box-shadow: none;
 }

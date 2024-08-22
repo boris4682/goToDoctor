@@ -1,18 +1,18 @@
 import { AxiosError } from "axios";
 import { ApiClient } from "../Client";
 
-export const loginUser = async (userData: {
-  login: string;
-  password: string;
+export const getCompletedReception = async (data: {
+  token: string;
+  doctorId: string;
+  type: string;
 }) => {
   const formData = new FormData();
-  for (var key in userData) {
+  for (var key in data) {
     formData.append(
       key,
-      userData[key as keyof { login: string; password: string }]
+      data[key as keyof { token: string; doctorId: string }]
     );
   }
-  console.log(formData);
   try {
     const response = await ApiClient({
       method: "POST",
