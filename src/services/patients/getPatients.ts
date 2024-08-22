@@ -1,16 +1,7 @@
 import { AxiosError } from "axios";
 import { ApiClient } from "../Client";
 
-export const createPatient = async (userData: {
-  token: string;
-  gender: string;
-  lastName: string;
-  name: string;
-  secondName: string;
-  dateBirth: string;
-  email: string;
-  phone: string;
-}) => {
+export const getPatients = async (userData: { token: string }) => {
   const formData = new FormData();
   for (var key in userData) {
     formData.append(
@@ -18,13 +9,6 @@ export const createPatient = async (userData: {
       userData[
         key as keyof {
           token: string;
-          gender: string;
-          lastName: string;
-          name: string;
-          secondName: string;
-          dateBirth: string;
-          email: string;
-          phone: string;
         }
       ]
     );
@@ -33,7 +17,7 @@ export const createPatient = async (userData: {
   try {
     const response = await ApiClient({
       method: "POST",
-      url: `patients/createPatient`,
+      url: `patients/getPatients`,
       data: formData,
     });
 

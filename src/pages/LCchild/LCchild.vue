@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch } from "vue";
+import { ref } from "vue";
 import img from "@assets/child.png";
 import fon from "@assets/Fon.png";
 
@@ -26,7 +26,6 @@ const userData = ref({
 });
 
 const createPatientHandler = async () => {
-  console.log(userData.value);
   const { data, status } = await createPatient(userData.value);
   if (status === 200) {
     console.log(data);
@@ -34,8 +33,6 @@ const createPatientHandler = async () => {
     console.log("Ошибка сервера");
   }
 };
-
-watch(userData.value, () => console.log(userData.value.gender));
 </script>
 
 <template>

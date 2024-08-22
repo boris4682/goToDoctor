@@ -1,12 +1,46 @@
 <script setup lang="ts">
+import { ref, onMounted } from "vue";
 import back from "@assets/icons/back.png";
 import dalee from "@assets/icons/dalee.png";
 import img from "@assets/userpic.png";
 import setting from "@assets/icons/setting.png";
 import PagesTemplate from "@//components/shared/PagesTemplate.vue";
 import { useRouter } from "vue-router";
+import { getPatients } from "@//services/patients/getPatients";
 
 const router = useRouter();
+
+const user = JSON.parse(localStorage.getItem("userData") ?? "");
+const token = user?.auth_token;
+
+const userData = ref({
+  token,
+});
+
+interface Patient {
+  patient_id: string;
+  patient_gender: string;
+  patient_user: string;
+  patient_last_name: string;
+  patient_u_name: string;
+  patient_second_name: string;
+  patient_date_birth: string;
+  patient_email: string;
+  patient_phone: string;
+}
+
+const patients = ref<Patient[]>([]);
+
+const getPatientsHandler = async () => {
+  const { data, status } = await getPatients(userData.value);
+  if (status === 200) {
+    patients.value = data;
+  } else {
+    console.log("Ошибка сервера");
+  }
+};
+
+onMounted(getPatientsHandler);
 </script>
 
 <template>
@@ -42,35 +76,42 @@ const router = useRouter();
         </div>
 
         <div>
-          <div class="w-full h-[158px] bg-[#F3F9FE] rounded-[10px]">
-            <RouterLink to="/lcchild"
-              ><div class="flex justify-around items-center cursor-pointer">
-                <img :src="img" class="mt-[36px]" />
-                <div class="flex flex-col">
-                  <p
-                    class="mt-[36px] text-[15px] font-semibold leading-[18px] text-[#00B9C2]"
-                  >
-                    Пономаренко Вячеслав
-                  </p>
-                  <p
-                    class="text-[15px] font-medium leading-[18px] text-[#2C3E4F]"
-                  >
-                    25.06.2010
-                  </p>
-                </div>
-                <img :src="dalee" class="mt-[36px] w-[5px] h-[9px]" /></div
-            ></RouterLink>
-            <div class="flex justify-around mt-[12px]">
-              <button
-                class="bg-[#00B9C2] text-white rounded-[7px] w-[102px] h-[28px] cursor-pointer"
-              >
-                удалить
-              </button>
-              <button
-                class="bg-[#00B9C2] text-white rounded-[7px] w-[166px] h-[28px] cursor-pointer"
-              >
-                редактировать
-              </button>
+          <div class="flex flex-col gap-5">
+            <div
+              v-for="patient in patients"
+              :key="patient.patient_id"
+              class="w-full h-[158px] bg-[#F3F9FE] rounded-[10px]"
+            >
+              <RouterLink to="/lcchild"
+                ><div class="flex justify-around items-center cursor-pointer">
+                  <img :src="img" class="mt-[36px]" />
+                  <div class="flex flex-col">
+                    <p
+                      class="mt-[36px] text-[15px] font-semibold leading-[18px] text-[#00B9C2]"
+                    >
+                      {{ patient.patient_last_name }}
+                      {{ patient.patient_u_name }}
+                    </p>
+                    <p
+                      class="text-[15px] font-medium leading-[18px] text-[#2C3E4F]"
+                    >
+                      {{ patient.patient_date_birth }}
+                    </p>
+                  </div>
+                  <img :src="dalee" class="mt-[36px] w-[5px] h-[9px]" /></div
+              ></RouterLink>
+              <div class="flex justify-around mt-[12px]">
+                <button
+                  class="bg-[#00B9C2] text-white rounded-[7px] w-[102px] h-[28px] cursor-pointer"
+                >
+                  удалить
+                </button>
+                <button
+                  class="bg-[#00B9C2] text-white rounded-[7px] w-[166px] h-[28px] cursor-pointer"
+                >
+                  редактировать
+                </button>
+              </div>
             </div>
           </div>
 

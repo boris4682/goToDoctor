@@ -12,7 +12,6 @@ export const loginUser = async (userData: {
       userData[key as keyof { login: string; password: string }]
     );
   }
-  console.log(formData);
   try {
     const response = await ApiClient({
       method: "POST",
