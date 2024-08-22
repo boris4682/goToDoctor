@@ -1,5 +1,5 @@
 import Routing from "./index.vue";
-
+ 
 export const routes = [
   { path: "/", component: () => import("./FirstPage"), name: "Main" },
   { path: "/mainpage", component: () => import("./MainPage"), name: "MainPage" },

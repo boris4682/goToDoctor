@@ -4,7 +4,7 @@ import FooterPanel from '@//components/FooterPanel/FooterPanel.vue';
 </script>
 <template>
   <div>
-    <div class="bg w-full bg-center absolute top-0 left-0">
+    <div class="bg w-full bg-center absolute top-0 left-0 z-[-2]">
     </div>
     <slot />
     <FooterPanel class="fixed bottom-0 bg-white w-full flex"/>
