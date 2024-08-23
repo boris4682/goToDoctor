@@ -11,6 +11,33 @@ import { createPatient } from "@//services/patients/createPatient";
 
 const router = useRouter();
 
+const newImg = ref(""); // Путь к изображению
+const file = ref<File | null>(null); // Загруженный файл
+
+const handleFile = (file: File) => {
+  // Проверяем, что это изображение
+  if (file.type.startsWith("image/")) {
+    file = file;
+
+    // Создаем URL для отображения изображения
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      newImg.value = e.target?.result as string; // Приведение типа
+    };
+    reader.readAsDataURL(file);
+  } else {
+    alert("Пожалуйста, перетащите изображение.");
+  }
+};
+
+const handleDrop = (event: DragEvent) => {
+  const files = event.dataTransfer?.files;
+  if (files && files.length > 0) {
+    handleFile(files[0]);
+  }
+};
+
+// получение токена
 const user = JSON.parse(localStorage.getItem("userData") ?? "");
 const token = user?.auth_token;
 
@@ -26,7 +53,9 @@ const userData = ref({
 });
 
 const createPatientHandler = async () => {
-  const { data, status } = await createPatient(userData.value);
+  if (file.value) return;
+
+  const { data, status } = await createPatient(userData.value, file.value);
   if (status === 200) {
     console.log(data);
   } else {
@@ -46,6 +75,13 @@ const createPatientHandler = async () => {
         class="mx-auto w-[11px] h-[16px] translate-y-[-110px] translate-x-[-15px] cursor-pointer"
         @click="router.back()"
       />
+      <!-- <div @dragover.prevent @drop.prevent="handleDrop" class="drop-area">
+        <img
+          :src="'../../assets/child.png' && img"
+          alt="Ваше фото"
+          class="mx-auto translate-y-[-70px] translate-x-[15px]"
+        />
+      </div> -->
       <img :src="img" class="mx-auto translate-y-[-70px] translate-x-[15px]" />
       <RouterLink
         to="/setting"

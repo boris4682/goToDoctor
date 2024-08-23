@@ -1,16 +1,19 @@
 import { AxiosError } from "axios";
 import { ApiClient } from "../Client";
 
-export const createPatient = async (userData: {
-  token: string;
-  gender: string;
-  lastName: string;
-  name: string;
-  secondName: string;
-  dateBirth: string;
-  email: string;
-  phone: string;
-}) => {
+export const createPatient = async (
+  userData: {
+    token: string;
+    gender: string;
+    lastName: string;
+    name: string;
+    secondName: string;
+    dateBirth: string;
+    email: string;
+    phone: string;
+  },
+  file: File | null
+) => {
   const formData = new FormData();
   for (var key in userData) {
     formData.append(
@@ -29,6 +32,8 @@ export const createPatient = async (userData: {
       ]
     );
   }
+
+  formData.append("photo", file ?? "");
 
   try {
     const response = await ApiClient({
