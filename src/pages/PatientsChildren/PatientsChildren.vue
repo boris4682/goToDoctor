@@ -7,6 +7,7 @@ import setting from "@assets/icons/setting.png";
 import PagesTemplate from "@//components/shared/PagesTemplate.vue";
 import { useRouter } from "vue-router";
 import { getPatients } from "@//services/patients/getPatients";
+import { deletePatient } from "@//services/patients/deletePatient";
 
 const router = useRouter();
 
@@ -38,6 +39,16 @@ const getPatientsHandler = async () => {
     patients.value = data;
   } else {
     console.log("Ошибка сервера");
+  }
+};
+
+const deletePatientHandler = async (patientId: string) => {
+  const { status } = await deletePatient(token, patientId);
+  if (status === 200) {
+    console.log("Пользователь успешно удален");
+    getPatientsHandler();
+  } else {
+    console.log("Пользователь не найден");
   }
 };
 
@@ -103,6 +114,7 @@ onMounted(getPatientsHandler);
               ></RouterLink>
               <div class="flex justify-around mt-[12px]">
                 <button
+                  @click="() => deletePatientHandler(patient.patient_id)"
                   class="bg-[#00B9C2] text-white rounded-[7px] w-[102px] h-[28px] cursor-pointer"
                 >
                   удалить

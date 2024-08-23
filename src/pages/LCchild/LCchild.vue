@@ -58,6 +58,7 @@ const createPatientHandler = async () => {
   const { data, status } = await createPatient(userData.value, file.value);
   if (status === 200) {
     console.log(data);
+    router.back();
   } else {
     console.log("Ошибка сервера");
   }
