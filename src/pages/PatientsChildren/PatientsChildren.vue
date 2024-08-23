@@ -27,6 +27,7 @@ interface Patient {
   patient_date_birth: string;
   patient_email: string;
   patient_phone: string;
+  photo: string;
 }
 
 const patients = ref<Patient[]>([]);
@@ -84,7 +85,7 @@ onMounted(getPatientsHandler);
             >
               <RouterLink to="/lcchild"
                 ><div class="flex justify-around items-center cursor-pointer">
-                  <img :src="img" class="mt-[36px]" />
+                  <img :src="patient.photo" class="mt-[36px]" />
                   <div class="flex flex-col">
                     <p
                       class="mt-[36px] text-[15px] font-semibold leading-[18px] text-[#00B9C2]"
