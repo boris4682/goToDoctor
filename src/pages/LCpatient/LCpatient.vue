@@ -6,7 +6,8 @@ import setting from "@assets/icons/setting.png";
 import PagesTemplate from "@//components/shared/PagesTemplate.vue";
 import { useRouter } from "vue-router";
 import { ref, onMounted, watch } from "vue";
-import { getUserInfo } from "../../services/User/getUserInfoService";
+import { getUserInfo } from "../../services/User/getUserInfo";
+import { updateUser } from "@//services/User/updateUser";
 
 const router = useRouter();
 
@@ -43,6 +44,18 @@ function UploadAvatar(event: any) {
 onMounted(() => {
   fetchUserInfo();
 });
+
+// update user
+
+const updateUserHandler = async () => {
+  const { data, status } = await updateUser(user.value);
+  if (status === 200) {
+    console.log(data);
+    location.reload();
+  } else {
+    console.log("Ошибка сервера");
+  }
+};
 </script>
 
 <template>
@@ -175,25 +188,24 @@ onMounted(() => {
             <div class="flex gap-[10px]">
               <input
                 class="bg-[#E5F2FC]"
-                type="checkbox"
-                :checked="user.gender === 'F'"
-                v-model="user.gender"
-                value="F"
+                type="radio"
+                name="gender"
+                @click="user.gender = 'Женский'"
               />
               <p class="text-[#A4A5A5] text-sm font-medium leading-4">Жен.</p>
             </div>
             <div class="flex gap-[10px]">
               <input
                 class="bg-[#E5F2FC]"
-                type="checkbox"
-                :checked="user.gender === 'M'"
-                v-model="user.gender"
-                value="M"
+                type="radio"
+                name="gender"
+                @click="user.gender = 'Мужской'"
               />
               <p class="text-[#A4A5A5] text-sm font-medium leading-4">Муж.</p>
             </div>
           </div>
           <div
+            @click="updateUserHandler"
             class="w-full h-[55px] rounded-[30px] bg-[#00B9C2] flex items-center justify-center mt-[34px]"
           >
             <p
