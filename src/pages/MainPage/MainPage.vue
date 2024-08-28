@@ -1,18 +1,25 @@
 <script setup lang="ts">
 import PagesTemplate from "@//components/shared/PagesTemplate.vue";
+import OneDoctor2 from "@//components/OneDoctor2/OneDoctor2.vue";
 import colocol from "@assets/icons/mingcute_notification-fill.svg";
 import photo from "@assets/мальчик и смартфон 1.png";
-import zub from "@assets/icons/zub.png";
 import dalee from "@assets/icons/dalee.svg";
 import { ref } from "vue";
 import { onMounted } from "vue";
 import { getUserInfo } from "../../services/User/getUserInfo";
 import { useRouter } from "vue-router";
-import { getDoctors } from "../../services/getDoctorService";
+import { getDoctorsCategory } from "@//services/main-doctors/getDoctorsCategory";
+import { useDoctorsStore } from "@//services/main-doctors/doctorsStore";
+import { storeToRefs } from "pinia";
+import { getDoctorsDataByCategoryId } from "@//services/main-doctors/getDoctorsDataByCategoryId";
 
 const router = useRouter();
-const user = ref();
 
+const doctorsStore = useDoctorsStore();
+const { sectionId } = storeToRefs(doctorsStore);
+
+const user = ref();
+const doctorsCategory = ref();
 const doctors = ref();
 
 const fetchUserInfo = async () => {
@@ -21,19 +28,33 @@ const fetchUserInfo = async () => {
     if (data.success) {
       user.value = data.data;
     }
+  } else {
+    console.log("Ошибка на сервере");
   }
 };
 
-const fetchDoctors = async () => {
-  const { data, status } = await getDoctors();
+const fetchDoctorsCategory = async () => {
+  const { data, status } = await getDoctorsCategory();
   if (status === 200) {
+    doctorsCategory.value = data;
+  } else {
+    console.log("Ошибка на сервере");
+  }
+};
+
+const fetchDoctorsDataByCategoryId = async (sectionId: string) => {
+  const { data } = await getDoctorsDataByCategoryId(sectionId);
+  console.log(data);
+  if (data) {
     doctors.value = data;
+  } else {
+    console.log("Ошибка на сервере");
   }
 };
 
 onMounted(() => {
   fetchUserInfo();
-  fetchDoctors();
+  fetchDoctorsCategory();
 });
 </script>
 
@@ -85,7 +106,8 @@ onMounted(() => {
     <div class="flex gap-5 overflow-auto py-2">
       <div
         class="min-w-[80vw] h-[47px] rounded-[28px] bg-[#E5F2FC] mt-[28px] flex items-center justify-center gap-[12px]"
-        v-for="(item, index) in doctors"
+        v-for="(item, index) in doctorsCategory"
+        @click="() => fetchDoctorsDataByCategoryId(item.category_id)"
         :key="index"
       >
         <img :src="item.picture" />
@@ -95,12 +117,25 @@ onMounted(() => {
       </div>
     </div>
 
+    <div v-if="doctors" class="flex justify-center items-center mt-[34px]">
+      <div class="w-[361px] rounded-[14px] border shadow-lg gap-[px]">
+        <div class="py-[16px] px-[17px]">
+          <OneDoctor2
+            v-for="(item, index) in doctors"
+            :key="index"
+            v-bind="{ ...item }"
+          />
+        </div>
+      </div>
+    </div>
+
     <p
+      v-if="!doctors"
       class="mt-[37px] ml-[21px] font-semibold text-[15px] leading-6 text-[#006879]"
     >
       Запись
     </p>
-    <div class="flex justify-center items-center mt-[34px]">
+    <div v-if="!doctors" class="flex justify-center items-center mt-[34px]">
       <div class="w-[361px] h-[137px] rounded-[14px] border shadow-lg">
         <div class="flex flex-col px-[32px] py-[17px]">
           <p class="font-semibold text-[20px] leading-6 text-[#00B9C2]">
