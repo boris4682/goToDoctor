@@ -150,12 +150,12 @@ export const routes = [
     name: "SuccessfulEntry",
   },
   {
-    path: "/preparation",
+    path: "/preparation/:id",
     component: () => import("./Preparation"),
     name: "Preparation",
   },
   {
-    path: "/whowillgo",
+    path: "/whowillgo/:id",
     component: () => import("./WhoWillGo"),
     name: "WhoWillGo",
   },

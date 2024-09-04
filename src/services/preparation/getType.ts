@@ -1,11 +1,11 @@
 import { AxiosError } from "axios";
 import { ApiClient } from "../Client";
 
-export const getPollDataByCategoryId = async (sectionId: string | string[]) => {
+export const getType = async (sectionId: string | string[]) => {
   try {
     const response = await ApiClient({
       method: "GET",
-      url: `preparation/getPollDataByCategoryId?sectionId=${sectionId}`,
+      url: `preparation/getType?sectionId=${sectionId}`,
       // params: `sectionId=${sectionId}`,
     });
 

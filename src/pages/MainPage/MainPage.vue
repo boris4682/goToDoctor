@@ -9,14 +9,9 @@ import { onMounted } from "vue";
 import { getUserInfo } from "../../services/User/getUserInfo";
 import { useRouter } from "vue-router";
 import { getDoctorsCategory } from "@//services/main-doctors/getDoctorsCategory";
-import { useDoctorsStore } from "@//services/main-doctors/doctorsStore";
-import { storeToRefs } from "pinia";
 import { getDoctorsDataByCategoryId } from "@//services/main-doctors/getDoctorsDataByCategoryId";
 
 const router = useRouter();
-
-const doctorsStore = useDoctorsStore();
-const { sectionId } = storeToRefs(doctorsStore);
 
 const user = ref();
 const doctorsCategory = ref();
@@ -44,7 +39,7 @@ const fetchDoctorsCategory = async () => {
 
 const fetchDoctorsDataByCategoryId = async (sectionId: string) => {
   const { data } = await getDoctorsDataByCategoryId(sectionId);
-  console.log(data);
+
   if (data) {
     doctors.value = data;
   } else {
