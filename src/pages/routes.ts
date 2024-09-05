@@ -128,6 +128,11 @@ export const routes = [
     name: "AppointmentWithSpecialist",
   },
   { path: "/stepone", component: () => import("./StepOne"), name: "StepOne" },
+  {
+    path: "/steponeappointment",
+    component: () => import("./StepOneAppointment"),
+    name: "StepOneAppointment",
+  },
   { path: "/steptwo", component: () => import("./StepTwo"), name: "StepTwo" },
   {
     path: "/stepthree",

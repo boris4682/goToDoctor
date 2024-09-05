@@ -2,17 +2,9 @@
 import dalee from "@assets/icons/dalee.png";
 import star from "@assets/icons/star.svg";
 import card from "@assets/icons/material-symbols_sd-card-alert-outline.svg";
+import { IDoctor } from "@//services/main-doctors/getDoctorsDataByCategoryId";
 
-interface Props {
-  id: number;
-  name: string;
-  detail_picture: string;
-  detail_text: string;
-  code: string;
-  service_list: string[];
-}
-
-const props = defineProps<Props>();
+const props = defineProps<IDoctor>();
 </script>
 
 <template>

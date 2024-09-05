@@ -46,14 +46,18 @@ onMounted(getPatientsHandler);
           </p>
         </div>
         <div class="mt-[26px]">
-          <OnePatient
+          <RouterLink
+            to="/stepthree"
             v-for="item in patients"
             :key="item.patient_id"
-            v-bind:img="item.photo"
-            v-bind:patient_last_name="item.patient_last_name"
-            v-bind:patient_u_name="item.patient_u_name"
-            v-bind:patient_phone="item.patient_phone"
-          />
+          >
+            <OnePatient
+              v-bind:img="item.photo"
+              v-bind:patient_last_name="item.patient_last_name"
+              v-bind:patient_u_name="item.patient_u_name"
+              v-bind:patient_phone="item.patient_phone"
+            />
+          </RouterLink>
           <!-- <OnePatient />
           <OnePatient /> -->
         </div>

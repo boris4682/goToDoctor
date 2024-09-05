@@ -1,28 +1,25 @@
 import { AxiosError } from "axios";
 import { ApiClient } from "../Client";
 
-export interface IDoctor {
-  id: number;
+export interface IClinic {
   name: string;
-  detail_picture: string;
-  detail_text: string;
-  code: string;
-  service_list: string[];
+  id: string;
+  clinic_rating: string;
 }
 
-export const getDoctorsDataByCategoryId = async (
-  sectionId: string | string[]
-) => {
+export const getAllClinics = async (): Promise<{
+  data: IClinic[] | null;
+  status: number;
+}> => {
   try {
     const response = await ApiClient({
       method: "GET",
-      url: `doctors/getDoctorsDataByCategoryId?sectionId=${sectionId}`,
-      // params: `sectionId=${sectionId}`,
+      url: `service/getAllClinics`,
     });
 
     const { data, status } = response;
-    if (data) {
-      return { data, status };
+    if (status === 200 && response !== null && response) {
+      return { data, status: 200 };
     } else {
       console.error(`Ошибка на сервере. Статус: ${status}`);
       return { data: null, status };
