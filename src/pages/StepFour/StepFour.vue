@@ -24,7 +24,6 @@ const getDoctorsDataByCategoryIdHandler = async () => {
 
   doctors.value = data;
 };
-
 onMounted(getDoctorsDataByCategoryIdHandler);
 </script>
 
@@ -47,9 +46,15 @@ onMounted(getDoctorsDataByCategoryIdHandler);
               шаг 4
             </p>
           </div>
-          <RouterLink to="" v-for="item in doctors" :key="item.id">
+          <RouterLink
+            v-if="doctors"
+            to="/stepfive"
+            v-for="item in doctors"
+            :key="item.id"
+          >
             <OneDoctor v-bind="{ ...item }" />
           </RouterLink>
+          <div v-else class="text-center text-5xl">Докторов нет</div>
         </div>
       </div>
     </div>

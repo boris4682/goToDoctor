@@ -1,6 +1,12 @@
 import { AxiosError } from "axios";
 import { ApiClient } from "../Client";
 
+export interface IPollTree {
+  category_id: string;
+  category_name: string;
+  picture_url: string;
+}
+
 export const getPollThree = async () => {
   try {
     const response = await ApiClient({

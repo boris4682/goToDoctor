@@ -2,11 +2,11 @@
 import back from "@assets/icons/back.png";
 import PagesTemplate from "@//components/shared/PagesTemplate.vue";
 import { useRouter } from "vue-router";
-import { getPollThree } from "@//services/preparation/getPollThree";
+import { getPollThree, IPollTree } from "@//services/preparation/getPollThree";
 import { onMounted, ref } from "vue";
 import { DOMEN } from "@//consts";
 
-const doctors = ref();
+const doctors = ref<IPollTree[]>();
 
 const getPollThreeHandler = async () => {
   const { data } = await getPollThree();
@@ -48,7 +48,7 @@ onMounted(getPollThreeHandler);
             <RouterLink
               v-for="item in doctors"
               :key="item.category_id"
-              to="/stepfour"
+              :to="`/stepfour/${item.category_id}`"
               ><div
                 class="w-full h-[73px] rounded-[13px] border shadow-lg flex px-[12px] py-[10px] gap-[9px]"
               >

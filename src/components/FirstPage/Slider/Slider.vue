@@ -3,6 +3,7 @@ import { ref, watch, onMounted } from "vue";
 import Dots from "./components/Dots.vue";
 import emblaCarouselVue from "embla-carousel-vue";
 import { getBanners } from "@//services/service/getBanners";
+import { DOMEN } from "@//consts";
 
 const [emblaRef, emblaApi] = emblaCarouselVue();
 const scrollSnaps = ref<number[]>([]);
@@ -58,7 +59,7 @@ onMounted(getBannersHandler);
         <div class="w-[98%]">
           <div class="w-full h-[230px] flex items-center justify-center">
             <img
-              :src="item.detail_picture"
+              :src="`${DOMEN}${item.detail_picture}`"
               class="max-h-[230px] max-w-[240px]"
             />
           </div>

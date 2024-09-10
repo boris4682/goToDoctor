@@ -140,7 +140,7 @@ export const routes = [
     name: "StepThree",
   },
   {
-    path: "/stepfour",
+    path: "/stepfour/:id",
     component: () => import("./StepFour"),
     name: "StepFour",
   },

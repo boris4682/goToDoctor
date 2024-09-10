@@ -10,6 +10,7 @@ import { getUserInfo } from "../../services/User/getUserInfo";
 import { useRouter } from "vue-router";
 import { getDoctorsCategory } from "@//services/main-doctors/getDoctorsCategory";
 import { getDoctorsDataByCategoryId } from "@//services/main-doctors/getDoctorsDataByCategoryId";
+import { DOMEN } from "@//consts";
 
 const router = useRouter();
 
@@ -105,7 +106,7 @@ onMounted(() => {
         @click="() => fetchDoctorsDataByCategoryId(item.category_id)"
         :key="index"
       >
-        <img :src="item.picture" />
+        <img :src="`${DOMEN}${item.picture}`" />
         <p class="font-semibold text-[14px] leading-6 text-[#000000]">
           {{ item.name }}
         </p>
