@@ -31,9 +31,13 @@ const props = defineProps<IDoctor>();
       <div class="flex gap-[90px] px-[7px]">
         <div class="flex">
           <img :src="card" class="w-[12px] h-[12px]" />
+          <RouterLink
+        to="/doctorinfo"
+      >
           <p class="font-semibold text-[10px] leading-3 text-[#006879]">
             О враче
           </p>
+          </RouterLink>
         </div>
         <div class="flex">
           <p

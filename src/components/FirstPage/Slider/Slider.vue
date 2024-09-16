@@ -64,7 +64,7 @@ onMounted(getBannersHandler);
             />
           </div>
           <div
-            class="bg-secondary h-[250px] w-full flex items-center flex-col rounded-md pt-10"
+            class="embla__text bg-secondary  w-full flex items-center flex-col rounded-md pt-10"
           >
             <h2 class="font-bold text-base">{{ item.name }}</h2>
             <div
@@ -95,5 +95,8 @@ onMounted(getBannersHandler);
 .embla__slide {
   flex: 0 0 100%;
   min-width: 0;
+}
+.embla__text {
+    padding: 2.5rem 1rem 1rem 1rem;
 }
 </style>

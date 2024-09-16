@@ -1,4 +1,4 @@
-import Routing from "./index.vue";
+import { createRouter, createWebHistory } from 'vue-router';
 
 export const routes = [
   { path: "/", component: () => import("./FirstPage"), name: "Main" },
@@ -216,6 +216,21 @@ export const routes = [
     component: () => import("./Recommendations6"),
     name: "Recommendations6",
   },
+  
 ];
 
-export { Routing };
+export const router = createRouter({
+  history: createWebHistory(),
+  routes,
+});
+
+router.beforeEach((to, from, next) => {
+  const isAuthenticated = localStorage.getItem('userData') !== null;
+  if (to.path === '/auth' || to.path === '/reg') {
+    next();
+  } else if (!isAuthenticated) {
+    next({ name: 'Auth' });
+  } else {
+    next();
+  }
+});

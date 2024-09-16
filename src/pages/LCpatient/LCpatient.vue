@@ -62,6 +62,7 @@ const updateUserHandler = async () => {
   <PagesTemplate class="pb-[80px]" v-if="user">
     <div class="h-[15vh]">
       <img :src="fon" class="mt-[43px] mx-auto" />
+      </div>
       <input
         type="file"
         id="avatar"
@@ -80,8 +81,8 @@ const updateUserHandler = async () => {
           v-else
           version="1.0"
           xmlns="http://www.w3.org/2000/svg"
-          width="100%"
-          height="100%"
+          width="50%"
+          height="50%"
           viewBox="0 0 512 512"
           preserveAspectRatio="xMidYMid meet"
           opacity="0.3"
@@ -117,7 +118,7 @@ const updateUserHandler = async () => {
           </g>
         </svg>
       </label>
-    </div>
+    
     <div class="flex">
       <img
         :src="back"

@@ -11,18 +11,16 @@ import { createPatient } from "@//services/patients/createPatient";
 
 const router = useRouter();
 
-const newImg = ref(""); // Путь к изображению
-const file = ref<File | null>(null); // Загруженный файл
+const newImg = ref(""); 
+const file = ref<File | null>(null); 
 
 const handleFile = (file: File) => {
-  // Проверяем, что это изображение
   if (file.type.startsWith("image/")) {
     file = file;
 
-    // Создаем URL для отображения изображения
     const reader = new FileReader();
     reader.onload = (e) => {
-      newImg.value = e.target?.result as string; // Приведение типа
+      newImg.value = e.target?.result as string;
     };
     reader.readAsDataURL(file);
   } else {
@@ -37,7 +35,6 @@ const handleDrop = (event: DragEvent) => {
   }
 };
 
-// получение токена
 const user = JSON.parse(localStorage.getItem("userData") ?? "");
 const token = user?.auth_token;
 

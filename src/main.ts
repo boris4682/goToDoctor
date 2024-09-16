@@ -1,18 +1,29 @@
-import { createApp } from "vue";
-import { router, store } from "./providers";
-import "./style.css";
-import App from "./App.vue";
-import PrimeVue from "primevue/config";
-import Aura from "@primevue/themes/aura";
-import { ru } from "./localeConfig";
-createApp(App)
-  .use(router)
+import { createApp } from 'vue';
+import { router, store } from './providers';
+import './style.css';
+import App from './App.vue';
+import PrimeVue from 'primevue/config';
+import ToastService from 'primevue/toastservice';
+import { ru } from './localeConfig';
+import Toast from 'primevue/toast';
+// @ts-ignore
+import VueTheMask from 'vue-the-mask';
+
+import Aura from '@primevue/themes/aura'; 
+
+const app = createApp(App);
+
+app.use(router)
   .use(store)
   .use(PrimeVue, {
+    ripple: true,
+    locale: ru,
     theme: {
       preset: Aura,
-      ripple: true,
-      locale: ru,
-    },
+    }
   })
+  .use(ToastService)
+  .use(VueTheMask) 
   .mount("#app");
+
+app.component('Toast', Toast);

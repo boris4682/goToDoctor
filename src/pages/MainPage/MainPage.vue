@@ -4,8 +4,7 @@ import OneDoctor2 from "@//components/OneDoctor2/OneDoctor2.vue";
 import colocol from "@assets/icons/mingcute_notification-fill.svg";
 import photo from "@assets/мальчик и смартфон 1.png";
 import dalee from "@assets/icons/dalee.svg";
-import { ref } from "vue";
-import { onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import { getUserInfo } from "../../services/User/getUserInfo";
 import { useRouter } from "vue-router";
 import { getDoctorsCategory } from "@//services/main-doctors/getDoctorsCategory";
@@ -14,7 +13,17 @@ import { DOMEN } from "@//consts";
 
 const router = useRouter();
 
-const user = ref();
+interface User {
+  user_id: string;
+  name: string;
+  email: string;
+  isDoctor: boolean;
+  auth_token: string;
+  personal_photo?: string;
+  second_name?: string;
+}
+
+const user = ref<User | null>(null); 
 const doctorsCategory = ref();
 const doctors = ref();
 
@@ -22,12 +31,18 @@ const fetchUserInfo = async () => {
   const { data, status } = await getUserInfo();
   if (status === 200) {
     if (data.success) {
-      user.value = data.data;
+      const currentIsDoctor = user.value?.isDoctor;
+
+      user.value = {
+        ...data.data,
+        isDoctor: currentIsDoctor, 
+      };
     }
   } else {
     console.log("Ошибка на сервере");
   }
 };
+
 
 const fetchDoctorsCategory = async () => {
   const { data, status } = await getDoctorsCategory();
@@ -48,17 +63,29 @@ const fetchDoctorsDataByCategoryId = async (sectionId: string) => {
   }
 };
 
+const routeToPush = computed(() => {
+  return user.value?.isDoctor ? '/lcdoctor' : '/lcpatient';
+});
+
 onMounted(() => {
   fetchUserInfo();
   fetchDoctorsCategory();
+  const userData = localStorage.getItem("userData");
+  if (userData) {
+    user.value = JSON.parse(userData) as User; 
+
+  } else {
+    console.log("No user data found in localStorage");
+  }
 });
 </script>
+
 
 <template>
   <PagesTemplate class="pb-[80px]" v-if="user">
     <div
       class="flex mt-[90px] items-center gap-[8px] ml-[21px]"
-      @click="router.push('/lcpatient')"
+      @click="router.push(routeToPush)"
     >
       <img
         :src="`https://idykvrachy.ru${user.personal_photo}`"
