@@ -62,38 +62,38 @@ const updateUserHandler = async () => {
   <PagesTemplate class="pb-[80px]" v-if="user">
     <div class="h-[15vh]">
       <img :src="fon" class="mt-[43px] mx-auto" />
-      </div>
-      <input
-        type="file"
-        id="avatar"
-        @change="UploadAvatar"
-        class="hidden"
-        accept="image/*"
+    </div>
+    <input
+      type="file"
+      id="avatar"
+      @change="UploadAvatar"
+      class="hidden"
+      accept="image/*"
+    />
+    <label for="avatar" class="translate-y-[-60px] translate-x-[15px]">
+      <img
+        v-if="user.personal_photo"
+        class="mx-auto size-[150px] object-cover rounded-full"
+        :src="`https://idykvrachy.ru${user.personal_photo}`"
+        alt="Аватар"
       />
-      <label for="avatar" class="translate-y-[-60px] translate-x-[15px]">
-        <img
-          v-if="user.personal_photo"
-          class="mx-auto size-[150px] object-cover rounded-full"
-          :src="`https://idykvrachy.ru${user.personal_photo}`"
-          alt="Аватар"
-        />
-        <svg
-          v-else
-          version="1.0"
-          xmlns="http://www.w3.org/2000/svg"
-          width="50%"
-          height="50%"
-          viewBox="0 0 512 512"
-          preserveAspectRatio="xMidYMid meet"
-          opacity="0.3"
+      <svg
+        v-else
+        version="1.0"
+        xmlns="http://www.w3.org/2000/svg"
+        width="50%"
+        height="50%"
+        viewBox="0 0 512 512"
+        preserveAspectRatio="xMidYMid meet"
+        opacity="0.3"
+      >
+        <g
+          transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
+          fill="#000000"
+          stroke="none"
         >
-          <g
-            transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
-            fill="#000000"
-            stroke="none"
-          >
-            <path
-              d="M2380 5114 c-19 -2 -78 -9 -130 -14 -330 -36 -695 -160 -990 -336
+          <path
+            d="M2380 5114 c-19 -2 -78 -9 -130 -14 -330 -36 -695 -160 -990 -336
               -375 -224 -680 -529 -904 -904 -175 -292 -291 -632 -338 -990 -16 -123 -16
               -497 0 -620 82 -623 356 -1150 820 -1581 256 -239 575 -425 922 -539 274 -91
               491 -124 800 -124 228 0 329 9 530 50 689 141 1304 583 1674 1204 175 292 291
@@ -114,11 +114,11 @@ const updateUserHandler = async () => {
               -240 -679 -394 -1095 -454 -116 -17 -454 -17 -570 0 -416 60 -787 214 -1095
               454 -36 28 -66 51 -67 52 -2 1 4 39 12 84 91 517 461 950 961 1124 221 77 431
               98 679 66z"
-            />
-          </g>
-        </svg>
-      </label>
-    
+          />
+        </g>
+      </svg>
+    </label>
+
     <div class="flex">
       <img
         :src="back"
