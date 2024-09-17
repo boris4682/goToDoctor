@@ -5,11 +5,13 @@ import { useRoute, useRouter } from "vue-router";
 import { onMounted, ref } from "vue";
 import { getPollDataByCategoryId } from "@//services/preparation/getPollDataByCategoryId";
 import { DOMEN } from "@//consts";
+import {usePreparationsStore} from "@/services/preparation/preparationsStore.ts";
 
 const router = useRouter();
 const { id } = useRoute().params;
+const preparationsStore = usePreparationsStore()
 
-const people = ref();
+const people = ref([]);
 
 const getPollDataByCategoryIdHandler = async () => {
   const { data } = await getPollDataByCategoryId(id);
@@ -20,6 +22,8 @@ const getPollDataByCategoryIdHandler = async () => {
   }
 
   people.value = data;
+  preparationsStore.checklist = people[0].uf_check_list
+  preparationsStore.vote = people[0].uf_vote_id
 };
 
 onMounted(getPollDataByCategoryIdHandler);
@@ -43,31 +47,45 @@ onMounted(getPollDataByCategoryIdHandler);
             Кто пойдет на приём?
           </p>
         </div>
-        <RouterLink v-for="(item, index) in people" :key="item.id" to="/parents"
+        <RouterLink to="/parents2"
+                    v-if="people.length > 0"
           ><div
             class="w-full flex justify-center items-center gap-[40px] mt-[24px]"
           >
-            <img
-              v-if="index % 2 === 0"
-              class="w-[132px] h-[132px]"
-              :src="`${DOMEN}${item.preview_picture}`"
-            />
-
             <div class="flex flex-col">
               <p
                 class="font-semibold text-[24px] leading-[29px] text-[#016368]"
               >
-                {{ item.name }}
+                {{ people[0].name }}
               </p>
               <p class="font-medium text-[15px] leading-[18px] text-[#979797]">
-                {{ item.preview_text }}
+                {{ people[0].preview_text }}
               </p>
             </div>
             <img
-              v-if="index % 2 === 1"
               class="w-[132px] h-[132px]"
-              :src="`${DOMEN}${item.preview_picture}`"
+              :src="`${DOMEN}${people[0].preview_picture}`"
             /></div
+        ></RouterLink>
+        <RouterLink to="/parents" v-if="people.length > 0"
+        ><div
+            class="w-full flex justify-center items-center gap-[40px] mt-[24px]"
+        >
+          <img
+              class="w-[132px] h-[132px]"
+              :src="`${DOMEN}${people[1].preview_picture}`"
+          />
+          <div class="flex flex-col">
+            <p
+                class="font-semibold text-[24px] leading-[29px] text-[#016368]"
+            >
+              {{ people[1].name }}
+            </p>
+            <p class="font-medium text-[15px] leading-[18px] text-[#979797]">
+              {{ people[1].preview_text }}
+            </p>
+          </div>
+</div
         ></RouterLink>
         <!-- <RouterLink to="/parents"
           ><div

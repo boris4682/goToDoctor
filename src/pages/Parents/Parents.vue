@@ -1,12 +1,30 @@
 <script setup lang='ts'>
 import back from '@assets/icons/back.png'
 import PagesTemplate from '@//components/shared/PagesTemplate.vue';
-import photo1 from '@assets/par1.png'
-import photo2 from '@assets/par2.png'
-import photo3 from '@assets/par3.png'
-import photo4 from '@assets/par4.png'
 import { useRouter } from 'vue-router';
+import playlist from '../../assets/playlist.svg'
+import video from "../../assets/video.svg";
+import letter from '../../assets/letter.svg'
+import jigsaw from '../../assets/jigsaw.svg'
+
 const router = useRouter()
+
+const sections = [
+  {
+    img: playlist,
+    title: 'Видеоролики'
+  },
+  {
+    img: video,
+    title: 'Анимационные фильмы'
+  },{
+    img: letter,
+    title: 'Социальные истории'
+  },{
+    img: jigsaw,
+    title: 'Онлайн игра-тренажёр'
+  },
+]
 </script>
 
 <template>
@@ -14,18 +32,18 @@ const router = useRouter()
       <div class="h-[15vh]">
       </div>
       <div class="flex">
-        <img :src="back" class=" mx-auto w-[11px] h-[16px] translate-y-[-70px] translate-x-[-165px] cursor-pointer" @click="router.back()"/>
+        <img :src="back" class=" mx-auto w-[11px]  h-[16px] translate-y-[-70px] translate-x-[-165px] cursor-pointer" @click="router.back()"/>
       </div>
       <div class="flex justify-center">
         <div class=" w-[354px] pb-[20px]">
             <div class="flex flex-col gap-[22px] translate-y-[-10px]">
-                <p class=" font-semibold text-[15px] leading-[18px] text-[#006879]">Социальные истории</p>
+                <p class="text-[20px] font-semibold leading-[18px] text-[#006879]">Ребёнку</p>
             </div>
             <div class="flex flex-col gap-[15px] mt-[30px]">
-                <img :src="photo1"/>
-                <img :src="photo2"/>
-                <img :src="photo3"/>
-                <img :src="photo4"/>
+              <div v-for="(item, index) in sections" :key="index" class="w-full rounded-2xl shadow-xl border-2 border-gray-300 flex pl-[26px] gap-[27px] py-[15px]">
+                <img :src="item.img" />
+                <p class="text-[#00B9C2] text-xl max-w-[210px] font-semibold">{{item.title}}</p>
+              </div>
             </div>
         </div>
       </div>
