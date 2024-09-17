@@ -167,7 +167,7 @@ import img from "@assets/secondSlide.png";
 const router = useRouter();
 const toast = useToast();
 
-const roleType = ref(null);
+const roleType = ref(1);
 const specialization = ref("");
 const specializations = ref([]);
 const name = ref("");
@@ -269,10 +269,11 @@ const sendEmailCode = async () => {
       });
     } else {
       const errorMessage = response.data.error || "Ошибка отправки кода";
+      console.log(errorMessage);
       toast.add({
-        severity: "warn",
+        severity: "success",
         summary: "Предупреждение",
-        detail: errorMessage,
+        detail: 'errorMessage',
         life: 3000,
       });
     }

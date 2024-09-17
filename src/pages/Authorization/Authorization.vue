@@ -4,6 +4,7 @@ import img from "@assets/Auth.png";
 import { ref, onMounted } from "vue";
 import { loginUser } from "../../services/Auth/LoginService";
 import { useRouter } from "vue-router";
+import {useToast} from "primevue/usetoast";
 
 const userData = ref({
   login: "",
@@ -12,12 +13,22 @@ const userData = ref({
 
 const router = useRouter();
 
+const toast = useToast();
+
 const fetchLogin = async () => {
   const { data, status } = await loginUser(userData.value);
   if (status === 200) {
     if (data.success) {
       localStorage.setItem("userData", JSON.stringify(data.user));
       router.push("/mainpage");
+    }
+    else {
+      toast.add({
+        severity: "error",
+        summary: "Ошибка",
+        detail: data.error,
+        life: 3000,
+      });
     }
   }
 };
