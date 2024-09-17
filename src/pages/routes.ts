@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router';
+import { createRouter, createWebHistory } from "vue-router";
 
 export const routes = [
   { path: "/", component: () => import("./FirstPage"), name: "Main" },
@@ -140,7 +140,7 @@ export const routes = [
     name: "StepThree",
   },
   {
-    path: "/stepfour/:id",
+    path: "/stepfour/1",
     component: () => import("./StepFour"),
     name: "StepFour",
   },
@@ -170,7 +170,11 @@ export const routes = [
     name: "Children",
   },
   { path: "/parents", component: () => import("./Parents"), name: "Parents" },
-  { path: "/checklist/:id", component: () => import("./CheckList.vue"), name: "Checklist" },
+  {
+    path: "/checklist/:id",
+    component: () => import("./CheckList.vue"),
+    name: "Checklist",
+  },
   {
     path: "/parents2",
     component: () => import("./Parents2"),
@@ -217,7 +221,6 @@ export const routes = [
     component: () => import("./Recommendations6"),
     name: "Recommendations6",
   },
-
 ];
 
 export const router = createRouter({
@@ -226,11 +229,11 @@ export const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  const isAuthenticated = localStorage.getItem('userData') !== null;
-  if (to.path === '/auth' || to.path === '/reg') {
+  const isAuthenticated = localStorage.getItem("userData") !== null;
+  if (to.path === "/auth" || to.path === "/reg") {
     next();
   } else if (!isAuthenticated) {
-    next({ name: 'Auth' });
+    next({ name: "Auth" });
   } else {
     next();
   }

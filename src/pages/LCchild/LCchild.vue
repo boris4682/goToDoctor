@@ -11,29 +11,29 @@ import { createPatient } from "@//services/patients/createPatient";
 
 const router = useRouter();
 
-const newImg = ref(""); 
-const file = ref<File | null>(null); 
+//const newImg = ref("");
+const file = ref<File | null>(null);
 
-const handleFile = (file: File) => {
-  if (file.type.startsWith("image/")) {
-    file = file;
+//const handleFile = (file: File) => {
+//  if (file.type.startsWith("image/")) {
+//    file = file;
+//
+//    const reader = new FileReader();
+//    reader.onload = (e) => {
+//      newImg.value = e.target?.result as string;
+//    };
+//    reader.readAsDataURL(file);
+//  } else {
+//    alert("Пожалуйста, перетащите изображение.");
+//  }
+//};
 
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      newImg.value = e.target?.result as string;
-    };
-    reader.readAsDataURL(file);
-  } else {
-    alert("Пожалуйста, перетащите изображение.");
-  }
-};
-
-const handleDrop = (event: DragEvent) => {
-  const files = event.dataTransfer?.files;
-  if (files && files.length > 0) {
-    handleFile(files[0]);
-  }
-};
+//const handleDrop = (event: DragEvent) => {
+//  const files = event.dataTransfer?.files;
+//  if (files && files.length > 0) {
+//    handleFile(files[0]);
+//  }
+//};
 
 const user = JSON.parse(localStorage.getItem("userData") ?? "");
 const token = user?.auth_token;
@@ -161,12 +161,12 @@ const createPatientHandler = async () => {
             </div>
           </div>
         </div>
-        <button
-          class="mt-[20px] border-[#f00] border-[1px] p-3"
+        <div
           @click="createPatientHandler"
+          class="w-full h-[55px] rounded-[30px] bg-[#00B9C2] flex items-center justify-center mt-[34px] cursor-pointer"
         >
-          очень красивая кнопочка создания, не благодарите
-        </button>
+          <p class="text-[20px] leading-[24px] font-bold text-white">Создать</p>
+        </div>
       </div>
     </div>
   </PagesTemplate>

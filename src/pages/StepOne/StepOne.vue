@@ -48,7 +48,7 @@ onMounted(getPollThreeHandler);
             <RouterLink
               v-for="item in doctors"
               :key="item.category_id"
-              :to="`/preparation/${item.category_id}`"
+              :to="`/steptwo/`"
               ><div
                 class="w-full h-[73px] rounded-[13px] border shadow-lg flex px-[12px] py-[10px] gap-[9px]"
               >

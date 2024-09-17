@@ -46,11 +46,7 @@ onMounted(getAllClinicsHandler);
           </div>
           <input type="text" name="search" placeholder="Клиника" />
           <div class="mt-[20px] flex flex-col gap-[18px]">
-            <RouterLink
-              to="/steponeappointment"
-              v-for="item in clinics"
-              :key="item.id"
-            >
+            <RouterLink to="/stepfour" v-for="item in clinics" :key="item.id">
               <div
                 class="w-full px-[15px] py-[10px] rounded-[13px] shadow-lg flex justify-around items-center border"
               >

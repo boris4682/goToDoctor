@@ -28,74 +28,82 @@ const router = useRouter();
           </div>
           <input type="text" name="search" placeholder="Услуга" />
           <div class="mt-[20px] flex flex-col gap-[18px]">
-            <div
-              class="w-full h-[73px] rounded-[13px] border shadow-lg flex px-[12px] py-[10px] gap-[9px]"
+            <RouterLink :to="`/stepthree/`">
+              <div
+                class="w-full h-[73px] rounded-[13px] border shadow-lg flex px-[12px] py-[10px] gap-[9px]"
+              >
+                <img :src="one" />
+                <div>
+                  <p
+                    class="font-semibold text-[15px] leading-[18px] text-[#00B9C2]"
+                  >
+                    Детский стоматолог
+                  </p>
+                  <p
+                    class="font-medium text-[13px] leading-[18px] text-[#979797]"
+                  >
+                    Стоматолог
+                  </p>
+                </div>
+              </div></RouterLink
             >
-              <img :src="one" />
-              <div>
-                <p
-                  class="font-semibold text-[15px] leading-[18px] text-[#00B9C2]"
-                >
-                  Детский стоматолог
-                </p>
-                <p
-                  class="font-medium text-[13px] leading-[18px] text-[#979797]"
-                >
-                  Стоматолог
-                </p>
+            <RouterLink :to="`/stepthree/`">
+              <div
+                class="w-full h-[73px] rounded-[13px] border shadow-lg flex px-[12px] py-[10px] gap-[9px]"
+              >
+                <img :src="one" />
+                <div>
+                  <p
+                    class="font-semibold text-[15px] leading-[18px] text-[#00B9C2]"
+                  >
+                    Проф. осмотр/консультация
+                  </p>
+                  <p
+                    class="font-medium text-[13px] leading-[18px] text-[#979797]"
+                  >
+                    Стоматолог
+                  </p>
+                </div>
               </div>
-            </div>
-            <div
-              class="w-full h-[73px] rounded-[13px] border shadow-lg flex px-[12px] py-[10px] gap-[9px]"
+            </RouterLink>
+            <RouterLink :to="`/stepthree/`">
+              <div
+                class="w-full h-[73px] rounded-[13px] border shadow-lg flex px-[12px] py-[10px] gap-[9px]"
+              >
+                <img :src="one" />
+                <div>
+                  <p
+                    class="font-semibold text-[15px] leading-[18px] text-[#00B9C2]"
+                  >
+                    Проф. гигиена
+                  </p>
+                  <p
+                    class="font-medium text-[13px] leading-[18px] text-[#979797]"
+                  >
+                    Стоматолог
+                  </p>
+                </div>
+              </div></RouterLink
             >
-              <img :src="one" />
-              <div>
-                <p
-                  class="font-semibold text-[15px] leading-[18px] text-[#00B9C2]"
-                >
-                  Проф. осмотр/консультация
-                </p>
-                <p
-                  class="font-medium text-[13px] leading-[18px] text-[#979797]"
-                >
-                  Стоматолог
-                </p>
-              </div>
-            </div>
-            <div
-              class="w-full h-[73px] rounded-[13px] border shadow-lg flex px-[12px] py-[10px] gap-[9px]"
+            <RouterLink :to="`/stepthree/`">
+              <div
+                class="w-full h-[73px] rounded-[13px] border shadow-lg flex px-[12px] py-[10px] gap-[9px]"
+              >
+                <img :src="one" />
+                <div>
+                  <p
+                    class="font-semibold text-[15px] leading-[18px] text-[#00B9C2]"
+                  >
+                    Лечение
+                  </p>
+                  <p
+                    class="font-medium text-[13px] leading-[18px] text-[#979797]"
+                  >
+                    Стоматолог
+                  </p>
+                </div>
+              </div></RouterLink
             >
-              <img :src="one" />
-              <div>
-                <p
-                  class="font-semibold text-[15px] leading-[18px] text-[#00B9C2]"
-                >
-                  Проф. гигиена
-                </p>
-                <p
-                  class="font-medium text-[13px] leading-[18px] text-[#979797]"
-                >
-                  Стоматолог
-                </p>
-              </div>
-            </div>
-            <div
-              class="w-full h-[73px] rounded-[13px] border shadow-lg flex px-[12px] py-[10px] gap-[9px]"
-            >
-              <img :src="one" />
-              <div>
-                <p
-                  class="font-semibold text-[15px] leading-[18px] text-[#00B9C2]"
-                >
-                  Лечение
-                </p>
-                <p
-                  class="font-medium text-[13px] leading-[18px] text-[#979797]"
-                >
-                  Стоматолог
-                </p>
-              </div>
-            </div>
           </div>
         </div>
       </div>
