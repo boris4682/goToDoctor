@@ -7,6 +7,7 @@ import { onMounted, ref } from "vue";
 import { DOMEN } from "@//consts";
 
 const doctors = ref<IPollTree[]>();
+const router = useRouter();
 
 const getPollThreeHandler = async () => {
   const { data } = await getPollThree();
@@ -19,7 +20,10 @@ const getPollThreeHandler = async () => {
   doctors.value = data;
 };
 
-const router = useRouter();
+const selectPatient = (patient: IPollTree) => {
+  localStorage.setItem("selectedPatient", JSON.stringify(patient));
+  router.push(`/stepfour/${patient.category_id}`);
+};
 
 onMounted(getPollThreeHandler);
 </script>
@@ -45,24 +49,22 @@ onMounted(getPollThreeHandler);
           </div>
           <input type="text" name="search" placeholder="Специалист" />
           <div class="mt-[20px] flex flex-col gap-[18px]">
-            <RouterLink
+            <div
               v-for="item in doctors"
               :key="item.category_id"
-              :to="`/stepfour/${item.category_id}`"
-              ><div
-                class="w-full h-[73px] rounded-[13px] border shadow-lg flex px-[12px] py-[10px] gap-[9px]"
-              >
-                <img
-                  class="w-[50px] h-[50px]"
-                  :src="`${DOMEN}${item.picture_url}`"
-                />
-                <p
-                  class="font-semibold text-[15px] leading-[18px] text-[#00B9C2]"
-                >
-                  {{ item.category_name }}
-                </p>
-              </div></RouterLink
+              @click="selectPatient(item)"
+              class="w-full h-[73px] rounded-[13px] border shadow-lg flex px-[12px] py-[10px] gap-[9px] cursor-pointer"
             >
+              <img
+                class="w-[50px] h-[50px]"
+                :src="`${DOMEN}${item.picture_url}`"
+              />
+              <p
+                class="font-semibold text-[15px] leading-[18px] text-[#00B9C2]"
+              >
+                {{ item.category_name }}
+              </p>
+            </div>
           </div>
         </div>
       </div>

@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import doctor from "@assets/doctor1.png";
 import dalee from "@assets/icons/dalee.png";
-import star from "@assets/icons/star.svg";
+//import star from "@assets/icons/star.svg";
 import card from "@assets/icons/material-symbols_sd-card-alert-outline.svg";
 import { DOMEN } from "@//consts";
 import { IDoctor } from "@//services/main-doctors/getDoctorsDataByCategoryId";
@@ -10,37 +9,35 @@ const props = defineProps<IDoctor>();
 </script>
 
 <template>
-  <div class="w-full h-[88px] rounded-[13px] border flex shadow-lg">
+  <div
+    class="w-full h-[100px] rounded-[13px] border flex shadow-lg items-center px-4 bg-white"
+  >
     <img
       :src="`${DOMEN}${props.detail_picture}`"
-      class="rounded-l-[13px] h-full"
+      class="w-[90px] h-[90px] rounded-full object-cover"
     />
-    <div>
-      <div class="flex justify-between w-[269px] px-[7px] py-[8px]">
-        <div class="w-[164px]">
-          <p class="font-semibold text-[15px] leading-[18px] text-[#00B9C2]">
-            {{ props.name }}
-          </p>
-          <p class="font-medium text-[12px] leading-[14px] text-[#8E969B]">
-            {{ props.detail_text }}
-          </p>
-        </div>
-        <div class="flex">
-          <p class="font-medium text-[14px] leading-[17px] text-[#2C3E4F]">
+    <div class="flex-grow mx-4">
+      <div class="flex justify-between items-center">
+        <p class="font-semibold text-[16px] leading-[18px] text-[#00B9C2]">
+          {{ props.name }}
+        </p>
+        <!--<div class="flex items-center">
+          <p class="font-medium text-[14px] leading-[17px] text-[#2C3E4F] mr-1">
             4.8
           </p>
           <img :src="star" class="w-[15px] h-[15px]" />
-        </div>
+        </div>-->
       </div>
-      <div class="flex justify-between px-[7px]">
-        <div class="flex">
-          <img :src="card" class="w-[12px] h-[12px]" />
-          <p class="font-semibold text-[10px] leading-3 text-[#006879]">
-            О враче
-          </p>
-        </div>
-        <img :src="dalee" />
+      <p class="font-medium text-[12px] leading-[14px] text-[#8E969B] mt-1">
+        {{ props.detail_text }}
+      </p>
+      <div class="flex items-center mt-2">
+        <img :src="card" class="w-[12px] h-[12px] mr-1" />
+        <p class="font-semibold text-[12px] leading-3 text-[#006879]">
+          О враче
+        </p>
       </div>
     </div>
+    <img :src="dalee" />
   </div>
 </template>

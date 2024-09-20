@@ -1,26 +1,34 @@
 <script setup lang="ts">
 import back from "@assets/icons/back.png";
 import PagesTemplate from "@//components/shared/PagesTemplate.vue";
+import Loader from "@//components/shared/Loader.vue";
 import ico from "@assets/icons/ico.png";
 import star from "@assets/icons/star.svg";
 import card from "@assets/icons/material-symbols_sd-card-alert-outline.svg";
-import { RouterLink, useRouter } from "vue-router";
+import { useRouter } from "vue-router";
 import { onMounted, ref } from "vue";
 import { getAllClinics, IClinic } from "@//services/service/getAllClinics";
 
 const router = useRouter();
-
 const clinics = ref<IClinic[]>();
+const isLoading = ref(true);
 
 const getAllClinicsHandler = async () => {
   const { data } = await getAllClinics();
 
   if (!data) {
     console.log("Ошибка на сервере");
+    isLoading.value = false;
     return;
   }
 
   clinics.value = data;
+  isLoading.value = false;
+};
+
+const selectClinic = (clinic: IClinic) => {
+  localStorage.setItem("selectedClinic", JSON.stringify(clinic));
+  router.push("/steptwo");
 };
 
 onMounted(getAllClinicsHandler);
@@ -41,14 +49,20 @@ onMounted(getAllClinicsHandler);
         <div class="flex flex-col gap-[22px] translate-y-[-10px]">
           <div class="flex justify-center items-center">
             <p class="font-semibold text-[14px] leading-[13px] text-black">
-              шаг 3
+              Шаг 1
             </p>
           </div>
-          <input type="text" name="search" placeholder="Клиника" />
-          <div class="mt-[20px] flex flex-col gap-[18px]">
-            <RouterLink to="/stepfour" v-for="item in clinics" :key="item.id">
+          <div v-if="isLoading" class="flex justify-center my-4">
+            <Loader />
+          </div>
+          <div v-else>
+            <input type="text" name="search" placeholder="Клиника" />
+            <div class="mt-[20px] flex flex-col gap-[18px]">
               <div
-                class="w-full px-[15px] py-[10px] rounded-[13px] shadow-lg flex justify-around items-center border"
+                v-for="item in clinics"
+                :key="item.id"
+                @click="selectClinic(item)"
+                class="w-full px-[15px] py-[10px] rounded-[13px] shadow-lg flex justify-around items-center border cursor-pointer"
               >
                 <img :src="ico" class="w-[44px] h-[52px]" />
                 <div class="flex flex-col ml-2">
@@ -64,7 +78,7 @@ onMounted(getAllClinicsHandler);
                         <p
                           class="w-[100px] font-normal text-xs leading-[14px] text-[#2C3E4F]"
                         >
-                          О клиника
+                          О клинике
                         </p>
                       </div>
                       <p
@@ -82,7 +96,7 @@ onMounted(getAllClinicsHandler);
                   </div>
                 </div>
               </div>
-            </RouterLink>
+            </div>
           </div>
         </div>
       </div>

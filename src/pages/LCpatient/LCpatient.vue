@@ -191,7 +191,7 @@ const updateUserHandler = async () => {
                 class="bg-[#E5F2FC]"
                 type="radio"
                 name="gender"
-                @click="user.gender = 'Женский'"
+                @click="user.gender = 'F'"
               />
               <p class="text-[#A4A5A5] text-sm font-medium leading-4">Жен.</p>
             </div>
@@ -200,7 +200,7 @@ const updateUserHandler = async () => {
                 class="bg-[#E5F2FC]"
                 type="radio"
                 name="gender"
-                @click="user.gender = 'Мужской'"
+                @click="user.gender = 'M'"
               />
               <p class="text-[#A4A5A5] text-sm font-medium leading-4">Муж.</p>
             </div>

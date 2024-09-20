@@ -122,7 +122,16 @@
           согласие на
           <u class="cursor-pointer">обработку персональных данных</u>
         </p>
-
+        <div
+          class="w-full h-[55px] rounded-[30px] bg-[#CCCCCC] flex items-center justify-center mt-4"
+          @click="logFormData"
+        >
+          <p
+            class="text-[20px] leading-[24px] font-bold text-white cursor-pointer"
+          >
+            Показать данные
+          </p>
+        </div>
         <div
           v-if="!isCodeSent"
           class="w-full h-[55px] rounded-[30px] bg-[#00B9C2] flex items-center justify-center"
@@ -273,7 +282,7 @@ const sendEmailCode = async () => {
       toast.add({
         severity: "success",
         summary: "Предупреждение",
-        detail: 'errorMessage',
+        detail: "errorMessage",
         life: 3000,
       });
     }
@@ -312,14 +321,15 @@ const submitRegistration = async () => {
   }
 
   const userData = {
-    specialization: roleType.value === 2 ? specialization.value : null,
     name: name.value,
     email: email.value,
     phone: phone.value,
     code: code.value,
     password: password.value,
   };
-
+  if (roleType.value === 2) {
+    userData.specialization = specialization.value;
+  }
   try {
     const response = await createUser(userData);
 
@@ -369,7 +379,19 @@ const submitRegistration = async () => {
     });
   }
 };
-
+const logFormData = () => {
+  const userData = {
+    name: name.value,
+    email: email.value,
+    phone: phone.value,
+    code: code.value,
+    password: password.value,
+  };
+  if (roleType.value === 2) {
+    userData.specialization = specialization.value;
+  }
+  console.log("Данные формы:", userData);
+};
 onMounted(() => {
   if (roleType.value === 2) {
     fetchSpecializations();
@@ -384,5 +406,4 @@ onMounted(() => {
   margin-right: auto !important;
   margin-left: auto !important;
 }
-
 </style>

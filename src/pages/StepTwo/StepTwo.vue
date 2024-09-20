@@ -1,10 +1,27 @@
 <script setup lang="ts">
+import { ref, onMounted } from "vue";
 import back from "@assets/icons/back.png";
 import PagesTemplate from "@//components/shared/PagesTemplate.vue";
-import one from "@assets/icons/1.svg";
-import { useRouter } from "vue-router";
-
+import Loader from "@//components/shared/Loader.vue";
+import { useRouter, useRoute } from "vue-router";
 const router = useRouter();
+const route = useRoute();
+const isLoading = ref(false);
+const services = ref<string[]>([]);
+
+onMounted(() => {
+  if (route.query.services) {
+    services.value = JSON.parse(route.query.services as string);
+  }
+});
+
+// Функция для обработки клика по услуге
+const selectService = (service: string) => {
+  // Сохранить выбранную услугу в localStorage
+  localStorage.setItem("selectedService", service);
+  // Перейти на страницу stepfive
+  router.push("/stepfive");
+};
 </script>
 
 <template>
@@ -17,46 +34,31 @@ const router = useRouter();
         @click="router.back()"
       />
     </div>
-
     <div class="flex justify-center">
       <div class="w-[354px] pb-[20px]">
         <div class="flex flex-col gap-[22px] translate-y-[-10px]">
           <div class="flex justify-center items-center">
             <p class="font-semibold text-[14px] leading-[13px] text-black">
-              шаг 2
+              Шаг 4
             </p>
           </div>
-          <input type="text" name="search" placeholder="Услуга" />
-          <div class="mt-[20px] flex flex-col gap-[18px]">
-            <RouterLink :to="`/stepthree/`">
+          <div v-if="isLoading" class="flex justify-center my-4">
+            <Loader />
+          </div>
+          <div v-else>
+            <input type="text" name="search" placeholder="Услуги" />
+            <div class="mt-[20px] flex flex-col gap-[18px]">
               <div
-                class="w-full h-[73px] rounded-[13px] border shadow-lg flex px-[12px] py-[10px] gap-[9px]"
+                v-for="service in services"
+                :key="service"
+                @click="selectService(service)"
+                class="w-full h-[73px] rounded-[13px] border shadow-lg flex px-[12px] py-[10px] gap-[9px] cursor-pointer"
               >
-                <img :src="one" />
                 <div>
                   <p
                     class="font-semibold text-[15px] leading-[18px] text-[#00B9C2]"
                   >
-                    Детский стоматолог
-                  </p>
-                  <p
-                    class="font-medium text-[13px] leading-[18px] text-[#979797]"
-                  >
-                    Стоматолог
-                  </p>
-                </div>
-              </div></RouterLink
-            >
-            <RouterLink :to="`/stepthree/`">
-              <div
-                class="w-full h-[73px] rounded-[13px] border shadow-lg flex px-[12px] py-[10px] gap-[9px]"
-              >
-                <img :src="one" />
-                <div>
-                  <p
-                    class="font-semibold text-[15px] leading-[18px] text-[#00B9C2]"
-                  >
-                    Проф. осмотр/консультация
+                    {{ service }}
                   </p>
                   <p
                     class="font-medium text-[13px] leading-[18px] text-[#979797]"
@@ -65,45 +67,7 @@ const router = useRouter();
                   </p>
                 </div>
               </div>
-            </RouterLink>
-            <RouterLink :to="`/stepthree/`">
-              <div
-                class="w-full h-[73px] rounded-[13px] border shadow-lg flex px-[12px] py-[10px] gap-[9px]"
-              >
-                <img :src="one" />
-                <div>
-                  <p
-                    class="font-semibold text-[15px] leading-[18px] text-[#00B9C2]"
-                  >
-                    Проф. гигиена
-                  </p>
-                  <p
-                    class="font-medium text-[13px] leading-[18px] text-[#979797]"
-                  >
-                    Стоматолог
-                  </p>
-                </div>
-              </div></RouterLink
-            >
-            <RouterLink :to="`/stepthree/`">
-              <div
-                class="w-full h-[73px] rounded-[13px] border shadow-lg flex px-[12px] py-[10px] gap-[9px]"
-              >
-                <img :src="one" />
-                <div>
-                  <p
-                    class="font-semibold text-[15px] leading-[18px] text-[#00B9C2]"
-                  >
-                    Лечение
-                  </p>
-                  <p
-                    class="font-medium text-[13px] leading-[18px] text-[#979797]"
-                  >
-                    Стоматолог
-                  </p>
-                </div>
-              </div></RouterLink
-            >
+            </div>
           </div>
         </div>
       </div>

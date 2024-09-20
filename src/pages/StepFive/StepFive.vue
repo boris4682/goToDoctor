@@ -1,11 +1,84 @@
 <script setup lang="ts">
 import back from "@assets/icons/back.png";
 import PagesTemplate from "@//components/shared/PagesTemplate.vue";
-import { useRouter } from "vue-router";
-import doctor from "@assets/doctor2.png";
+import { onMounted, ref } from "vue";
 import card from "@assets/icons/material-symbols_sd-card-alert-outline.svg";
+import { useRouter } from "vue-router";
+import axios from "axios";
+
+interface DoctorSchedule {
+  date: string;
+  free: string[];
+}
 
 const router = useRouter();
+const doctorName = ref("");
+const doctorImage = ref("");
+const categoryName = ref("");
+const selectedService = ref("");
+const clinicName = ref("");
+const schedule = ref<DoctorSchedule[]>([]);
+const selectedDate = ref("");
+const selectedTime = ref("");
+const isDatePickerOpen = ref(false);
+const isTimePickerOpen = ref(false);
+const availableTimes = ref<string[]>([]);
+
+onMounted(() => {
+  const selectedDoctor = JSON.parse(
+    localStorage.getItem("selectedDoctor") || "{}"
+  );
+  const selectedCategory = JSON.parse(
+    localStorage.getItem("selectedCategory") || "{}"
+  );
+  const selectedServiceValue = localStorage.getItem("selectedService") || "";
+  const selectedClinic = JSON.parse(
+    localStorage.getItem("selectedClinic") || "{}"
+  );
+
+  doctorName.value = selectedDoctor.name || "Имя не указано";
+  doctorImage.value =
+    `https://idykvrachy.ru${selectedDoctor.detail_picture}` || "";
+  categoryName.value = selectedCategory.name || "Категория не указана";
+  selectedService.value = selectedServiceValue || "Услуга не указана";
+  clinicName.value = selectedClinic.name || "Клиника не указана";
+
+  getDoctorSchedule(selectedDoctor.id);
+});
+
+const getDoctorSchedule = async (doctorId: string) => {
+  try {
+    const response = await axios.get(
+      `https://idykvrachy.ru/api/receptions/getDoctorReceptions?doctorId=${doctorId}`
+    );
+    schedule.value = response.data;
+  } catch (error) {
+    console.error("Ошибка при загрузке расписания:", error);
+  }
+};
+
+const openDatePicker = () => {
+  isDatePickerOpen.value = true;
+};
+
+const selectDate = (date: string) => {
+  selectedDate.value = date;
+  const dateSchedule = schedule.value.find((item) => item.date === date);
+  availableTimes.value = dateSchedule ? dateSchedule.free : [];
+  isDatePickerOpen.value = false;
+  isTimePickerOpen.value = true;
+};
+
+const selectTime = (time: string) => {
+  selectedTime.value = time;
+  isTimePickerOpen.value = false;
+};
+
+const bookAppointment = () => {
+  localStorage.setItem("selectedDate", selectedDate.value);
+  localStorage.setItem("selectedTime", selectedTime.value);
+  router.push("/createreception");
+};
 </script>
 
 <template>
@@ -24,29 +97,38 @@ const router = useRouter();
         <div class="flex flex-col gap-[22px] translate-y-[-10px]">
           <div class="flex justify-center items-center">
             <p class="font-semibold text-[14px] leading-[13px] text-black">
-              шаг 5
+              Шаг 5
             </p>
           </div>
           <div class="mt-[20px] flex flex-col gap-[18px]">
             <div class="w-full h-[134px] rounded-[13px] border flex shadow-lg">
-              <img :src="doctor" class="rounded-l-[13px] h-full" />
+              <img
+                :src="doctorImage"
+                class="w-[130px] h-full object-cover"
+                style="border-radius: 0 0 50% 0"
+              />
               <div>
                 <div class="flex justify-between w-[210px] px-[7px] py-[8px]">
                   <div class="w-[210px] mt-[5px]">
                     <p
                       class="font-semibold text-[18px] leading-[18px] text-[#00B9C2]"
                     >
-                      Иванов Алексей Иванович
+                      {{ doctorName }}
                     </p>
                     <p
                       class="font-medium text-[12px] leading-[14px] text-[#00B9C2] mt-[4px]"
                     >
-                      Стоматолог-терапевт
+                      {{ categoryName }}
+                    </p>
+                    <p
+                      class="font-medium text-[12px] leading-[14px] text-[#8E969B] mt-[4px]"
+                    >
+                      {{ selectedService }}
                     </p>
                     <p
                       class="font-medium text-[12px] leading-[14px] text-[#8E969B] mt-[12px]"
                     >
-                      Стоматологическая №1
+                      {{ clinicName }}
                     </p>
                     <div class="flex justify-end items-end mt-[15px]">
                       <img :src="card" class="w-[12px] h-[12px]" />
@@ -61,21 +143,65 @@ const router = useRouter();
               </div>
             </div>
           </div>
+
           <div class="flex justify-between">
             <button
               class="w-[163px] h-[37px] rounded-[27px] bg-[#00B9C2] text-white border shadow-lg"
+              @click="openDatePicker"
             >
-              26.03.2024
+              {{ selectedDate || "Выбрать дату" }}
             </button>
             <button
               class="w-[114px] h-[37px] rounded-[27px] bg-[#FFFFFF] border shadow-lg"
+              @click="isTimePickerOpen = true"
+              :disabled="!selectedDate"
             >
-              9:30
+              {{ selectedTime ? selectedTime.split(" ")[1] : "Выбрать время" }}
             </button>
           </div>
+
+          <div
+            v-if="isDatePickerOpen"
+            class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center"
+          >
+            <div class="bg-white rounded-lg p-4 max-w-md mx-auto">
+              <h3 class="text-lg font-semibold mb-4">Выберите дату</h3>
+              <div class="flex flex-col gap-2">
+                <button
+                  v-for="(item, index) in schedule"
+                  :key="index"
+                  @click="selectDate(item.date)"
+                  class="py-2 px-4 bg-[#00B9C2] text-white rounded"
+                >
+                  {{ item.date }}
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div
+            v-if="isTimePickerOpen"
+            class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center"
+          >
+            <div class="bg-white rounded-lg p-4 max-w-md mx-auto">
+              <h3 class="text-lg font-semibold mb-4">Выберите время</h3>
+              <div class="flex flex-wrap gap-2">
+                <button
+                  v-for="(time, timeIndex) in availableTimes"
+                  :key="timeIndex"
+                  @click="selectTime(time)"
+                  class="py-2 px-4 bg-[#00B9C2] text-white rounded"
+                >
+                  {{ time.split(" ")[1] }}
+                </button>
+              </div>
+            </div>
+          </div>
+
           <div class="flex justify-center mt-[85px]">
             <button
               class="w-[305px] h-[55px] rounded-[30px] bg-[#00B9C2] text-white border shadow-lg"
+              @click="bookAppointment"
             >
               Записаться
             </button>

@@ -1,6 +1,6 @@
 // RegisterService.ts
-import { AxiosError } from 'axios';
-import { ApiClient } from '../Client';
+import { AxiosError } from "axios";
+import { ApiClient } from "../Client";
 
 export interface IUserData {
   name?: string;
@@ -20,12 +20,12 @@ export interface IUserData {
 export const sendEmailCodeApi = async (email: string) => {
   try {
     const response = await ApiClient({
-      method: 'POST',
-      url: 'user/sendEmailCode',
+      method: "POST",
+      url: "user/sendEmailCode",
       data: { email },
     });
     if (response.data && response.data.success === false) {
-      return { data: response.data, status: 400 }; 
+      return { data: response.data, status: 400 };
     }
     return response;
   } catch (error) {
@@ -36,26 +36,30 @@ export const sendEmailCodeApi = async (email: string) => {
 
 export const createUser = async (userData: IUserData) => {
   const formData = new FormData();
+
   for (var key in userData) {
-    if (userData[key as keyof IUserData]) {
-      if (key === 'personal_photo') {
-        formData.append(key, userData[key], 'personal_photo.jpeg');
+    if (
+      userData[key as keyof IUserData] !== undefined &&
+      userData[key as keyof IUserData] !== null &&
+      userData[key as keyof IUserData] !== ""
+    ) {
+      if (key === "personal_photo") {
+        formData.append(key, userData[key], "personal_photo.jpeg");
       } else {
         formData.append(key, userData[key as keyof IUserData]);
       }
     }
   }
+
   try {
     const response = await ApiClient({
-      method: 'POST',
-      url: 'user/addNewUser',
+      method: "POST",
+      url: "user/addNewUser",
       data: formData,
     });
 
-    // Проверяем поле `success` в ответе
     if (response.data && response.data.success === false) {
-      // Возвращаем ошибку, даже если статус 200
-      return { data: response.data, status: 400 }; 
+      return { data: response.data, status: 400 };
     }
 
     const { data, status } = response;
@@ -86,6 +90,7 @@ export const loginUser = async (userData: {
 
     const { data, status } = response;
     if (status === 200) {
+      localStorage.setItem("userData", JSON.stringify(data.user));
       return { data, status };
     } else {
       console.error(`Ошибка на сервере. Статус: ${status}`);

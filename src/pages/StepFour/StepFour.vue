@@ -2,7 +2,8 @@
 import back from "@assets/icons/back.png";
 import PagesTemplate from "@//components/shared/PagesTemplate.vue";
 import OneDoctor from "@//components/OneDoctor/OneDoctor.vue";
-import { RouterLink, useRoute, useRouter } from "vue-router";
+import Loader from "@//components/shared/Loader.vue";
+import { useRoute, useRouter } from "vue-router";
 import { onMounted, ref } from "vue";
 import {
   getDoctorsDataByCategoryId,
@@ -10,20 +11,35 @@ import {
 } from "@//services/main-doctors/getDoctorsDataByCategoryId";
 
 const router = useRouter();
-const { id } = useRoute().params;
-
-const doctors = ref<IDoctor[]>();
+const route = useRoute();
+const doctors = ref<IDoctor[] | null>(null);
+const isLoading = ref(true);
+const categoryId = route.params.id;
 
 const getDoctorsDataByCategoryIdHandler = async () => {
-  const { data } = await getDoctorsDataByCategoryId(id);
+  const { data } = await getDoctorsDataByCategoryId(categoryId);
 
   if (!data) {
     console.log("Ошибка на сервере");
+    isLoading.value = false;
     return;
   }
 
   doctors.value = data;
+  isLoading.value = false;
 };
+
+const selectDoctor = (doctor: IDoctor) => {
+  localStorage.setItem("selectedDoctor", JSON.stringify(doctor));
+  router.push({
+    path: "/stepfour",
+    query: {
+      id: doctor.id,
+      services: JSON.stringify(doctor.service_list),
+    },
+  });
+};
+
 onMounted(getDoctorsDataByCategoryIdHandler);
 </script>
 
@@ -43,18 +59,27 @@ onMounted(getDoctorsDataByCategoryIdHandler);
         <div class="flex flex-col gap-[22px] translate-y-[-10px]">
           <div class="flex justify-center items-center">
             <p class="font-semibold text-[14px] leading-[13px] text-black">
-              шаг 4
+              Шаг 3
             </p>
           </div>
-          <RouterLink
-            v-if="doctors"
-            to="/stepfive"
+          <div v-if="isLoading" class="flex justify-center my-4">
+            <Loader />
+          </div>
+          <div
+            v-else-if="!doctors || doctors.length === 0"
+            class="text-center text-xl"
+          >
+            На текущий момент клиника не ведёт записи, зайдите пожалуйста позже
+          </div>
+          <div
+            v-else
             v-for="item in doctors"
             :key="item.id"
+            @click="selectDoctor(item)"
+            class="cursor-pointer"
           >
             <OneDoctor v-bind="{ ...item }" />
-          </RouterLink>
-          <div v-else class="text-center text-5xl">Докторов нет</div>
+          </div>
         </div>
       </div>
     </div>

@@ -113,6 +113,11 @@ export const routes = [
     name: "CancelReception",
   },
   {
+    path: "/createreception",
+    component: () => import("./CreateReception"),
+    name: "CreateReception",
+  },
+  {
     path: "/plannedreception",
     component: () => import("./PlannedReception"),
     name: "PlannedReception",
@@ -127,20 +132,24 @@ export const routes = [
     component: () => import("./AppointmentWithSpecialist"),
     name: "AppointmentWithSpecialist",
   },
-  { path: "/stepone", component: () => import("./StepOne"), name: "StepOne" },
+  {
+    path: "/steptwo",
+    component: () => import("./StepOne"),
+    name: "StepOne",
+  },
   {
     path: "/steponeappointment",
     component: () => import("./StepOneAppointment"),
     name: "StepOneAppointment",
   },
-  { path: "/steptwo", component: () => import("./StepTwo"), name: "StepTwo" },
+  { path: "/stepfour", component: () => import("./StepTwo"), name: "StepTwo" },
   {
-    path: "/stepthree",
+    path: "/stepone",
     component: () => import("./StepThree"),
     name: "StepThree",
   },
   {
-    path: "/stepfour/1",
+    path: "/stepthree/:id",
     component: () => import("./StepFour"),
     name: "StepFour",
   },

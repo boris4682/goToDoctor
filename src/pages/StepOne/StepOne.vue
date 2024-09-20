@@ -1,27 +1,38 @@
 <script setup lang="ts">
 import back from "@assets/icons/back.png";
 import PagesTemplate from "@//components/shared/PagesTemplate.vue";
+import Loader from "@//components/shared/Loader.vue";
 import { useRouter } from "vue-router";
-import { getPollThree } from "@//services/preparation/getPollThree";
+import { getDoctorsCategory } from "@//services/main-doctors/getDoctorsCategory";
 import { onMounted, ref } from "vue";
 import { DOMEN } from "@//consts";
 
-const doctors = ref();
+const router = useRouter();
+const doctorsCategory = ref();
+const isLoading = ref(true);
 
-const getPollThreeHandler = async () => {
-  const { data } = await getPollThree();
-
-  if (!data) {
-    console.log("Ошибка сервера");
-    return;
+const fetchDoctorsCategory = async () => {
+  const { data, status } = await getDoctorsCategory();
+  if (status === 200) {
+    doctorsCategory.value = data;
+  } else {
+    console.log("Ошибка на сервере");
   }
-
-  doctors.value = data;
+  isLoading.value = false;
 };
 
-const router = useRouter();
+const selectCategory = (category: {
+  category_id: string;
+  name: string;
+  picture: string;
+}) => {
+  localStorage.setItem("selectedCategory", JSON.stringify(category));
+  router.push(`/stepthree/${category.category_id}`);
+};
 
-onMounted(getPollThreeHandler);
+onMounted(() => {
+  fetchDoctorsCategory();
+});
 </script>
 
 <template>
@@ -40,29 +51,32 @@ onMounted(getPollThreeHandler);
         <div class="flex flex-col gap-[22px] translate-y-[-10px]">
           <div class="flex justify-center items-center">
             <p class="font-semibold text-[14px] leading-[13px] text-black">
-              шаг 1
+              Шаг 2
             </p>
           </div>
-          <input type="text" name="search" placeholder="Специалист" />
-          <div class="mt-[20px] flex flex-col gap-[18px]">
-            <RouterLink
-              v-for="item in doctors"
-              :key="item.category_id"
-              :to="`/steptwo/`"
-              ><div
-                class="w-full h-[73px] rounded-[13px] border shadow-lg flex px-[12px] py-[10px] gap-[9px]"
+          <div v-if="isLoading" class="flex justify-center my-4">
+            <Loader />
+          </div>
+          <div v-else>
+            <input type="text" name="search" placeholder="Категория" />
+            <div class="mt-[20px] flex flex-col gap-[18px]">
+              <div
+                v-for="item in doctorsCategory"
+                :key="item.category_id"
+                @click="selectCategory(item)"
+                class="w-full h-[73px] rounded-[13px] border shadow-lg flex px-[12px] py-[10px] gap-[9px] cursor-pointer"
               >
                 <img
                   class="w-[50px] h-[50px]"
-                  :src="`${DOMEN}${item.picture_url}`"
+                  :src="`${DOMEN}${item.picture}`"
                 />
                 <p
                   class="font-semibold text-[15px] leading-[18px] text-[#00B9C2]"
                 >
-                  {{ item.category_name }}
+                  {{ item.name }}
                 </p>
-              </div></RouterLink
-            >
+              </div>
+            </div>
           </div>
         </div>
       </div>
