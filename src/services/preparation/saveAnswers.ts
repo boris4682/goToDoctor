@@ -5,6 +5,7 @@ export const saveAnswers = async (userData: {
   answers: string;
   voteId: string;
   isWeight: string;
+  patientId: string;
 }) => {
   const formData = new FormData();
 

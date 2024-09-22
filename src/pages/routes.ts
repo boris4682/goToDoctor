@@ -73,6 +73,11 @@ export const routes = [
     name: "ReceptionMenu4",
   },
   {
+    path: "/checklist-form/:id",
+    component: () => import("./CheckListForm"),
+    name: "CheckList-form",
+  },
+  {
     path: "/checklist",
     component: () => import("./CheckList"),
     name: "CheckList",

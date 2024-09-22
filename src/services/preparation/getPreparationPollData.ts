@@ -1,12 +1,11 @@
 import { AxiosError } from "axios";
 import { ApiClient } from "../Client";
 
-export const getPreparationPollData = async (pollNumber: string) => {
+export const getPreparationPollData = async (pollNumber: number) => {
   try {
     const response = await ApiClient({
       method: "GET",
-      url: `preparation/getPreparationPollData`,
-      params: `pollNumber=${pollNumber}`,
+      url: `preparation/getPreparationPollData?pollNumber=${pollNumber}`,
     });
 
     const { data, status } = response;
