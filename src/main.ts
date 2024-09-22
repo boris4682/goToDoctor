@@ -9,7 +9,7 @@ import Toast from 'primevue/toast';
 // @ts-ignore
 import VueTheMask from 'vue-the-mask';
 
-import Aura from '@primevue/themes/aura'; 
+import Aura from '@primevue/themes/aura';
 
 const app = createApp(App);
 
@@ -20,10 +20,13 @@ app.use(router)
     locale: ru,
     theme: {
       preset: Aura,
+      options: {
+        darkModeSelector: ""
+      }
     }
   })
   .use(ToastService)
-  .use(VueTheMask) 
+  .use(VueTheMask)
   .mount("#app");
 
 app.component('Toast', Toast);
