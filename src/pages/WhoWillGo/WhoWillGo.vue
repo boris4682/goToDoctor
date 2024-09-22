@@ -5,13 +5,21 @@ import { useRoute, useRouter } from "vue-router";
 import { onMounted, ref } from "vue";
 import { getPollDataByCategoryId } from "@//services/preparation/getPollDataByCategoryId";
 import { DOMEN } from "@//consts";
-import {usePreparationsStore} from "@/services/preparation/preparationsStore.ts";
+import { usePreparationsStore } from "@//services/preparation/preparationsStore.ts";
+
+interface Person {
+  name: string;
+  preview_text: string;
+  preview_picture: string;
+  uf_check_list?: any;
+  uf_vote_id?: any;
+}
 
 const router = useRouter();
 const { id } = useRoute().params;
-const preparationsStore = usePreparationsStore()
+const preparationsStore = usePreparationsStore();
 
-const people = ref([]);
+const people = ref<Person[]>([]);
 
 const getPollDataByCategoryIdHandler = async () => {
   const { data } = await getPollDataByCategoryId(id);
@@ -22,8 +30,12 @@ const getPollDataByCategoryIdHandler = async () => {
   }
 
   people.value = data;
-  preparationsStore.checklist = people[0].uf_check_list
-  preparationsStore.vote = people[0].uf_vote_id
+  preparationsStore.checklist = people.value[0]?.uf_check_list;
+  preparationsStore.vote = people.value[0]?.uf_vote_id;
+};
+
+const savePersonToSession = (person: Person) => {
+  sessionStorage.setItem("selectedPerson", JSON.stringify(person));
 };
 
 onMounted(getPollDataByCategoryIdHandler);
@@ -47,9 +59,13 @@ onMounted(getPollDataByCategoryIdHandler);
             Кто пойдет на приём?
           </p>
         </div>
-        <RouterLink to="/parents2"
-                    v-if="people.length > 0"
-          ><div
+
+        <RouterLink
+          to="/parents2"
+          v-if="people.length > 0"
+          @click.native="savePersonToSession(people[0])"
+        >
+          <div
             class="w-full flex justify-center items-center gap-[40px] mt-[24px]"
           >
             <div class="flex flex-col">
@@ -65,61 +81,34 @@ onMounted(getPollDataByCategoryIdHandler);
             <img
               class="w-[132px] h-[132px]"
               :src="`${DOMEN}${people[0].preview_picture}`"
-            /></div
-        ></RouterLink>
-        <RouterLink to="/parents" v-if="people.length > 0"
-        ><div
-            class="w-full flex justify-center items-center gap-[40px] mt-[24px]"
+            />
+          </div>
+        </RouterLink>
+
+        <RouterLink
+          to="/parents"
+          v-if="people.length > 1"
+          @click.native="savePersonToSession(people[1])"
         >
-          <img
+          <div
+            class="w-full flex justify-center items-center gap-[40px] mt-[24px]"
+          >
+            <img
               class="w-[132px] h-[132px]"
               :src="`${DOMEN}${people[1].preview_picture}`"
-          />
-          <div class="flex flex-col">
-            <p
+            />
+            <div class="flex flex-col">
+              <p
                 class="font-semibold text-[24px] leading-[29px] text-[#016368]"
-            >
-              {{ people[1].name }}
-            </p>
-            <p class="font-medium text-[15px] leading-[18px] text-[#979797]">
-              {{ people[1].preview_text }}
-            </p>
+              >
+                {{ people[1].name }}
+              </p>
+              <p class="font-medium text-[15px] leading-[18px] text-[#979797]">
+                {{ people[1].preview_text }}
+              </p>
+            </div>
           </div>
-</div
-        ></RouterLink>
-        <!-- <RouterLink to="/parents"
-          ><div
-            class="w-full flex justify-center items-center gap-[40px] mt-[24px]"
-          >
-            <img :src="photo1" />
-            <div class="flex flex-col">
-              <p
-                class="font-semibold text-[24px] leading-[29px] text-[#016368]"
-              >
-                Родитель
-              </p>
-              <p class="font-medium text-[15px] leading-[18px] text-[#979797]">
-                Пойдет взрослый на приём
-              </p>
-            </div>
-          </div></RouterLink
-        >
-        <RouterLink to="/children"
-          ><div
-            class="w-full flex justify-center items-center gap-[40px] mt-[49px]"
-          >
-            <div class="flex flex-col">
-              <p
-                class="font-semibold text-[24px] leading-[29px] text-[#016368]"
-              >
-                Ребенок
-              </p>
-              <p class="font-medium text-[15px] leading-[18px] text-[#979797]">
-                Пойдет ребенок на приём
-              </p>
-            </div>
-            <img :src="photo2" /></div
-        ></RouterLink> -->
+        </RouterLink>
       </div>
     </div>
   </PagesTemplate>

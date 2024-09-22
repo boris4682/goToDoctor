@@ -31,7 +31,7 @@ const appointmentRoute = computed(() => {
       </div>
     </RouterLink>
 
-    <RouterLink to="/stepone">
+    <RouterLink to="/steponeappointment">
       <div class="flex flex-col justify-center items-center cursor-pointer">
         <img :src="imgMedical" />
         <p class="text-[11px] font-medium leading-[13px] text-[#A3A3A3]">

@@ -189,11 +189,7 @@ export const routes = [
     name: "Children",
   },
   { path: "/parents", component: () => import("./Parents"), name: "Parents" },
-  {
-    path: "/checklist/:id",
-    component: () => import("./CheckList.vue"),
-    name: "Checklist",
-  },
+
   {
     path: "/parents2",
     component: () => import("./Parents2"),

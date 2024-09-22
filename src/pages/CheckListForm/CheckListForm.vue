@@ -127,12 +127,12 @@ const sendForm = () => {
       answers[q.id] = q.selected;
     });
   }
-
+  const patientId = localStorage.getItem("selectedPatientId");
   const data = {
     answers,
     voteId: route.params.id,
     isWeight: true,
-    patientId: "",
+    patientId: patientId,
   };
   console.log(data);
 

@@ -22,7 +22,7 @@ const getPollThreeHandler = async () => {
 
 const selectPatient = (patient: IPollTree) => {
   localStorage.setItem("selectedPatient", JSON.stringify(patient));
-  router.push(`/stepfour/${patient.category_id}`);
+  router.push(`/preparation/${patient.category_id}`);
 };
 
 onMounted(getPollThreeHandler);
@@ -42,12 +42,7 @@ onMounted(getPollThreeHandler);
     <div class="flex justify-center">
       <div class="w-[354px] pb-[20px]">
         <div class="flex flex-col gap-[22px] translate-y-[-10px]">
-          <div class="flex justify-center items-center">
-            <p class="font-semibold text-[14px] leading-[13px] text-black">
-              шаг 1
-            </p>
-          </div>
-          <input type="text" name="search" placeholder="Специалист" />
+          <input type="text" name="search" placeholder="Выбор врача" />
           <div class="mt-[20px] flex flex-col gap-[18px]">
             <div
               v-for="item in doctors"
