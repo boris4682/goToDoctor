@@ -26,26 +26,31 @@ const fetchUserInfo = async () => {
 };
 
 watch(
-  user.value,
-  () => {
-    console.log("cvc", user.value.birthday);
+  user,
+  (newVal) => {
+    if (newVal && newVal.personal_gender) {
+      user.value.gender = newVal.personal_gender;
+    }
   },
   { deep: true }
 );
 
 function UploadAvatar(event: any) {
-  user.value.personal_photo = event.target.files[0];
+  const file = event.target.files[0];
+  user.value.personal_photo = file;
 
   const reader = new FileReader();
 
-  reader.readAsDataURL(user.value.personal_photo);
+  reader.onload = (e) => {
+    user.value.personal_photo_preview = e.target?.result;
+  };
+
+  reader.readAsDataURL(file);
 }
 
 onMounted(() => {
   fetchUserInfo();
 });
-
-// update user
 
 const updateUserHandler = async () => {
   const { data, status } = await updateUser(user.value);
@@ -61,7 +66,20 @@ const updateUserHandler = async () => {
 <template>
   <PagesTemplate class="pb-[80px]" v-if="user">
     <div class="h-[15vh]">
-      <img :src="fon" class="mt-[43px] mx-auto" />
+      <img :src="fon" class="mt-[43px] mx-auto w-full" />
+    </div>
+    <div class="flex justify-between w-full relative">
+      <img
+        :src="back"
+        class="absolute top-[-100px] left-4 w-[11px] h-[16px] cursor-pointer"
+        @click="router.back()"
+      />
+      <RouterLink
+        to="/setting"
+        class="absolute top-[-100px] right-4 w-[43px] h-[40px] cursor-pointer"
+      >
+        <img :src="setting" />
+      </RouterLink>
     </div>
     <input
       type="file"
@@ -70,9 +88,19 @@ const updateUserHandler = async () => {
       class="hidden"
       accept="image/*"
     />
-    <label for="avatar" class="translate-y-[-60px] translate-x-[15px]">
+    <label
+      for="avatar"
+      class="top-[-40px] translate-y-[-100px] translate-x-[15px]"
+      style="position: relative"
+    >
       <img
-        v-if="user.personal_photo"
+        v-if="user.personal_photo_preview"
+        class="mx-auto size-[150px] object-cover rounded-full"
+        :src="user.personal_photo_preview"
+        alt="Аватар"
+      />
+      <img
+        v-else-if="user.personal_photo"
         class="mx-auto size-[150px] object-cover rounded-full"
         :src="`https://idykvrachy.ru${user.personal_photo}`"
         alt="Аватар"
@@ -86,6 +114,7 @@ const updateUserHandler = async () => {
         viewBox="0 0 512 512"
         preserveAspectRatio="xMidYMid meet"
         opacity="0.3"
+        class="mx-auto size-[150px] object-cover rounded-full"
       >
         <g
           transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
@@ -119,23 +148,8 @@ const updateUserHandler = async () => {
       </svg>
     </label>
 
-    <div class="flex">
-      <img
-        :src="back"
-        class="mx-auto w-[11px] h-[16px] translate-y-[-110px] translate-x-[-15px] cursor-pointer"
-        @click="router.back()"
-      />
-
-      <RouterLink
-        to="/setting"
-        class="mx-auto w-[43px] h-[40px] translate-y-[-110px] translate-x-[15px] cursor-pointer"
-      >
-        <img :src="setting" />
-      </RouterLink>
-    </div>
-
     <div class="flex justify-center">
-      <div class="w-[354px] pb-[20px]">
+      <div class="w-[354px] pb-[20px] pt-[20px]">
         <div class="flex justify-between pb-[31px]">
           <p class="text-xl font-bold leading-6 text-[#006879] cursor-pointer">
             Профиль
@@ -143,40 +157,40 @@ const updateUserHandler = async () => {
           <RouterLink to="/patientschildren"
             ><a
               class="text-xl font-bold leading-6 text-[#A3A3A3] cursor-pointer"
-              >Дети</a
+              >Пациенты</a
             ></RouterLink
           >
         </div>
         <input
-          class="w-full h-10 bg-[#E5F2FC] mt-[18px] rounded-[10px] pl-3"
+          class="w-full h-10 bg-[#E5F2FC] mt-[18px] rounded-[10px] pl-3 focus:outline-none focus:ring-2 focus:ring-[#00B9C2]"
           placeholder="Иван"
           v-model="user.name"
         />
         <input
-          class="w-full h-10 bg-[#E5F2FC] mt-[18px] rounded-[10px] pl-3"
+          class="w-full h-10 bg-[#E5F2FC] mt-[18px] rounded-[10px] pl-3 focus:outline-none focus:ring-2 focus:ring-[#00B9C2]"
           placeholder="Иванов"
           v-model="user.last_name"
         />
         <input
-          class="w-full h-10 bg-[#E5F2FC] mt-[18px] rounded-[10px] pl-3"
+          class="w-full h-10 bg-[#E5F2FC] mt-[18px] rounded-[10px] pl-3 focus:outline-none focus:ring-2 focus:ring-[#00B9C2]"
           placeholder="Иванович"
           v-model="user.second_name"
         />
         <input
-          class="w-full h-10 bg-[#E5F2FC] mt-[18px] rounded-[10px] px-3"
+          class="w-full h-10 bg-[#E5F2FC] mt-[18px] rounded-[10px] px-3 focus:outline-none focus:ring-2 focus:ring-[#00B9C2]"
           placeholder="Дата рождения"
           type="date"
           v-model="user.birthday"
         />
         <input
-          class="w-full h-10 bg-[#E5F2FC] mt-[18px] rounded-[10px] pl-3"
+          class="w-full h-10 bg-[#E5F2FC] mt-[18px] rounded-[10px] pl-3 focus:outline-none focus:ring-2 focus:ring-[#00B9C2]"
           placeholder="ivanov@mail.ru"
           v-model="user.email"
         />
         <input
-          class="w-full h-10 bg-[#E5F2FC] mt-[18px] rounded-[10px] pl-3"
-          type="number"
-          placeholder="+ 7 (903) - 465 - 37 - 26"
+          class="w-full h-10 bg-[#E5F2FC] mt-[18px] rounded-[10px] pl-3 focus:outline-none focus:ring-2 focus:ring-[#00B9C2]"
+          v-mask="'+7 (###) ###-##-##'"
+          placeholder="+ 7 (903) 465-37-26"
           v-model="user.personal_phone"
         />
         <div>
@@ -190,8 +204,9 @@ const updateUserHandler = async () => {
               <input
                 class="bg-[#E5F2FC]"
                 type="radio"
-                name="gender"
-                @click="user.gender = 'F'"
+                name="personal_gender"
+                value="F"
+                v-model="user.personal_gender"
               />
               <p class="text-[#A4A5A5] text-sm font-medium leading-4">Жен.</p>
             </div>
@@ -199,8 +214,9 @@ const updateUserHandler = async () => {
               <input
                 class="bg-[#E5F2FC]"
                 type="radio"
-                name="gender"
-                @click="user.gender = 'M'"
+                name="personal_gender"
+                value="M"
+                v-model="user.personal_gender"
               />
               <p class="text-[#A4A5A5] text-sm font-medium leading-4">Муж.</p>
             </div>

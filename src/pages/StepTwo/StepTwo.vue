@@ -15,11 +15,8 @@ onMounted(() => {
   }
 });
 
-// Функция для обработки клика по услуге
 const selectService = (service: string) => {
-  // Сохранить выбранную услугу в localStorage
   localStorage.setItem("selectedService", service);
-  // Перейти на страницу stepfive
   router.push("/stepfive");
 };
 </script>

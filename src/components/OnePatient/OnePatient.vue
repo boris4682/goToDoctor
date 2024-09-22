@@ -16,7 +16,7 @@ const props = defineProps<{
   >
     <img
       v-if="props.img"
-      class="w-[52px] h-[52px]"
+      class="w-[52px] h-[52px] object-cover rounded-full"
       :src="`${DOMEN}${props.img}`"
       alt="Аватар"
     />

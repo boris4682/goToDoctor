@@ -25,8 +25,6 @@ watch(emblaApi, () => {
   emblaApi.value?.on("select", onSelect);
 });
 
-// Получение баннеров
-
 interface IBanner {
   name: string;
   detail_text: string;

@@ -30,7 +30,6 @@ const appointmentRoute = computed(() => {
         </p>
       </div>
     </RouterLink>
-    <!-- Остальные ссылки остаются без изменений -->
 
     <RouterLink to="/stepone">
       <div class="flex flex-col justify-center items-center cursor-pointer">

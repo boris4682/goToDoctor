@@ -85,7 +85,7 @@ onMounted(() => {
     >
       <img
         v-if="user.personal_photo"
-        class="mx-auto size-[150px] object-cover rounded-full"
+        class="size-[50px] object-cover rounded-full"
         :src="`https://idykvrachy.ru${user.personal_photo}`"
         alt="Аватар"
       />

@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import back from "@assets/icons/back.png";
 import OnePatient from "@//components/OnePatient/OnePatient.vue";
-import FirstPatient from "@//components/FirstPatient/FirstPatient.vue";
 import PagesTemplate from "@//components/shared/PagesTemplate.vue";
 import Loader from "@//components/shared/Loader.vue";
 import { useRouter } from "vue-router";
@@ -119,9 +118,7 @@ onMounted(() => {
               :key="item.patient_id"
               @click="checkUserData(item)"
               class="cursor-pointer"
-            >
-              <FirstPatient />
-            </div>
+            ></div>
             <RouterLink
               to="/stepone"
               v-for="item in patients"

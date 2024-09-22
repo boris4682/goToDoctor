@@ -122,16 +122,7 @@
           согласие на
           <u class="cursor-pointer">обработку персональных данных</u>
         </p>
-        <div
-          class="w-full h-[55px] rounded-[30px] bg-[#CCCCCC] flex items-center justify-center mt-4"
-          @click="logFormData"
-        >
-          <p
-            class="text-[20px] leading-[24px] font-bold text-white cursor-pointer"
-          >
-            Показать данные
-          </p>
-        </div>
+
         <div
           v-if="!isCodeSent"
           class="w-full h-[55px] rounded-[30px] bg-[#00B9C2] flex items-center justify-center"
