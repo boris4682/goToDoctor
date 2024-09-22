@@ -160,43 +160,49 @@ const bookAppointment = () => {
             </button>
           </div>
 
-          <div
-            v-if="isDatePickerOpen"
-            class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center"
-          >
-            <div class="bg-white rounded-lg p-4 max-w-md mx-auto">
-              <h3 class="text-lg font-semibold mb-4">Выберите дату</h3>
-              <div class="flex flex-col gap-2">
-                <button
-                  v-for="(item, index) in schedule"
-                  :key="index"
-                  @click="selectDate(item.date)"
-                  class="py-2 px-4 bg-[#00B9C2] text-white rounded"
-                >
-                  {{ item.date }}
-                </button>
+          <Teleport to="body">
+            <div
+              v-if="isDatePickerOpen"
+              class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center"
+            >
+              <div
+                class="bg-white rounded-lg p-4 max-w-md mx-auto max-h-[400px] overflow-auto"
+              >
+                <h3 class="text-lg font-semibold mb-4">Выберите дату</h3>
+                <div class="flex flex-wrap gap-2 justify-around">
+                  <button
+                    v-for="(item, index) in schedule"
+                    :key="index"
+                    @click="selectDate(item.date)"
+                    class="py-2 px-4 bg-[#00B9C2] text-white rounded w-[47%]"
+                  >
+                    {{ item.date }}
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
 
-          <div
-            v-if="isTimePickerOpen"
-            class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center"
-          >
-            <div class="bg-white rounded-lg p-4 max-w-md mx-auto">
-              <h3 class="text-lg font-semibold mb-4">Выберите время</h3>
-              <div class="flex flex-wrap gap-2">
-                <button
-                  v-for="(time, timeIndex) in availableTimes"
-                  :key="timeIndex"
-                  @click="selectTime(time)"
-                  class="py-2 px-4 bg-[#00B9C2] text-white rounded"
-                >
-                  {{ time.split(" ")[1] }}
-                </button>
+            <div
+              v-if="isTimePickerOpen"
+              class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center"
+            >
+              <div
+                class="bg-white rounded-lg p-4 max-w-md mx-auto max-h-[400px] overflow-auto"
+              >
+                <h3 class="text-lg font-semibold mb-4">Выберите время</h3>
+                <div class="flex flex-wrap gap-2 justify-around">
+                  <button
+                    v-for="(time, timeIndex) in availableTimes"
+                    :key="timeIndex"
+                    @click="selectTime(time)"
+                    class="py-2 px-4 bg-[#00B9C2] text-white rounded w-[30%]"
+                  >
+                    {{ time.split(" ")[1] }}
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
+          </Teleport>
 
           <div class="flex justify-center mt-[85px]">
             <button
