@@ -96,6 +96,7 @@ const sendForm = () => {
 
       <div v-for="(questions, id) in blockQuestions" :key="id">
         <Question
+          v-if="selectedBlock == id"
           v-for="question in questions"
           :key="question.id"
           :question="question"
