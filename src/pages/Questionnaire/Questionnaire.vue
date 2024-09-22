@@ -60,9 +60,9 @@ const sendForm = () => {
   };
   console.log(data);
 
-  // saveAnswers(data).finally(() => {
-  loadingForm.value = false;
-  // });
+  saveAnswers(data).finally(() => {
+    loadingForm.value = false;
+  });
 };
 </script>
 
