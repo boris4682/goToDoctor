@@ -10,11 +10,15 @@ import RadioButton from "primevue/radiobutton";
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
 
+import { useToast } from "primevue/usetoast";
+
 import { getPreparationPollData } from "@//services/preparation/getPreparationPollData";
 import { saveAnswers } from "@//services/preparation/saveAnswers";
 
 const router = useRouter();
 const route = useRoute();
+
+const toast = useToast();
 
 const blockQuestions = ref({});
 
@@ -142,16 +146,25 @@ const sendForm = () => {
   }
   const patientId = localStorage.getItem("selectedPatientId");
   const data = {
-    answers,
+    answers: JSON.stringify(answers),
     voteId: route.params.id,
     isWeight: true,
     patientId: patientId,
   };
   console.log(data);
 
-  saveAnswers(data).finally(() => {
-    loadingForm.value = false;
-  });
+  saveAnswers(data)
+    .then(() => {
+      toast.add({
+        severity: "success",
+        summary: "Сохранено!",
+        detail: "Чек-лист успешно сохранен",
+        life: 3000,
+      });
+    })
+    .finally(() => {
+      loadingForm.value = false;
+    });
 };
 </script>
 

@@ -7,6 +7,7 @@ import Loader from "@//components/shared/Loader.vue";
 import Question from "@//components/Question";
 
 import Button from "primevue/button";
+import { useToast } from "primevue/usetoast";
 
 import { getPreparationPollData } from "@//services/preparation/getPreparationPollData";
 import { saveAnswers } from "@//services/preparation/saveAnswers";
@@ -15,6 +16,8 @@ const router = useRouter();
 const route = useRoute();
 
 const blockQuestions = ref({});
+
+const toast = useToast();
 
 const checkListName = ref("");
 const loading = ref(true);
@@ -53,16 +56,25 @@ const sendForm = () => {
   }
   const patientId = localStorage.getItem("selectedPatientId");
   const data = {
-    answers,
+    answers: JSON.stringify(answers),
     voteId: route.params.id,
     isWeight: false,
     patientId: patientId,
   };
   console.log(data);
 
-  saveAnswers(data).finally(() => {
-    loadingForm.value = false;
-  });
+  saveAnswers(data)
+    .then(() => {
+      toast.add({
+        severity: "success",
+        summary: "Сохранено!",
+        detail: "Опрос успешно сохранен",
+        life: 3000,
+      });
+    })
+    .finally(() => {
+      loadingForm.value = false;
+    });
 };
 </script>
 
