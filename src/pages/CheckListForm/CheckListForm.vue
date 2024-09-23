@@ -21,9 +21,19 @@ const blockQuestions = ref({});
 const checkListName = ref("");
 const loading = ref(true);
 onMounted(() => {
+  const patientSecondName = localStorage.getItem("Patient_second_name");
+  const patientUName = localStorage.getItem("Patient_u_name");
+
+  patientName.value = `${patientSecondName} ${patientUName}`;
+
+  const today = new Date();
+  const day = String(today.getDate()).padStart(2, "0");
+  const month = String(today.getMonth() + 1).padStart(2, "0");
+  const year = today.getFullYear();
+  currentDate.value = `${day}.${month}.${year}`;
+
   getPreparationPollData(+route.params.id)
     .then((data) => {
-      console.log(data);
       if (data.status != 200) return;
 
       checkListName.value = data.data.name;
@@ -55,6 +65,9 @@ onMounted(() => {
       loading.value = false;
     });
 });
+
+const patientName = ref("");
+const currentDate = ref("");
 
 const getNumberRow = (index: number, block: number) => {
   let res = index + 1;
@@ -159,13 +172,13 @@ const sendForm = () => {
       <div class="w-[354px] pb-[20px] mx-auto">
         <div class="flex flex-col gap-[30px] translate-y-[-10px]">
           <p class="font-semibold text-[18px] leading-[18px] text-[#00B9C2]">
-            Пономаренко Ольга
+            {{ patientName }}
           </p>
           <div class="flex gap-[15px] justify-between items-end">
             <h3 class="text-[rgb(0,104,121)] text-[16px] font-semibold">
               {{ checkListName }}
             </h3>
-            <p class="text-[rgb(0,185,194)] text-[16px]">20.02.2024</p>
+            <p class="text-[rgb(0,185,194)] text-[16px]">{{ currentDate }}</p>
           </div>
         </div>
       </div>

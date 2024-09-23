@@ -63,13 +63,14 @@ const selectPatientAndGo = (patient) => {
   if (storedPerson) {
     const person = JSON.parse(storedPerson);
     const ufVoteId = person.uf_vote_id;
+    const ufChecklistId = person.uf_check_list;
     localStorage.setItem("selectedPatientId", patient.patient_id);
     localStorage.setItem("Patient_second_name", patient.patient_second_name);
     localStorage.setItem("Patient_u_name", patient.patient_u_name);
     const destination =
       selectedAction.value === "questionnaire"
         ? `/questionnaire/${ufVoteId}`
-        : `/checklist-form/${ufVoteId}`;
+        : `/checklist-form/${ufChecklistId}`;
 
     router.push(destination);
   } else {

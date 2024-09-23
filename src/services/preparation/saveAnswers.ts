@@ -31,7 +31,7 @@ export const saveAnswers = async (userData: {
   try {
     const response = await ApiClient({
       method: "POST",
-      url: `user/saveAnswers`,
+      url: `preparation/saveAnswers`,
       data: formData,
     });
 
