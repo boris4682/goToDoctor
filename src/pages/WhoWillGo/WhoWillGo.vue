@@ -35,7 +35,7 @@ const getPollDataByCategoryIdHandler = async () => {
 };
 
 const savePersonToSession = (person: Person) => {
-  sessionStorage.setItem("selectedPerson", JSON.stringify(person));
+  localStorage.setItem("selectedPerson", JSON.stringify(person));
 };
 
 onMounted(getPollDataByCategoryIdHandler);

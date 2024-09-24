@@ -20,7 +20,7 @@ const showModal = ref(false);
 const token = JSON.parse(localStorage.getItem("userData") ?? "")?.auth_token;
 
 onMounted(() => {
-  const storedPerson = sessionStorage.getItem("selectedPerson");
+  const storedPerson = localStorage.getItem("selectedPerson");
   if (storedPerson) {
     const person = JSON.parse(storedPerson);
     recommendationUrl.value = `https://idykvrachy.ru${person.uf_recomendations}`;
@@ -58,7 +58,7 @@ const closeModal = () => {
 };
 
 const selectPatientAndGo = (patient) => {
-  const storedPerson = sessionStorage.getItem("selectedPerson");
+  const storedPerson = localStorage.getItem("selectedPerson");
 
   if (storedPerson) {
     const person = JSON.parse(storedPerson);

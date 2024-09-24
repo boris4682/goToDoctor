@@ -201,6 +201,11 @@ export const routes = [
     name: "AnimCinema",
   },
   {
+    path: "/social-stories",
+    component: () => import("./SocialStories"),
+    name: "SocialStories",
+  },
+  {
     path: "/trainingplay",
     component: () => import("./TrainingPlay"),
     name: "TrainingPlay",
