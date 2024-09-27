@@ -1,28 +1,30 @@
 import { AxiosError } from "axios";
 import { ApiClient } from "../Client";
 
-export interface IDoctor {
-  id: number;
-  name: string;
-  detail_picture: string;
-  detail_text: string;
-  code: string;
-  service_list: string[];
-  doctor_specialization: string;
+interface IReceptionParams {
+  token: string;
+  patientId: string;
+  complete: string;
 }
 
-export const getDoctorsDataByCategoryId = async (
-  sectionId: string | string[]
-) => {
+export const getUserReceptions = async ({
+  token,
+  patientId,
+  complete,
+}: IReceptionParams) => {
   try {
     const response = await ApiClient({
-      method: "GET",
-      url: `doctors/getDoctorsDataByCategoryId?sectionId=${sectionId}`,
-      // params: `sectionId=${sectionId}`,
+      method: "POST",
+      url: `receptions/getUserReceptions`,
+      data: {
+        token,
+        patientId,
+        complete,
+      },
     });
 
     const { data, status } = response;
-    if (data) {
+    if (status === 200) {
       return { data, status };
     } else {
       console.error(`Ошибка на сервере. Статус: ${status}`);

@@ -159,17 +159,33 @@ onMounted(() => {
       </template>
 
       <template v-else>
-        <div
-          v-for="item in patients"
-          :key="item.patient_id"
-          @click="selectPatientAndGo(item)"
-        >
-          <OnePatient
-            v-bind:img="item.photo"
-            v-bind:patient_second_name="item.patient_second_name"
-            v-bind:patient_u_name="item.patient_u_name"
-            v-bind:patient_phone="item.patient_phone"
-          />
+        <div v-if="patients && patients.length > 0">
+          <div
+            v-for="item in patients"
+            :key="item.patient_id"
+            @click="selectPatientAndGo(item)"
+          >
+            <OnePatient
+              v-bind:img="item.photo"
+              v-bind:patient_second_name="item.patient_second_name"
+              v-bind:patient_u_name="item.patient_u_name"
+              v-bind:patient_phone="item.patient_phone"
+            />
+          </div>
+        </div>
+        <div v-else class="text-center">
+          <p class="text-center text-gray-500 pt-[50px]">
+            Нет пациентов для приема. Хотите добавить пациента?
+          </p>
+          <RouterLink to="/lcchild">
+            <div
+              class="w-full h-[55px] rounded-[30px] bg-[#00B9C2] flex items-center justify-center mt-[34px] cursor-pointer"
+            >
+              <p class="text-[20px] leading-[24px] font-bold text-white">
+                Добавить
+              </p>
+            </div>
+          </RouterLink>
         </div>
       </template>
 

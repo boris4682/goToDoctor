@@ -120,11 +120,7 @@ const bookAppointment = () => {
                     >
                       {{ categoryName }}
                     </p>
-                    <p
-                      class="font-medium text-[12px] leading-[14px] text-[#8E969B] mt-[4px]"
-                    >
-                      {{ selectedService }}
-                    </p>
+
                     <p
                       class="font-medium text-[12px] leading-[14px] text-[#8E969B] mt-[12px]"
                     >
@@ -152,7 +148,7 @@ const bookAppointment = () => {
               {{ selectedDate || "Выбрать дату" }}
             </button>
             <button
-              class="w-[114px] h-[37px] rounded-[27px] bg-[#FFFFFF] border shadow-lg"
+              class="w-[163px] h-[37px] rounded-[27px] bg-[#FFFFFF] border shadow-lg"
               @click="isTimePickerOpen = true"
               :disabled="!selectedDate"
             >

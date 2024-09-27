@@ -8,10 +8,15 @@ import card from "@assets/icons/material-symbols_sd-card-alert-outline.svg";
 import { useRouter } from "vue-router";
 import { onMounted, ref } from "vue";
 import { getAllClinics, IClinic } from "@//services/service/getAllClinics";
+import { getClinicInfo } from "@//services/service/getClinicInfo";
+import Dialog from "primevue/dialog";
 
 const router = useRouter();
-const clinics = ref<IClinic[]>();
+const clinics = ref<IClinic[]>([]);
 const isLoading = ref(true);
+
+const showModal = ref(false);
+const clinicInfo = ref<any>(null);
 
 const getAllClinicsHandler = async () => {
   const { data } = await getAllClinics();
@@ -29,6 +34,24 @@ const getAllClinicsHandler = async () => {
 const selectClinic = (clinic: IClinic) => {
   localStorage.setItem("selectedClinic", JSON.stringify(clinic));
   router.push("/steptwo");
+};
+
+const openClinicInfo = async (clinicId: string, event: Event) => {
+  event.stopPropagation();
+  isLoading.value = true;
+  const { data, status } = await getClinicInfo(clinicId);
+  if (status === 200 && data) {
+    clinicInfo.value = data;
+    showModal.value = true;
+  } else {
+    console.error("Ошибка при получении данных о клинике");
+  }
+  isLoading.value = false;
+};
+
+const closeModal = () => {
+  showModal.value = false;
+  clinicInfo.value = null;
 };
 
 onMounted(getAllClinicsHandler);
@@ -73,10 +96,13 @@ onMounted(getAllClinicsHandler);
                   </h6>
                   <div class="flex items-center justify-center mt-[8px]">
                     <div class="flex justify-between">
-                      <div class="flex">
+                      <div
+                        class="flex"
+                        @click.stop="openClinicInfo(item.id, $event)"
+                      >
                         <img :src="card" />
                         <p
-                          class="w-[100px] font-normal text-xs leading-[14px] text-[#2C3E4F]"
+                          class="w-[100px] font-normal text-xs leading-[14px] text-[#2C3E4F] cursor-pointer"
                         >
                           О клинике
                         </p>
@@ -101,6 +127,47 @@ onMounted(getAllClinicsHandler);
         </div>
       </div>
     </div>
+
+    <Dialog v-model:visible="showModal" modal class="w-[90%]">
+      <template v-if="isLoading">
+        <Loader />
+      </template>
+
+      <template v-else>
+        <div v-if="clinicInfo">
+          <h3 class="font-semibold text-[20px] text-center mb-4">
+            {{ clinicInfo.clinic_name }}
+          </h3>
+          <p class="text-[15px] text-gray-700 mb-2">
+            Оценка: {{ clinicInfo.clinic_rating }}
+          </p>
+          <img
+            :src="'https://idykvrachy.ru' + clinicInfo.clinic_preview_picture"
+            alt="clinic preview"
+            class="w-full mb-4 rounded"
+          />
+          <div
+            v-html="clinicInfo.clinic_preview_text"
+            class="text-gray-700 text-[15px]"
+          ></div>
+        </div>
+
+        <div v-else class="text-center">
+          <p class="text-center text-gray-500 pt-[50px]">
+            Информация о клинике недоступна.
+          </p>
+        </div>
+      </template>
+
+      <template #footer>
+        <button
+          @click="closeModal"
+          class="p-button p-component p-button-danger"
+        >
+          Закрыть
+        </button>
+      </template>
+    </Dialog>
   </PagesTemplate>
 </template>
 

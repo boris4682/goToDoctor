@@ -241,6 +241,11 @@ export const routes = [
     component: () => import("./Recommendations6"),
     name: "Recommendations6",
   },
+  {
+    path: "/patientrecetpioncard",
+    component: () => import("./PatientRecetpionCard"),
+    name: "PatientRecetpionCard",
+  },
 ];
 
 export const router = createRouter({

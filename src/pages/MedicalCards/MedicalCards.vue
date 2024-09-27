@@ -1,10 +1,94 @@
 <script setup lang="ts">
 import back from "@assets/icons/back.png";
-import Search2 from "@//components/Search2/Search2.vue";
+import OnePatient from "@//components/OnePatient/OnePatient.vue";
 import PagesTemplate from "@//components/shared/PagesTemplate.vue";
+import Loader from "@//components/shared/Loader.vue";
 import { useRouter } from "vue-router";
+import { onMounted, ref } from "vue";
+import { getPatients, IPatient } from "@//services/patients/getPatients";
+import { getUserInfo } from "../../services/User/getUserInfo";
+import { useToast } from "primevue/usetoast";
 
+const patients = ref<IPatient[]>();
+const user = ref();
+const toast = useToast();
+const token = JSON.parse(localStorage.getItem("userData") ?? "")?.auth_token;
 const router = useRouter();
+const isLoading = ref(true);
+
+const fetchUserInfo = async () => {
+  const { data, status } = await getUserInfo();
+  if (status === 200 && data.success) {
+    user.value = data.data;
+  }
+};
+
+const getPatientsHandler = async () => {
+  const { data } = await getPatients(token);
+
+  if (!data) {
+    console.log("Ошибка сервера");
+    isLoading.value = false;
+    return;
+  }
+
+  patients.value = data;
+  isLoading.value = false;
+};
+
+const checkUserData = (item: IPatient) => {
+  if (!user.value) return;
+  const missingFields = [];
+
+  if (!user.value.name) {
+    missingFields.push("имя");
+  }
+  if (!user.value.last_name) {
+    missingFields.push("фамилию");
+  }
+  if (!user.value.personal_phone) {
+    missingFields.push("номер телефона");
+  }
+
+  if (missingFields.length > 0) {
+    const message = `Пожалуйста, заполните следующие поля: ${missingFields.join(
+      ", "
+    )}.`;
+    toast.add({
+      severity: "warn",
+      summary: "Предупреждение",
+      detail: message,
+      life: 3000,
+    });
+    router.push({ path: "/lcpatient" });
+    return;
+  }
+  localStorage.setItem("selectedPatientId", item.patient_id);
+  router.push({ path: "/stepone", query: { patient_id: item.patient_id } });
+};
+
+const savePatientId = (
+  patientId: string,
+  patient_second_name: string,
+  patient_u_name: string
+) => {
+  try {
+    localStorage.setItem("selectedPatientId", patientId);
+    localStorage.setItem("Patient_second_name", patient_second_name);
+    localStorage.setItem("Patient_u_name", patient_u_name);
+    console.log(
+      "Patient ID сохранен:",
+      localStorage.getItem("selectedPatientId")
+    );
+  } catch (error) {
+    console.error("Ошибка сохранения patient_id в localStorage:", error);
+  }
+};
+
+onMounted(() => {
+  fetchUserInfo();
+  getPatientsHandler();
+});
 </script>
 
 <template>
@@ -17,54 +101,72 @@ const router = useRouter();
         @click="router.back()"
       />
     </div>
-
     <div class="flex justify-center">
       <div class="w-[354px] pb-[20px]">
-        <div class="flex flex-col gap-[22px] translate-y-[-40px]">
-          <p class="font-semibold text-[18px] leading-[18px] text-[#00B9C2]">
-            Пономаренко Ольга
+        <div class="flex justify-center items-center">
+          <p class="font-semibold text-[15px] leading-[18px] text-[#006879]">
+            Медкарты
           </p>
-          <div class="flex gap-[15px]">
-            <p class="font-semibold text-sm leading-5 text-[#979797]">
-              12.04.2024
-            </p>
-            <p class="font-semibold text-sm leading-5 text-[#979797]">9:00</p>
-          </div>
         </div>
-        <Search2 />
-        <div class="mt-[26px] flex flex-col gap-[9px]">
-          <RouterLink to="/checklist"
-            ><div
-              class="flex items-center justify-center bg-[#F3F9FE] w-full h-[72px] rounded-[10px]"
-            >
-              <p class="text-[20px] font-semibold leading-5 text-black">1.</p>
-              <div class="flex flex-col w-[258px] ml-[12px]">
-                <p class="text-[18px] font-semibold leading-5 text-[#00B9C2]">
-                  Чек-лист 1
-                </p>
-                <p class="text-[15px] font-medium leading-5 text-[#2C3E4F]">
-                  24.04.2024
-                </p>
-              </div>
-              <input class="bg-[#E5F2FC]" type="checkbox" /></div
-          ></RouterLink>
-          <RouterLink to="/checklist"
-            ><div
-              class="flex items-center justify-center bg-[#F3F9FE] w-full h-[72px] rounded-[10px]"
-            >
-              <p class="text-[20px] font-semibold leading-5 text-black">1.</p>
-              <div class="flex flex-col w-[258px] ml-[12px]">
-                <p class="text-[18px] font-semibold leading-5 text-[#00B9C2]">
-                  Чек-лист 1
-                </p>
-                <p class="text-[15px] font-medium leading-5 text-[#2C3E4F]">
-                  24.04.2024
-                </p>
-              </div>
-              <input class="bg-[#E5F2FC]" type="checkbox" /></div
-          ></RouterLink>
+        <div class="mt-[26px]">
+          <div v-if="isLoading" class="flex justify-center my-4">
+            <Loader />
+          </div>
+          <div v-else>
+            <div v-if="patients && patients.length > 0">
+              <div
+                v-for="item in patients"
+                :key="item.patient_id"
+                @click="checkUserData(item)"
+                class="cursor-pointer"
+              ></div>
+              <RouterLink
+                to="/patientrecetpioncard"
+                v-for="item in patients"
+                :key="item.patient_id"
+                @click.native="
+                  savePatientId(
+                    item.patient_id,
+                    item.patient_second_name,
+                    item.patient_u_name
+                  )
+                "
+              >
+                <OnePatient
+                  v-bind:img="item.photo"
+                  v-bind:patient_second_name="item.patient_second_name"
+                  v-bind:patient_u_name="item.patient_u_name"
+                  v-bind:patient_phone="item.patient_phone"
+                />
+              </RouterLink>
+            </div>
+
+            <div v-else class="text-center">
+              <p class="text-center text-gray-500 pt-[50px]">
+                Нет доступных медкарт пациентов. Хотите добавить пациента?
+              </p>
+              <RouterLink to="/lcchild">
+                <div
+                  class="w-full h-[55px] rounded-[30px] bg-[#00B9C2] flex items-center justify-center mt-[34px] cursor-pointer"
+                >
+                  <p class="text-[20px] leading-[24px] font-bold text-white">
+                    Добавить
+                  </p>
+                </div>
+              </RouterLink>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </PagesTemplate>
 </template>
+
+<style>
+.p-toast {
+  width: 90% !important;
+  right: 15px !important;
+  margin-right: auto !important;
+  margin-left: auto !important;
+}
+</style>

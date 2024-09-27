@@ -49,3 +49,8 @@ const appointmentRoute = computed(() => {
     </RouterLink>
   </div>
 </template>
+<style scoped>
+img {
+  height: 44px;
+}
+</style>
