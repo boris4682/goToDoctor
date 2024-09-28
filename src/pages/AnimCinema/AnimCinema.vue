@@ -32,10 +32,10 @@ console.log(dataPerson);
             :key="film.id"
             class="w-full text-center mb-[15px]"
           >
-            <video :poster="film.preview" controls class="w-full rounded-2xl">
+            <video :poster="film.preview_picture ? `https://idykvrachy.ru/${film.preview_picture}` : ''" controls class="w-full rounded-2xl">
               <source
                 :src="'https://idykvrachy.ru' + film.uf_video.path"
-                type="video/quicktime"
+                type="video/mp4"
               />
             </video>
             <h6 class="text-[14px] mt-[5px]">{{ film.name }}</h6>

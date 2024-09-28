@@ -1,12 +1,16 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import back from "@assets/icons/back.png";
-import PagesTemplate from "@//components/shared/PagesTemplate.vue";
+import PagesTemplate from "@/components/shared/PagesTemplate.vue";
 import photo1 from "@assets/play1.png";
 import photo2 from "@assets/play2.png";
 import photo3 from "@assets/play3.png";
 import photo4 from "@assets/play4.png";
 import { useRouter } from "vue-router";
+
+import Carousel from 'primevue/carousel';
+
+
 const router = useRouter();
 
 const dataPerson = JSON.parse(localStorage.selectedPerson ?? "{}");
@@ -77,17 +81,17 @@ const selectedStory = ref();
           </div>
         </div>
         <div v-else>
-          <div
-            v-for="(item, index) in dataPerson.uf_social_stories[selectedStory]"
-            :key="index"
-            class="text-center mb-[25px]"
-          >
-            <img
-              :src="'https://idykvrachy.ru' + item.uf_picture_slide"
-              class="rounded-2xl"
-            />
-            <p class="text-[14px] mt-[5px]">{{ item.uf_text_slide }}</p>
-          </div>
+          <Carousel :value="dataPerson.uf_social_stories[selectedStory]" :numVisible="1" :numScroll="1" :showIndicators="false">
+            <template #item="{ data }">
+              <div class="text-center mb-[25px]">
+                <img
+                    :src="'https://idykvrachy.ru' + data.uf_picture_slide"
+                    class="rounded-2xl"
+                />
+                <p class="text-[14px] mt-[5px]">{{ data.uf_text_slide }}</p>
+              </div>
+            </template>
+          </Carousel>
         </div>
       </div>
     </div>
