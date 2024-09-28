@@ -2,14 +2,17 @@
 import PagesTemplate from "@//components/shared/PagesTemplate.vue";
 import OneDoctor2 from "@//components/OneDoctor2/OneDoctor2.vue";
 import colocol from "@assets/icons/mingcute_notification-fill.svg";
-import dalee from "@assets/icons/dalee.svg";
 import { ref, onMounted, computed } from "vue";
 import { getUserInfo } from "../../services/User/getUserInfo";
 import { useRouter } from "vue-router";
 import { getDoctorsCategory } from "@//services/main-doctors/getDoctorsCategory";
 import { getDoctorsDataByCategoryId } from "@//services/main-doctors/getDoctorsDataByCategoryId";
 import { DOMEN } from "@//consts";
-import { Slider } from "@components/FirstPage/Slider";
+import { Slider } from "@/components/FirstPage/Slider";
+import {getPatients} from "@/services/patients/getPatients.ts";
+import { getUserReceptions } from "@/services/reception/getUserReceptions";
+import Carousel from 'primevue/carousel';
+
 const router = useRouter();
 
 interface User {
@@ -61,6 +64,29 @@ const fetchDoctorsDataByCategoryId = async (sectionId: string) => {
   }
 };
 
+const dataReceptions = ref<any[]>([]);
+const fetchPatients = (token: string) => {
+  getPatients(token).then(({ data: patients, status }) => {
+    if (status != 200) return;
+
+
+    patients?.forEach(patient => {
+      const data = {
+        token,
+        patientId: patient.patient_id,
+        complete: '0'
+      };
+      getUserReceptions(data).then(({ data: receptions, status }) => {
+        if (status != 200) return;
+
+        dataReceptions.value.push(...receptions);
+      });
+    });
+  });
+
+  console.log(dataReceptions.value);
+};
+
 const routeToPush = computed(() => {
   return user.value?.isDoctor ? "/lcdoctor" : "/lcpatient";
 });
@@ -71,6 +97,7 @@ onMounted(() => {
   const userData = localStorage.getItem("userData");
   if (userData) {
     user.value = JSON.parse(userData) as User;
+    fetchPatients(user.value.auth_token);
   } else {
     console.log("No user data found in localStorage");
   }
@@ -175,28 +202,33 @@ onMounted(() => {
     </div>
 
     <p
-      v-if="!doctors"
+      v-if="!doctors && dataReceptions"
       class="mt-[37px] ml-[21px] font-semibold text-[15px] leading-6 text-[#006879]"
     >
       Запись
     </p>
-    <div v-if="!doctors" class="flex justify-center items-center mt-[34px]">
-      <div class="w-[361px] h-[137px] rounded-[14px] border shadow-lg">
-        <div class="flex flex-col px-[32px] py-[17px]">
-          <p class="font-semibold text-[20px] leading-6 text-[#00B9C2]">
-            Стоматолог хирург
-          </p>
-          <p class="font-normal text-[15px] leading-6 text-[#979797]">
-            Сегодня в 18:00
-          </p>
-          <div class="flex justify-between mt-[40px]">
-            <p class="font-semibold text-[12px] leading-[15px] text-[#828282]">
-              Стоматологическая №1
-            </p>
-            <img :src="dalee" />
-          </div>
-        </div>
-      </div>
+    <div v-if="!doctors && dataReceptions" class="mt-[34px]">
+
+      <Carousel :value="dataReceptions" :numVisible="1" :numScroll="1" :showIndicators="false">
+        <template #item="{ data }">
+          <router-link :to="'/treatment2/' + data.reception_id" class="rounded-[14px] border shadow-lg">
+            <div class="flex flex-col px-[32px] py-[17px]">
+              <p class="font-semibold text-[20px] leading-6 text-[#00B9C2]">
+                {{ data.doctor_specialization }}
+              </p>
+              <p class="font-normal text-[15px] leading-6 text-[#979797]">
+                {{ new Date(data.datetime).toLocaleString() }}
+              </p>
+              <div class="flex justify-between mt-[40px]">
+                <p class="font-semibold text-[12px] leading-[15px] text-[#828282]">
+                  {{ data.doctor_clinic }}
+                </p>
+              </div>
+            </div>
+          </router-link>
+        </template>
+      </Carousel>
+
     </div>
   </PagesTemplate>
 </template>
