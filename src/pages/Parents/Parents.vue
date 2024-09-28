@@ -35,6 +35,13 @@ const sections = [
     blank: true,
   },
 ];
+
+const goLink = (e: Event, item: any) => {
+  if (item.blank || !item.link) return;
+
+  e.preventDefault();
+  router.push(item.link);
+}
 </script>
 
 <template>
@@ -61,9 +68,7 @@ const sections = [
             class="w-full rounded-2xl shadow-xl border-2 border-gray-300 flex pl-[26px] gap-[27px] py-[15px]"
             :href="item.link ?? ''"
             :target="item.blank ? '_blank' : ''"
-            @click.prevent="
-              item.blank || !item.link ? false : router.push(item.link)
-            "
+            @click="goLink($event, item)"
           >
             <img :src="item.img" />
             <p class="text-[#00B9C2] text-xl max-w-[210px] font-semibold">

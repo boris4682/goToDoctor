@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [vue()],
   resolve: {
     alias: {
-      "@": "/src/",
+      "@": require("path").resolve(__dirname, "src"),
       "@components": "/src/components/",
       "@pages": "/src/pages/",
       "@shared": "/src/components/shared/",
