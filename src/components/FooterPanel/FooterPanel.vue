@@ -5,16 +5,25 @@ import imgNotebook from "@//assets/icons/lets-icons_notebook-light.png";
 import imgMedical from "@//assets/icons/solar_medical-kit-linear.png";
 import imgProfile from "@//assets/icons/iconamoon_profile.png";
 
-const userInfo = ref(JSON.parse(localStorage.getItem("user_info") || "{}"));
+const userInfo = ref(JSON.parse(localStorage.getItem("userData") || "{}"));
 
 const appointmentRoute = computed(() => {
   return userInfo.value.isDoctor ? "/reception" : "/appointmentwithspecialist";
+});
+const preparationRoute = computed(() => {
+  return userInfo.value.isDoctor ? "/preparationdoc" : "/steponeappointment";
+});
+const medicalcardsRoute = computed(() => {
+  return userInfo.value.isDoctor ? "/medicalcards2" : "/medicalcards";
+});
+const mainpageRoute = computed(() => {
+  return userInfo.value.isDoctor ? "/mainpage2" : "/mainpage";
 });
 </script>
 
 <template>
   <div class="flex justify-around pb-5">
-    <RouterLink to="/mainpage">
+    <RouterLink :to="mainpageRoute">
       <div class="flex flex-col justify-center items-center cursor-pointer">
         <img :src="imgHome" />
         <p class="text-[11px] font-medium leading-[13px] text-[#A3A3A3]">
@@ -31,7 +40,7 @@ const appointmentRoute = computed(() => {
       </div>
     </RouterLink>
 
-    <RouterLink to="/steponeappointment">
+    <RouterLink :to="preparationRoute">
       <div class="flex flex-col justify-center items-center cursor-pointer">
         <img :src="imgMedical" />
         <p class="text-[11px] font-medium leading-[13px] text-[#A3A3A3]">
@@ -39,7 +48,7 @@ const appointmentRoute = computed(() => {
         </p>
       </div>
     </RouterLink>
-    <RouterLink to="/medicalcards">
+    <RouterLink :to="medicalcardsRoute">
       <div class="flex flex-col justify-center items-center cursor-pointer">
         <img :src="imgProfile" />
         <p class="text-[11px] font-medium leading-[13px] text-[#A3A3A3]">

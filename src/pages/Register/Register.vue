@@ -118,9 +118,13 @@
           class="text-center text-[7px] leading-[10px] text-[#666666] mt-[18px] pb-[20px]"
         >
           Нажимая кнопку “Продолжить” я принимаю
-          <u class="cursor-pointer">Пользовательское соглашение</u> и даю
-          согласие на
-          <u class="cursor-pointer">обработку персональных данных</u>
+          <u class="cursor-pointer" @click="openPdf(privatePolicyPdf)">
+            Пользовательское соглашение
+          </u>
+          и даю согласие на
+          <u class="cursor-pointer" @click="openPdf(privatePolicyPdf)">
+            обработку персональных данных
+          </u>
         </p>
 
         <div
@@ -151,18 +155,19 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
-import MainTemplate from "@/components/shared/MainTemplate.vue";
+import MainTemplate from "@//components/shared/MainTemplate.vue";
 import { useToast } from "primevue/usetoast";
 import {
   sendEmailCodeApi,
   createUser,
   loginUser,
-} from "@/services/Auth/RegisterService";
-import { getAllSpecializations } from "@/services/service/getAllSpecializations";
+} from "@//services/Auth/RegisterService";
+import { getAllSpecializations } from "@//services/service/getAllSpecializations";
 import img from "@assets/secondSlide.png";
+import privatePolicyPdf from "@/assets/privatepolicy.pdf";
 
 const router = useRouter();
 const toast = useToast();
@@ -189,6 +194,10 @@ const setRoleType = (value) => {
   } else {
     specialization.value = "";
   }
+};
+
+const openPdf = (pdfUrl: string) => {
+  window.open(pdfUrl, "_blank");
 };
 
 const updateSpecialization = (event) => {

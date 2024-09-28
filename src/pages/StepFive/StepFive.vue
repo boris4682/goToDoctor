@@ -5,7 +5,8 @@ import { onMounted, ref } from "vue";
 import card from "@assets/icons/material-symbols_sd-card-alert-outline.svg";
 import { useRouter } from "vue-router";
 import axios from "axios";
-
+import Dialog from "primevue/dialog";
+import Loader from "@//components/shared/Loader.vue";
 interface DoctorSchedule {
   date: string;
   free: string[];
@@ -17,6 +18,7 @@ const doctorImage = ref("");
 const categoryName = ref("");
 const selectedService = ref("");
 const clinicName = ref("");
+const detailText = ref("");
 const schedule = ref<DoctorSchedule[]>([]);
 const selectedDate = ref("");
 const selectedTime = ref("");
@@ -42,6 +44,7 @@ onMounted(() => {
   categoryName.value = selectedCategory.name || "Категория не указана";
   selectedService.value = selectedServiceValue || "Услуга не указана";
   clinicName.value = selectedClinic.name || "Клиника не указана";
+  detailText.value = selectedDoctor.detail_text;
 
   getDoctorSchedule(selectedDoctor.id);
 });
@@ -78,6 +81,17 @@ const bookAppointment = () => {
   localStorage.setItem("selectedDate", selectedDate.value);
   localStorage.setItem("selectedTime", selectedTime.value);
   router.push("/createreception");
+};
+const showModal = ref(false);
+const isLoading = ref(false);
+
+const openModal = (event: Event) => {
+  event.stopPropagation();
+  showModal.value = true;
+};
+
+const closeModal = () => {
+  showModal.value = false;
 };
 </script>
 
@@ -130,6 +144,7 @@ const bookAppointment = () => {
                       <img :src="card" class="w-[12px] h-[12px]" />
                       <p
                         class="font-semibold text-[10px] leading-3 text-[#006879]"
+                        @click="openModal"
                       >
                         О враче
                       </p>
@@ -211,5 +226,38 @@ const bookAppointment = () => {
         </div>
       </div>
     </div>
+    <Dialog v-model:visible="showModal" modal class="w-[90%]">
+      <template v-if="isLoading">
+        <Loader />
+      </template>
+      <template v-else>
+        <div v-if="detailText">
+          <h3 class="font-semibold text-[20px] text-center mb-4">
+            {{ doctorName }}
+          </h3>
+
+          <img
+            :src="doctorImage"
+            alt="doctor preview"
+            class="w-full mb-4 rounded"
+          />
+          <div v-html="detailText" class="text-gray-700 text-[15px]"></div>
+        </div>
+
+        <div v-else class="text-center">
+          <p class="text-center text-gray-500 pt-[50px]">
+            Информация о враче недоступна.
+          </p>
+        </div>
+      </template>
+      <template #footer>
+        <button
+          @click="closeModal"
+          class="p-button p-component p-button-danger"
+        >
+          Закрыть
+        </button>
+      </template>
+    </Dialog>
   </PagesTemplate>
 </template>

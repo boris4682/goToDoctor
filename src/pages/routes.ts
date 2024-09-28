@@ -179,6 +179,11 @@ export const routes = [
     name: "Preparation",
   },
   {
+    path: "/preparationdoc",
+    component: () => import("./PreparationDoctor"),
+    name: "Preparationdoc",
+  },
+  {
     path: "/whowillgo/:id",
     component: () => import("./WhoWillGo"),
     name: "WhoWillGo",
