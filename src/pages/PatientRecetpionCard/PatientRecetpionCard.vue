@@ -21,7 +21,7 @@ const fetchReceptions = async () => {
   try {
     const { data, status } = await getUserReceptions({
       token,
-      patientId,
+      patientId: patientId ?? '',
       complete,
     });
 
@@ -80,6 +80,7 @@ onMounted(() => {
               class="cursor-pointer"
             >
               <MedicalCard
+                :doctorId="reception.reception_id"
                 :doctorSpecialization="reception.doctor_specialization"
                 :doctorClinic="reception.doctor_clinic"
                 :doctorName="reception.doctor_name"

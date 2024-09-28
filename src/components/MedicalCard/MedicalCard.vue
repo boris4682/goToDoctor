@@ -1,5 +1,6 @@
 <script setup lang="ts">
 defineProps({
+  doctorId: Number,
   doctorSpecialization: String,
   doctorClinic: String,
   doctorName: String,
@@ -8,7 +9,8 @@ defineProps({
 </script>
 
 <template>
-  <div
+  <router-link
+      :to="'/treatment2/' + doctorId"
     class="w-full h-[153px] shadow-xl border rounded-xl bg-[#F3F9FE] relative mb-5"
   >
     <div class="flex flex-col justify-around h-full p-4">
@@ -24,8 +26,8 @@ defineProps({
     </div>
     <div class="absolute bottom-2 right-4">
       <p class="font-medium text-sm leading-4 text-[#A3A3A3]">
-        {{ new Date(datetime).toLocaleDateString() }}
+        {{ new Date(datetime!).toLocaleDateString() }}
       </p>
     </div>
-  </div>
+  </router-link>
 </template>

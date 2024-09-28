@@ -98,7 +98,7 @@ export const routes = [
     name: "Treatment",
   },
   {
-    path: "/treatment2",
+    path: "/treatment2/:id",
     component: () => import("./Treatment2"),
     name: "Treatment2",
   },
@@ -258,7 +258,7 @@ export const router = createRouter({
   routes,
 });
 
-router.beforeEach((to, from, next) => {
+router.beforeEach((to, _from, next) => {
   const isAuthenticated = localStorage.getItem("userData") !== null;
   if (to.path === "/auth" || to.path === "/reg") {
     next();

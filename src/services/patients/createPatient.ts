@@ -3,7 +3,6 @@ import { ApiClient } from "../Client";
 
 export const createPatient = async (
   userData: {
-    token: string;
     gender: string;
     lastName: string;
     name: string;
@@ -15,12 +14,19 @@ export const createPatient = async (
   file: File | null
 ) => {
   const formData = new FormData();
-  for (var key in userData) {
+  const token = localStorage.getItem("userData");
+
+  if (token) {
+    formData.append("token", JSON.parse(token).auth_token);
+  }
+
+  for (let key in userData) {
+    if (key == 'token') continue;
+
     formData.append(
       key,
       userData[
         key as keyof {
-          token: string;
           gender: string;
           lastName: string;
           name: string;
