@@ -90,6 +90,7 @@ onMounted(() => {
                 :doctorClinic="reception.doctor_clinic"
                 :doctorName="reception.doctor_name"
                 :datetime="reception.datetime"
+                :isLink="complete == '1'"
               />
             </div>
           </div>
