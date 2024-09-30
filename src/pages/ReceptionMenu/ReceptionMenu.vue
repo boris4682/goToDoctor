@@ -4,6 +4,9 @@ import first from "@assets/icons/first.png";
 import second from "@assets/icons/second.png";
 import third from "@assets/icons/third.png";
 import PagesTemplate from "@//components/shared/PagesTemplate.vue";
+
+import { getPatientChecklists } from "@/services/preparation/getPatientChecklists";
+
 import { useRouter } from "vue-router";
 import { ref, onMounted } from "vue";
 
@@ -12,12 +15,24 @@ const router = useRouter();
 const patientFirstName = ref("");
 const patientLastName = ref("");
 
+const checklists = ref([]);
+const fetchChecklists = () => {
+  getPatientChecklists().then(({ data, status }) => {
+    if (status != 200) return;
+
+    const patientData = JSON.parse(localStorage.selectedPatient ?? '{}');
+    checklists.value = data.filter((item: any) => item.vote_patient_id == patientData.patient_id);
+  })
+}
+
 onMounted(() => {
+  fetchChecklists();
+
   const patientData = localStorage.getItem("selectedPatient");
   if (patientData) {
     const patient = JSON.parse(patientData);
     patientFirstName.value = patient.patient_u_name;
-    patientLastName.value = patient.patient_second_name;
+    patientLastName.value = patient.patient_last_name;
   }
 });
 
@@ -26,7 +41,8 @@ const goToReceptionMenu2 = () => {
 };
 
 const goToChecklist = () => {
-  router.push("/checklist");
+  if (checklists.value.length > 0)
+    router.push("/checklist");
 };
 
 const goToChecklist2 = () => {
@@ -108,7 +124,7 @@ const goToChecklist2 = () => {
                 <p
                   class="text-center text-[16px] font-semibold leading-5 text-white"
                 >
-                  6
+                  {{ checklists.length }}
                 </p>
               </div>
             </div>

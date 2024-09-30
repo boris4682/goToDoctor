@@ -1,3 +1,34 @@
+<script setup lang="ts">
+import back from '@assets/icons/back.png'
+import PagesTemplate from "@/components/shared/PagesTemplate.vue";
+import {onMounted, ref} from "vue";
+import {useRouter} from "vue-router";
+import {getPatientChecklists} from "@/services/preparation/getPatientChecklists.ts";
+
+const router = useRouter()
+
+const checklists = ref([]);
+const fetchChecklists = () => {
+  getPatientChecklists().then(({ data, status }) => {
+    if (status != 200) return;
+
+    const patientData = JSON.parse(localStorage.selectedPatient ?? '{}');
+    checklists.value = data.filter((item: any) => item.vote_patient_id == patientData.patient_id);
+  })
+}
+
+const patientName = ref('');
+onMounted(() => {
+  fetchChecklists();
+
+  const patientData = localStorage.getItem("selectedPatient");
+  if (patientData) {
+    const patient = JSON.parse(patientData);
+    patientName.value = `${patient.patient_last_name} ${patient.patient_u_name}`;
+  }
+});
+</script>
+
 <template>
   <PagesTemplate class=" pb-[80px]">
     <div class="h-[15vh]">
@@ -8,38 +39,21 @@
     <div class="flex justify-center">
       <div class=" w-[354px] pb-[20px]">
         <div class="flex flex-col gap-[22px] translate-y-[-10px]">
-          <p class="text-[20px] font-semibold leading-[18px] text-[#006879]">Ребёнку</p>
+          <p class="text-[20px] font-semibold leading-[18px] text-[#006879]">{{ patientName }}</p>
         </div>
         <div class="flex flex-col gap-[15px] mt-[30px]">
-          <div v-for="(item, index) in sections" :key="index" class="w-full rounded-2xl shadow-xl border-2 border-gray-300 flex pl-[26px] gap-[27px] py-[15px]">
-            <img :src="item.img" />
-            <p class="text-[#00B9C2] text-xl max-w-[210px] font-semibold">{{item.title}}</p>
-          </div>
+          <router-link
+              v-for="(item, index) in checklists"
+              :key="index" :to="`/checklist-form/${item.id_vote}/${item.vote_patient_id}`"
+              class="w-full rounded-2xl shadow border border-gray-300 flex pl-[26px] gap-[27px] py-[15px]"
+          >
+            <p class="text-[#00B9C2] text-l font-semibold">{{item.vote_name}}</p>
+          </router-link>
         </div>
       </div>
     </div>
   </PagesTemplate>
 </template>
-
-<script setup lang="ts">
-
-import back from '@assets/icons/back.png'
-import PagesTemplate from "@shared/PagesTemplate.vue";
-import {getPreparationPollData} from "../services/preparation/getPreparationPollData.ts";
-import {usePreparationsStore} from "../services/preparation/preparationsStore.ts";
-import {onMounted} from "vue";
-import {useRouter} from "vue-router";
-
-const preparationsStore = usePreparationsStore()
-const router = useRouter()
-
-const fetchPollData = async() => {
-  const {status, data } = await getPreparationPollData(preparationsStore.checklist);
-
-}
-
-onMounted(fetchPollData)
-</script>
 
 <style scoped>
 

@@ -13,6 +13,7 @@ import Column from "primevue/column";
 import { useToast } from "primevue/usetoast";
 
 import { getPreparationPollData } from "@//services/preparation/getPreparationPollData";
+import { getChecklistInfo } from "@//services/preparation/getChecklistInfo";
 import { saveAnswers } from "@//services/preparation/saveAnswers";
 
 const router = useRouter();
@@ -22,9 +23,23 @@ const toast = useToast();
 
 const blockQuestions = ref({});
 
+const checklistInfo = ref();
+const fetchChecklistInfo = async () => {
+  const token = JSON.parse(localStorage.userData).auth_token;
+  const params = {
+    token,
+    patientId: route.params.patientId as string,
+    voteId: route.params.id as string,
+  };
+  return getChecklistInfo(params).then(({ data, status }) => {
+    if (status != 200) return;
+    checklistInfo.value = data;
+  });
+}
+
 const checkListName = ref("");
 const loading = ref(true);
-onMounted(() => {
+onMounted(async () => {
   const patientSecondName = localStorage.getItem("Patient_second_name");
   const patientUName = localStorage.getItem("Patient_u_name");
 
@@ -36,6 +51,15 @@ onMounted(() => {
   const year = today.getFullYear();
   currentDate.value = `${day}.${month}.${year}`;
 
+  if (route.params.patientId) {
+    await fetchChecklistInfo();
+
+    currentDate.value = checklistInfo.value.date_pass;
+    patientName.value = checklistInfo.value.patient_name;
+  }
+
+  console.log(checklistInfo.value)
+
   getPreparationPollData(+route.params.id)
     .then((data) => {
       if (data.status != 200) return;
@@ -44,7 +68,7 @@ onMounted(() => {
 
       const questions = data.data.questions.map((q) => {
         const fields = {};
-        q.fields.forEach((field) => {
+        q.fields.forEach((field: any) => {
           fields[field.weight] = field.id;
         });
 
@@ -52,13 +76,13 @@ onMounted(() => {
           text: q.text,
           id: q.id,
           fields,
-          selected: null,
+          selected: checklistInfo.value ? checklistInfo.value.answers[q.id] : null,
           block_number: q.block_number,
         };
       });
 
       blockQuestions.value = {};
-      questions.forEach((q) => {
+      questions.forEach((q: any) => {
         if (!blockQuestions.value[q.block_number])
           blockQuestions.value[q.block_number] = [];
 
@@ -90,7 +114,7 @@ const resultsTable = computed(() => {
     4: 0,
   };
   for (let id in blockQuestions.value) {
-    blockQuestions.value[id].forEach((q) => {
+    blockQuestions.value[id].forEach((q: any) => {
       for (let i = 0; i <= 2; i++) {
         if (q.fields[i] == q.selected) resultsAnswer[id] += i;
       }
@@ -204,17 +228,17 @@ const sendForm = () => {
           <Column field="text" header="Действие" class="text-[12px]"></Column>
           <Column field="field2" header="2б">
             <template #body="{ data }">
-              <RadioButton v-model="data.selected" :value="data.fields[2]" />
+              <RadioButton v-model="data.selected" :value="data.fields[2]" :disabled="!!checklistInfo" />
             </template>
           </Column>
           <Column field="field1" header="1б">
             <template #body="{ data }">
-              <RadioButton v-model="data.selected" :value="data.fields[1]" />
+              <RadioButton v-model="data.selected" :value="data.fields[1]" :disabled="!!checklistInfo" />
             </template>
           </Column>
           <Column field="field0" header="0б">
             <template #body="{ data }">
-              <RadioButton v-model="data.selected" :value="data.fields[0]" />
+              <RadioButton v-model="data.selected" :value="data.fields[0]" :disabled="!!checklistInfo" />
             </template>
           </Column>
         </DataTable>
@@ -222,7 +246,7 @@ const sendForm = () => {
 
       <div class="paginate">
         <div
-          v-for="(questions, id) in blockQuestions"
+          v-for="(_questions, id) in blockQuestions"
           :key="id"
           class="paginate__item"
           :class="{ active: selectedBlock == id }"
@@ -252,7 +276,7 @@ const sendForm = () => {
         </DataTable>
       </div>
 
-      <div class="text-center px-[10px]">
+      <div v-if="!checklistInfo" class="text-center px-[10px]">
         <Button
           type="button"
           :loading="loadingForm"

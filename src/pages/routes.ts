@@ -73,7 +73,7 @@ export const routes = [
     name: "ReceptionMenu4",
   },
   {
-    path: "/checklist-form/:id",
+    path: "/checklist-form/:id/:patientId?",
     component: () => import("./CheckListForm"),
     name: "CheckList-form",
   },
@@ -84,7 +84,7 @@ export const routes = [
   },
   {
     path: "/checklist",
-    component: () => import("./CheckList"),
+    component: () => import("./CheckList.vue"),
     name: "CheckList",
   },
   {
