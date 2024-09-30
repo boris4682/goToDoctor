@@ -4,8 +4,105 @@ import fourth from "@assets/icons/fourth.png";
 import fifth from "@assets/icons/fifth.png";
 import PagesTemplate from "@//components/shared/PagesTemplate.vue";
 import { useRouter } from "vue-router";
+import { ref, onMounted } from "vue";
+import { useToast } from "primevue/usetoast";
+import { getUserReceptions } from "@/services/reception/getUserReceptions";
 
 const router = useRouter();
+const toast = useToast();
+const isLoading = ref(true);
+
+const plannedReceptions = ref(0);
+const completedReceptions = ref(0);
+
+const receptionsPlanned = ref<any[]>([]);
+const receptionsCompleted = ref<any[]>([]);
+
+const token = JSON.parse(localStorage.getItem("userData") ?? "")?.auth_token;
+const selectedPatient = JSON.parse(
+  localStorage.getItem("selectedPatient") ?? "{}"
+);
+const patientId = selectedPatient?.patient_id ?? "";
+
+const fetchReceptions = async () => {
+  try {
+    const [plannedResponse, completedResponse] = await Promise.all([
+      getUserReceptions({
+        token,
+        patientId,
+        complete: "0",
+      }),
+      getUserReceptions({
+        token,
+        patientId,
+        complete: "1",
+      }),
+    ]);
+
+    if (plannedResponse.status === 200 && completedResponse.status === 200) {
+      receptionsPlanned.value = plannedResponse.data;
+      receptionsCompleted.value = completedResponse.data;
+
+      plannedReceptions.value = receptionsPlanned.value.length;
+      completedReceptions.value = receptionsCompleted.value.length;
+    } else {
+      toast.add({
+        severity: "error",
+        summary: "Ошибка",
+        detail: "Не удалось получить данные о приёмах",
+        life: 3000,
+      });
+    }
+  } catch (error) {
+    toast.add({
+      severity: "error",
+      summary: "Ошибка",
+      detail: "Ошибка сервера",
+      life: 3000,
+    });
+  } finally {
+    isLoading.value = false;
+  }
+};
+
+const handlePlannedReceptionsClick = () => {
+  if (plannedReceptions.value < 1) {
+    toast.add({
+      severity: "warn",
+      summary: "Нет записей",
+      detail: "Запланированных приёмов нет.",
+      life: 3000,
+    });
+  } else {
+    router.push({ name: "PlannedReception", query: { complete: "0" } });
+  }
+};
+
+const handleCompletedReceptionsClick = () => {
+  if (completedReceptions.value < 1) {
+    toast.add({
+      severity: "warn",
+      summary: "Нет записей",
+      detail: "Завершённых приёмов нет.",
+      life: 3000,
+    });
+  } else {
+    router.push({ name: "PlannedReception", query: { complete: "1" } });
+  }
+};
+
+const patientFirstName = ref("");
+const patientLastName = ref("");
+
+onMounted(() => {
+  fetchReceptions();
+  const patientData = localStorage.getItem("selectedPatient");
+  if (patientData) {
+    const patient = JSON.parse(patientData);
+    patientFirstName.value = patient.patient_u_name;
+    patientLastName.value = patient.patient_second_name;
+  }
+});
 </script>
 
 <template>
@@ -23,21 +120,14 @@ const router = useRouter();
       <div class="w-[354px] pb-[20px]">
         <div class="flex flex-col gap-[22px] translate-y-[-10px]">
           <p class="font-semibold text-[18px] leading-[18px] text-[#00B9C2]">
-            Пономаренко Ольга
+            {{ patientLastName }} {{ patientFirstName }}
           </p>
-          <div class="flex gap-[15px] justify-center items-center">
-            <p class="font-semibold text-sm leading-5 text-[#979797]">
-              12.04.2024
-            </p>
-            <p class="font-semibold text-sm leading-5 text-[#979797]">9:00</p>
-            <button
-              class="ml-[10px] w-[211px] h-[28px] rounded-[12px] border shadow-xl text-[#006879]"
-            >
-              Посмотреть мой приём
-            </button>
-          </div>
-          <div class="w-full h-[124px] bg-[#E5F2FC] rounded-[10px]">
-            <div class="flex justify-between px-[15px] py-[5px]">
+
+          <div
+            class="w-full h-[124px] bg-[#E5F2FC] rounded-[10px]"
+            @click="handlePlannedReceptionsClick"
+          >
+            <div class="flex justify-between px-[15px] py-[5px] cursor-pointer">
               <p class="text-[16px] font-semibold leading-6 text-[#00B9C2]">
                 Запланированные
               </p>
@@ -47,14 +137,18 @@ const router = useRouter();
                 <p
                   class="text-center text-[16px] font-semibold leading-5 text-white"
                 >
-                  6
+                  {{ plannedReceptions }}
                 </p>
               </div>
             </div>
             <img :src="fourth" class="ml-[15px]" />
           </div>
-          <div class="w-full h-[124px] bg-[#E5F2FC] rounded-[10px]">
-            <div class="flex justify-between px-[15px] py-[5px]">
+
+          <div
+            class="w-full h-[124px] bg-[#E5F2FC] rounded-[10px]"
+            @click="handleCompletedReceptionsClick"
+          >
+            <div class="flex justify-between px-[15px] py-[5px] cursor-pointer">
               <p class="text-[16px] font-semibold leading-6 text-[#00B9C2]">
                 Завершенные
               </p>
@@ -64,7 +158,7 @@ const router = useRouter();
                 <p
                   class="text-center text-[16px] font-semibold leading-5 text-white"
                 >
-                  6
+                  {{ completedReceptions }}
                 </p>
               </div>
             </div>

@@ -1,10 +1,60 @@
 <script setup lang="ts">
 import back from "@assets/icons/back.png";
-import PagesTemplate from "@//components/shared/PagesTemplate.vue";
-import OnePlannedReception from "@//components/OnePlannedReception";
-import { useRouter } from "vue-router";
+import MedicalCard from "@/components/MedicalCard/MedicalCard.vue";
+import PagesTemplate from "@/components/shared/PagesTemplate.vue";
+import Loader from "@/components/shared/Loader.vue";
+import { useRouter, useRoute } from "vue-router";
+import { onMounted, ref } from "vue";
+import { useToast } from "primevue/usetoast";
+import { getUserReceptions } from "@/services/reception/getUserReceptions";
 
 const router = useRouter();
+const route = useRoute();
+const complete = route.query.complete || "0";
+
+const receptions = ref<any[]>([]);
+const toast = useToast();
+const isLoading = ref(true);
+
+const token = JSON.parse(localStorage.getItem("userData") ?? "")?.auth_token;
+const selectedPatient = JSON.parse(
+  localStorage.getItem("selectedPatient") ?? "{}"
+);
+const patientId = selectedPatient?.patient_id ?? "";
+
+const fetchReceptions = async () => {
+  try {
+    const response = await getUserReceptions({
+      token,
+      patientId: patientId ?? "",
+      complete,
+    });
+
+    if (response.status === 200) {
+      receptions.value = response.data;
+    } else {
+      toast.add({
+        severity: "error",
+        summary: "Ошибка",
+        detail: "Не удалось получить данные о приёмах",
+        life: 3000,
+      });
+    }
+  } catch (error) {
+    toast.add({
+      severity: "error",
+      summary: "Ошибка",
+      detail: "Ошибка сервера",
+      life: 3000,
+    });
+  } finally {
+    isLoading.value = false;
+  }
+};
+
+onMounted(() => {
+  fetchReceptions();
+});
 </script>
 
 <template>
@@ -17,20 +67,32 @@ const router = useRouter();
         @click="router.back()"
       />
     </div>
-
     <div class="flex justify-center">
       <div class="w-[354px] pb-[20px]">
-        <div class="flex flex-col gap-[22px] translate-y-[-10px]">
-          <div class="flex gap-[15px] justify-between mt-[35px]">
-            <p class="font-semibold text-[15px] leading-9 text-[#A3A3A3]">
-              Запланированные
-            </p>
-            <p class="font-semibold text-[15px] leading-9 text-[#00B9C2]">
-              Завершенный
-            </p>
+        <div class="flex justify-center items-center">
+          <p class="font-semibold text-[15px] leading-[18px] text-[#006879]">
+            Приемы в клинике
+          </p>
+        </div>
+        <div class="mt-[26px]">
+          <div v-if="isLoading" class="flex justify-center my-4">
+            <Loader />
           </div>
-          <OnePlannedReception />
-          <OnePlannedReception />
+          <div v-else>
+            <div
+              v-for="reception in receptions"
+              :key="reception.reception_id"
+              class="cursor-pointer"
+            >
+              <MedicalCard
+                :doctorId="reception.reception_id"
+                :doctorSpecialization="reception.doctor_specialization"
+                :doctorClinic="reception.doctor_clinic"
+                :doctorName="reception.doctor_name"
+                :datetime="reception.datetime"
+              />
+            </div>
+          </div>
         </div>
       </div>
     </div>

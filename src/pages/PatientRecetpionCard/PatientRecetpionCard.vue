@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import back from "@assets/icons/back.png";
-import MedicalCard from "@//components/MedicalCard/MedicalCard.vue";
-import PagesTemplate from "@//components/shared/PagesTemplate.vue";
-import Loader from "@//components/shared/Loader.vue";
+import MedicalCard from "@/components/MedicalCard/MedicalCard.vue";
+import PagesTemplate from "@/components/shared/PagesTemplate.vue";
+import Loader from "@/components/shared/Loader.vue";
 import { useRouter } from "vue-router";
 import { onMounted, ref } from "vue";
 import { useToast } from "primevue/usetoast";
-import { getUserReceptions } from "@//services/reception/getUserReceptions";
+import { getUserReceptions } from "@/services/reception/getUserReceptions";
 
 const receptions = ref<any[]>([]);
 const toast = useToast();
@@ -15,18 +15,26 @@ const isLoading = ref(true);
 
 const token = JSON.parse(localStorage.getItem("userData") ?? "")?.auth_token;
 const patientId = localStorage.getItem("selectedPatientId");
-const complete = "0";
 
 const fetchReceptions = async () => {
   try {
-    const { data, status } = await getUserReceptions({
-      token,
-      patientId: patientId ?? '',
-      complete,
-    });
+    const responses = await Promise.all([
+      getUserReceptions({
+        token,
+        patientId: patientId ?? "",
+        complete: "0",
+      }),
+      getUserReceptions({
+        token,
+        patientId: patientId ?? "",
+        complete: "1",
+      }),
+    ]);
 
-    if (status === 200 && data) {
-      receptions.value = data;
+    const [incompleteResponse, completeResponse] = responses;
+
+    if (incompleteResponse.status === 200 && completeResponse.status === 200) {
+      receptions.value = [...incompleteResponse.data, ...completeResponse.data];
     } else {
       toast.add({
         severity: "error",

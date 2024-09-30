@@ -1,3 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.p-toast {
+  width: 90% !important;
+  right: 15px !important;
+  margin-right: auto !important;
+  margin-left: auto !important;
+}
