@@ -158,7 +158,7 @@ onMounted(() => {
       </p>
     </div>
     <div
-      class="translate-y-[-70px] translate-x-[340px] w-[20px]"
+      class="translate-y-[-30px] translate-x-[340px] w-[20px]"
       @click="toggleNotifyPopover"
     >
       <OverlayBadge :value="userMessages.length" size="small" severity="danger">
