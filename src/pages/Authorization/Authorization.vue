@@ -5,6 +5,7 @@ import { ref, onMounted } from "vue";
 import { loginUser } from "../../services/Auth/LoginService";
 import { useRouter } from "vue-router";
 import {useToast} from "primevue/usetoast";
+import { updateDeviceToken } from "@/services/User/updateDeviceToken";
 
 const userData = ref({
   login: "",
@@ -20,6 +21,7 @@ const fetchLogin = async () => {
   if (status === 200) {
     if (data.success) {
       localStorage.setItem("userData", JSON.stringify(data.user));
+      updateDeviceToken();
       router.push("/mainpage");
     }
     else {

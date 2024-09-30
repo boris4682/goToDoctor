@@ -7,11 +7,18 @@ import { getUserInfo } from "../../services/User/getUserInfo";
 import { useRouter } from "vue-router";
 import { getDoctorsCategory } from "@//services/main-doctors/getDoctorsCategory";
 import { getDoctorsDataByCategoryId } from "@//services/main-doctors/getDoctorsDataByCategoryId";
-import { DOMEN } from "@//consts";
-import { Slider } from "@/components/FirstPage/Slider";
+import { getUserMessages } from "@/services/User/getUserMessages";
 import {getPatients} from "@/services/patients/getPatients.ts";
 import { getUserReceptions } from "@/services/reception/getUserReceptions";
+
+import NotificationBlock from "@/components/NotificationBlock";
+
+import { DOMEN } from "@//consts";
+import { Slider } from "@/components/FirstPage/Slider";
+
 import Carousel from 'primevue/carousel';
+import Popover from 'primevue/popover';
+import OverlayBadge from 'primevue/overlaybadge';
 
 const router = useRouter();
 
@@ -91,9 +98,24 @@ const routeToPush = computed(() => {
   return user.value?.isDoctor ? "/lcdoctor" : "/lcpatient";
 });
 
+const userMessages = ref([]);
+const fetchUserMessages = () => {
+  getUserMessages().then(({ data, status }) => {
+    if (status != 200) return;
+
+    userMessages.value = data.data ?? [];
+  });
+};
+const notifyPopover = ref();
+const toggleNotifyPopover = (e: Event) => {
+  notifyPopover.value.toggle(e)
+}
+
 onMounted(() => {
   fetchUserInfo();
   fetchDoctorsCategory();
+  fetchUserMessages();
+
   const userData = localStorage.getItem("userData");
   if (userData) {
     user.value = JSON.parse(userData) as User;
@@ -168,7 +190,17 @@ onMounted(() => {
     >
       Предложения наших партнеров
     </p>
-    <img :src="colocol" class="translate-y-[-70px] translate-x-[340px]" />
+
+    <div class="translate-y-[-70px] translate-x-[340px] w-[20px]" @click="toggleNotifyPopover">
+      <OverlayBadge :value="userMessages.length" size="small" severity="danger">
+        <img :src="colocol" />
+      </OverlayBadge>
+    </div>
+
+    <Popover ref="notifyPopover">
+      <NotificationBlock :messages="userMessages" />
+    </Popover>
+
     <Slider />
     <p
       class="mt-[37px] ml-[21px] font-semibold text-[15px] leading-6 text-[#006879]"

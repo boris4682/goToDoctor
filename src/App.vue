@@ -13,7 +13,10 @@ import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import Toast from "primevue/toast";
 import DefaultLayout from "./components/DefaultLayout.vue";
+import { addDeviceToken } from "@/services/User/addDeviceToken";
+
 import { PushNotifications } from "@capacitor/push-notifications";
+import { Device } from '@capacitor/device';
 
 const router = useRouter();
 const isAuthenticated = ref(false);
@@ -32,15 +35,18 @@ const registerNotifications = async () => {
   await deviceToken();
 };
 
+const isToken = ref(false);
 const deviceToken = async () => {
-  await PushNotifications.addListener("registration", (token) => {
+  await PushNotifications.addListener("registration", async (token) => {
     localStorage.setItem("deviceToken", token.value);
     if (!isToken.value) {
-      //Вот тут добавить запрос на отправку токена на бэк
-      const { data, status } = addDeviceToken(token.value);
-      if (status === 200) {
-        isToken.value = true;
-      }
+      const platform = (await Device.getInfo()).platform;
+
+      addDeviceToken(token.value, platform).then(({ status }) => {
+        if (status === 200) {
+          isToken.value = true;
+        }
+      })
     }
   });
 };

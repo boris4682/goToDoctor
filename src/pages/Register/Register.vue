@@ -168,6 +168,7 @@ import {
 import { getAllSpecializations } from "@//services/service/getAllSpecializations";
 import img from "@assets/secondSlide.png";
 import privatePolicyPdf from "@/assets/privatepolicy.pdf";
+import { updateDeviceToken } from "@/services/User/updateDeviceToken";
 
 const router = useRouter();
 const toast = useToast();
@@ -360,6 +361,7 @@ const submitRegistration = async () => {
     });
     if (loginResponse.status === 200) {
       router.push("/lcpatient");
+      updateDeviceToken();
     } else {
       toast.add({
         severity: "error",
