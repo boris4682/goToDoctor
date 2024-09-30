@@ -1,15 +1,17 @@
 <script setup lang="ts">
 import PagesTemplate from "@//components/shared/PagesTemplate.vue";
-import OneDoctor2 from "@//components/OneDoctor2/OneDoctor2.vue";
+import colocol from "@assets/icons/mingcute_notification-fill.svg";
 import { ref, onMounted, computed } from "vue";
 import { getUserInfo } from "../../services/User/getUserInfo";
 import { useRouter } from "vue-router";
 import { getDoctorsCategory } from "@//services/main-doctors/getDoctorsCategory";
-import { getDoctorsDataByCategoryId } from "@//services/main-doctors/getDoctorsDataByCategoryId";
-import { DOMEN } from "@//consts";
+import { getUserMessages } from "@/services/User/getUserMessages";
 import { getPatients } from "@/services/patients/getPatients.ts";
-import { getUserReceptions } from "@/services/reception/getUserReceptions";
-import Carousel from "primevue/carousel";
+import { getAppointmentsForDoc } from "@/services/reception/getAppointmentsForDoc";
+
+import NotificationBlock from "@/components/NotificationBlock";
+import Popover from "primevue/popover";
+import OverlayBadge from "primevue/overlaybadge";
 
 const router = useRouter();
 
@@ -25,8 +27,6 @@ interface User {
 
 const user = ref<User | null>(null);
 const doctorsCategory = ref();
-const doctors = ref();
-
 const fetchUserInfo = async () => {
   const { data, status } = await getUserInfo();
   if (status === 200) {
@@ -52,49 +52,46 @@ const fetchDoctorsCategory = async () => {
   }
 };
 
-const fetchDoctorsDataByCategoryId = async (sectionId: string) => {
-  const { data } = await getDoctorsDataByCategoryId(sectionId);
-
-  if (data) {
-    doctors.value = data;
-  } else {
-    console.log("Ошибка на сервере");
-  }
-};
-
-const dataReceptions = ref<any[]>([]);
-const fetchPatients = (token: string) => {
-  getPatients(token).then(({ data: patients, status }) => {
-    if (status != 200) return;
-
-    patients?.forEach((patient) => {
-      const data = {
-        token,
-        patientId: patient.patient_id,
-        complete: "0",
-      };
-      getUserReceptions(data).then(({ data: receptions, status }) => {
-        if (status != 200) return;
-
-        dataReceptions.value.push(...receptions);
-      });
-    });
+// Получение трех текущих приемов
+const appointments = ref([]);
+const fetchAppointments = async (token: string) => {
+  const { data, status } = await getAppointmentsForDoc({
+    token,
+    month: "current",
   });
-
-  console.log(dataReceptions.value);
+  if (status === 200 && data.length > 0) {
+    appointments.value = data.slice(0, 3); // Отображаем только 3 записи
+  } else {
+    console.log("Ошибка получения данных о приёмах");
+  }
 };
 
 const routeToPush = computed(() => {
   return user.value?.isDoctor ? "/lcdoctor" : "/lcpatient";
 });
 
+const userMessages = ref([]);
+const fetchUserMessages = () => {
+  getUserMessages().then(({ data, status }) => {
+    if (status != 200) return;
+
+    userMessages.value = data.data ?? [];
+  });
+};
+const notifyPopover = ref();
+const toggleNotifyPopover = (e: Event) => {
+  notifyPopover.value.toggle(e);
+};
+
 onMounted(() => {
   fetchUserInfo();
   fetchDoctorsCategory();
+  fetchUserMessages();
+
   const userData = localStorage.getItem("userData");
   if (userData) {
     user.value = JSON.parse(userData) as User;
-    fetchPatients(user.value.auth_token);
+    fetchAppointments(user.value.auth_token);
   } else {
     console.log("No user data found in localStorage");
   }
@@ -155,85 +152,55 @@ onMounted(() => {
       </svg>
 
       <p
-        class="font-semiboldm text-sm leading-[18px] font-semibold text-[#040404]"
+        class="font-semibold text-sm leading-[18px] font-semibold text-[#040404]"
       >
-        Здравствуйте, {{ `${user.name} ${user.second_name}` }}
+        Здравствуйте, {{ user.name }} {{ user.second_name }}
       </p>
     </div>
+    <div
+      class="translate-y-[-70px] translate-x-[340px] w-[20px]"
+      @click="toggleNotifyPopover"
+    >
+      <OverlayBadge :value="userMessages.length" size="small" severity="danger">
+        <img :src="colocol" />
+      </OverlayBadge>
+    </div>
+
+    <Popover ref="notifyPopover">
+      <NotificationBlock :messages="userMessages" />
+    </Popover>
     <p
       class="font-semibold text-[18px] leading-[18px] text-[#006879] mt-[14px] ml-[19px]"
     >
       Посмотреть мои приемы
     </p>
 
-    <p
-      class="mt-[37px] ml-[21px] font-semibold text-[15px] leading-6 text-[#006879]"
+    <div
+      v-if="appointments.length > 0"
+      class="flex justify-center items-center mt-[34px]"
     >
-      Все врачи
-    </p>
-    <div class="flex gap-5 overflow-auto py-2">
-      <div
-        class="min-w-[70vw] h-[47px] rounded-[28px] bg-[#E5F2FC] mt-[28px] flex items-center justify-center gap-[12px]"
-        v-for="(item, index) in doctorsCategory"
-        @click="() => fetchDoctorsDataByCategoryId(item.category_id)"
-        :key="index"
-      >
-        <img style="height: 90%" :src="`${DOMEN}${item.picture}`" />
-        <p class="font-semibold text-[14px] leading-6 text-[#000000]">
-          {{ item.name }}
-        </p>
-      </div>
-    </div>
-
-    <div v-if="doctors" class="flex justify-center items-center mt-[34px]">
-      <div class="w-[361px] rounded-[14px] border shadow-lg gap-[px]">
-        <div class="py-[16px] px-[17px]">
-          <OneDoctor2
-            v-for="(item, index) in doctors"
-            :key="index"
-            v-bind="{ ...item }"
-          />
+      <div class="py-[16px] px-[17px] w-[361px]">
+        <div
+          v-for="(appointment, index) in appointments"
+          :key="index"
+          class="mb-[10px] p-[10px] bg-[#E5F2FC] rounded-[10px] cursor-pointer"
+        >
+          <p class="text-[#006879] text-lg font-bold">
+            {{ appointment.patient_name }}
+          </p>
+          <p class="text-[#A4A5A5] text-sm">
+            Время приема: {{ appointment.datetime }}
+          </p>
         </div>
       </div>
     </div>
 
-    <p
-      v-if="!doctors && dataReceptions"
-      class="mt-[37px] ml-[21px] font-semibold text-[15px] leading-6 text-[#006879]"
+    <button
+      @click="router.push('/reception')"
+      class="flex items-center justify-center w-full h-[70px] border border-[#00B9C2] rounded-[30px] text-[#00B9C2] hover:bg-[#F3F9FE] transition-all font-bold"
     >
-      Запись
-    </p>
-    <div v-if="!doctors && dataReceptions" class="mt-[34px]">
-      <Carousel
-        :value="dataReceptions"
-        :numVisible="1"
-        :numScroll="1"
-        :showIndicators="false"
-      >
-        <template #item="{ data }">
-          <router-link
-            :to="'/treatment2/' + data.reception_id"
-            class="rounded-[14px] border shadow-lg"
-          >
-            <div class="flex flex-col px-[32px] py-[17px]">
-              <p class="font-semibold text-[20px] leading-6 text-[#00B9C2]">
-                {{ data.doctor_specialization }}
-              </p>
-              <p class="font-normal text-[15px] leading-6 text-[#979797]">
-                {{ new Date(data.datetime).toLocaleString() }}
-              </p>
-              <div class="flex justify-between mt-[40px]">
-                <p
-                  class="font-semibold text-[12px] leading-[15px] text-[#828282]"
-                >
-                  {{ data.doctor_clinic }}
-                </p>
-              </div>
-            </div>
-          </router-link>
-        </template>
-      </Carousel>
-    </div>
+      Посмотреть все
+    </button>
   </PagesTemplate>
 </template>
 
