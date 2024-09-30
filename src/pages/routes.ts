@@ -78,7 +78,12 @@ export const routes = [
     name: "CheckList-form",
   },
   {
-    path: "/questionnaire/:id",
+    path: "/votes-list",
+    component: () => import("./VotesList"),
+    name: "voteslist",
+  },
+  {
+    path: "/questionnaire/:id/:patientId?",
     component: () => import("./Questionnaire"),
     name: "uestionnaire",
   },

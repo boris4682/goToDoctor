@@ -14,4 +14,5 @@ export interface Props {
     text: string;
     fields: Field[];
   };
+  disabled?: boolean;
 }

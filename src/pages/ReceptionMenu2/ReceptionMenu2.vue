@@ -100,7 +100,7 @@ onMounted(() => {
   if (patientData) {
     const patient = JSON.parse(patientData);
     patientFirstName.value = patient.patient_u_name;
-    patientLastName.value = patient.patient_second_name;
+    patientLastName.value = patient.patient_last_name;
   }
 });
 </script>

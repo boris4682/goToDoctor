@@ -11,6 +11,7 @@ import { useToast } from "primevue/usetoast";
 
 import { getPreparationPollData } from "@//services/preparation/getPreparationPollData";
 import { saveAnswers } from "@//services/preparation/saveAnswers";
+import { getVoteInfo } from "@/services/preparation/getVoteInfo";
 
 const router = useRouter();
 const route = useRoute();
@@ -19,9 +20,45 @@ const blockQuestions = ref({});
 
 const toast = useToast();
 
+const patientName = ref("");
+const currentDate = ref("");
+
+const voteInfo = ref();
+const fetchVoteInfo = async () => {
+  const token = JSON.parse(localStorage.userData).auth_token;
+  const params = {
+    token,
+    patientId: route.params.patientId as string,
+    voteId: route.params.id as string,
+  };
+  return getVoteInfo(params).then(({ data, status }) => {
+    if (status != 200) return;
+    voteInfo.value = data;
+  });
+}
+
 const checkListName = ref("");
 const loading = ref(true);
-onMounted(() => {
+onMounted(async () => {
+  const patientSecondName = localStorage.getItem("Patient_second_name");
+  const patientUName = localStorage.getItem("Patient_u_name");
+  patientName.value = `${patientSecondName} ${patientUName}`;
+
+  const today = new Date();
+  const day = String(today.getDate()).padStart(2, "0");
+  const month = String(today.getMonth() + 1).padStart(2, "0");
+  const year = today.getFullYear();
+  currentDate.value = `${day}.${month}.${year}`;
+
+  if (route.params.patientId) {
+    await fetchVoteInfo();
+
+    currentDate.value = voteInfo.value.date_pass;
+    patientName.value = voteInfo.value.patient_name;
+  }
+
+  console.log(voteInfo.value);
+
   getPreparationPollData(+route.params.id)
     .then((data) => {
       console.log(data);
@@ -34,7 +71,18 @@ onMounted(() => {
         const bn = q.block_number ?? 1;
         if (!blockQuestions.value[bn]) blockQuestions.value[bn] = [];
 
-        blockQuestions.value[bn].push({ ...q, answer: null });
+        let answer = null;
+        if (!!voteInfo.value) {
+          if (q.fields[0].field_type == 'radio')
+            answer = Object.keys(voteInfo.value.answers[q.id])[0];
+          else
+            answer = voteInfo.value.answers[q.id][q.fields[0].id];
+        }
+
+        blockQuestions.value[bn].push({
+          ...q,
+          answer,
+        });
       });
     })
     .finally(() => {
@@ -95,13 +143,13 @@ const sendForm = () => {
       <div class="w-[354px] pb-[20px] mx-auto">
         <div class="flex flex-col gap-[30px] translate-y-[-10px]">
           <p class="font-semibold text-[18px] leading-[18px] text-[#00B9C2]">
-            Пономаренко Ольга
+            {{ patientName }}
           </p>
           <div class="flex gap-[15px] justify-between items-end">
             <h3 class="text-[rgb(0,104,121)] text-[16px] font-semibold">
               {{ checkListName }}
             </h3>
-            <p class="text-[rgb(0,185,194)] text-[16px]">20.02.2024</p>
+            <p class="text-[rgb(0,185,194)] text-[16px]">{{ currentDate }}</p>
           </div>
         </div>
       </div>
@@ -112,13 +160,14 @@ const sendForm = () => {
           v-for="question in questions"
           :key="question.id"
           :question="question"
+          :disabled="!!voteInfo"
           v-model:answer="question.answer"
         />
       </div>
 
       <div v-if="blockQuestions[2]" class="paginate">
         <div
-          v-for="(questions, id) in blockQuestions"
+          v-for="(_questions, id) in blockQuestions"
           :key="id"
           class="paginate__item"
           :class="{ active: selectedBlock == id }"
@@ -126,7 +175,7 @@ const sendForm = () => {
         ></div>
       </div>
 
-      <div class="text-center px-[10px]">
+      <div v-if="!voteInfo" class="text-center px-[10px]">
         <Button
           type="button"
           :loading="loadingForm"

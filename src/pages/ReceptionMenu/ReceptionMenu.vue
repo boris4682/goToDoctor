@@ -6,6 +6,8 @@ import third from "@assets/icons/third.png";
 import PagesTemplate from "@//components/shared/PagesTemplate.vue";
 
 import { getPatientChecklists } from "@/services/preparation/getPatientChecklists";
+import {getPatientVotes} from "@/services/preparation/getPatientVotes";
+import { getUserReceptions } from "@/services/reception/getUserReceptions";
 
 import { useRouter } from "vue-router";
 import { ref, onMounted } from "vue";
@@ -25,8 +27,37 @@ const fetchChecklists = () => {
   })
 }
 
+const votes = ref([]);
+const fetchVotes = () => {
+  getPatientVotes().then(({ data, status }) => {
+    if (status != 200) return;
+
+    const patientData = JSON.parse(localStorage.selectedPatient ?? '{}');
+    votes.value = data.filter((item: any) => item.vote_patient_id == patientData.patient_id);
+  })
+}
+
+const receptionsPlanned = ref<any[]>([]);
+const fetchUserReceptions = () => {
+  const userData = JSON.parse(localStorage.userData ?? '{}');
+  const patientData = JSON.parse(localStorage.selectedPatient ?? '{}');
+
+  const params = {
+    token: userData.auth_token,
+    patientId: patientData.patient_id,
+    complete: "0",
+  };
+  getUserReceptions(params).then(({ data, status }) => {
+    if (status != 200) return;
+
+    receptionsPlanned.value = data;
+  })
+}
+
 onMounted(() => {
   fetchChecklists();
+  fetchVotes();
+  fetchUserReceptions();
 
   const patientData = localStorage.getItem("selectedPatient");
   if (patientData) {
@@ -46,7 +77,8 @@ const goToChecklist = () => {
 };
 
 const goToChecklist2 = () => {
-  router.push("/checklist2");
+  if (votes.value.length > 0)
+    router.push("/votes-list");
 };
 </script>
 
@@ -82,7 +114,7 @@ const goToChecklist2 = () => {
                 <p
                   class="text-center text-[16px] font-semibold leading-5 text-white"
                 >
-                  6
+                  {{ receptionsPlanned.length }}
                 </p>
               </div>
             </div>
@@ -103,7 +135,7 @@ const goToChecklist2 = () => {
                 <p
                   class="text-center text-[16px] font-semibold leading-5 text-white"
                 >
-                  6
+                  {{ votes.length }}
                 </p>
               </div>
             </div>

@@ -5,7 +5,7 @@ import InputText from "primevue/inputtext";
 import RadioButton from "primevue/radiobutton";
 import Textarea from "primevue/textarea";
 
-const { question } = defineProps<Props>();
+const { question, disabled } = defineProps<Props>();
 const answer = defineModel("answer");
 </script>
 
@@ -23,15 +23,21 @@ const answer = defineModel("answer");
         v-model="answer"
         autoResize
         class="w-full text-[12px]"
+        :disabled="disabled"
       />
       <InputText
         v-else-if="field.field_type == FieldTypes.Text"
         v-model="answer"
         class="w-full text-[12px]"
+        :disabled="disabled"
       />
       <label v-else-if="field.field_type == FieldTypes.Radio">
         {{ field.text }}
-        <RadioButton v-model="answer" :value="field.id" />
+        <RadioButton
+            v-model="answer"
+            :value="field.id"
+            :disabled="disabled"
+        />
       </label>
     </div>
   </div>
