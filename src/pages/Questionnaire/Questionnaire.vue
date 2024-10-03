@@ -35,7 +35,7 @@ const fetchVoteInfo = async () => {
     if (status != 200) return;
     voteInfo.value = data;
   });
-}
+};
 
 const checkListName = ref("");
 const loading = ref(true);
@@ -73,10 +73,9 @@ onMounted(async () => {
 
         let answer = null;
         if (!!voteInfo.value) {
-          if (q.fields[0].field_type == 'radio')
+          if (q.fields[0].field_type == "radio")
             answer = Object.keys(voteInfo.value.answers[q.id])[0];
-          else
-            answer = voteInfo.value.answers[q.id][q.fields[0].id];
+          else answer = voteInfo.value.answers[q.id][q.fields[0].id];
         }
 
         blockQuestions.value[bn].push({
@@ -192,7 +191,7 @@ const sendForm = () => {
 <style scoped>
 .paginate {
   display: flex;
-  gap: 2px;
+  gap: 10px;
   justify-content: center;
   align-items: center;
   padding: 20px;
@@ -200,8 +199,8 @@ const sendForm = () => {
 .paginate__item {
   background-color: rgba(217, 217, 217, 1);
   border-radius: 10px;
-  width: 7px;
-  height: 7px;
+  width: 15px;
+  height: 15px;
   cursor: pointer;
 }
 .paginate__item.active {

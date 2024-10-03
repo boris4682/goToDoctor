@@ -35,7 +35,7 @@ const fetchChecklistInfo = async () => {
     if (status != 200) return;
     checklistInfo.value = data;
   });
-}
+};
 
 const checkListName = ref("");
 const loading = ref(true);
@@ -58,7 +58,7 @@ onMounted(async () => {
     patientName.value = checklistInfo.value.patient_name;
   }
 
-  console.log(checklistInfo.value)
+  console.log(checklistInfo.value);
 
   getPreparationPollData(+route.params.id)
     .then((data) => {
@@ -76,7 +76,9 @@ onMounted(async () => {
           text: q.text,
           id: q.id,
           fields,
-          selected: checklistInfo.value ? checklistInfo.value.answers[q.id] : null,
+          selected: checklistInfo.value
+            ? checklistInfo.value.answers[q.id]
+            : null,
           block_number: q.block_number,
         };
       });
@@ -228,17 +230,29 @@ const sendForm = () => {
           <Column field="text" header="Действие" class="text-[12px]"></Column>
           <Column field="field2" header="2б">
             <template #body="{ data }">
-              <RadioButton v-model="data.selected" :value="data.fields[2]" :disabled="!!checklistInfo" />
+              <RadioButton
+                v-model="data.selected"
+                :value="data.fields[2]"
+                :disabled="!!checklistInfo"
+              />
             </template>
           </Column>
           <Column field="field1" header="1б">
             <template #body="{ data }">
-              <RadioButton v-model="data.selected" :value="data.fields[1]" :disabled="!!checklistInfo" />
+              <RadioButton
+                v-model="data.selected"
+                :value="data.fields[1]"
+                :disabled="!!checklistInfo"
+              />
             </template>
           </Column>
           <Column field="field0" header="0б">
             <template #body="{ data }">
-              <RadioButton v-model="data.selected" :value="data.fields[0]" :disabled="!!checklistInfo" />
+              <RadioButton
+                v-model="data.selected"
+                :value="data.fields[0]"
+                :disabled="!!checklistInfo"
+              />
             </template>
           </Column>
         </DataTable>
@@ -293,7 +307,7 @@ const sendForm = () => {
 <style scoped>
 .paginate {
   display: flex;
-  gap: 2px;
+  gap: 10px;
   justify-content: center;
   align-items: center;
   padding: 20px;
@@ -301,8 +315,8 @@ const sendForm = () => {
 .paginate__item {
   background-color: rgba(217, 217, 217, 1);
   border-radius: 10px;
-  width: 7px;
-  height: 7px;
+  width: 15px;
+  height: 15px;
   cursor: pointer;
 }
 .paginate__item.active {

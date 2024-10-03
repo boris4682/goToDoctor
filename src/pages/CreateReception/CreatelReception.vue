@@ -11,12 +11,15 @@ import card from "@assets/icons/material-symbols_sd-card-alert-outline.svg";
 import { useRouter } from "vue-router";
 import { ref, onMounted } from "vue";
 import { createReception } from "@//services/reception/createReception";
-
+import Dialog from "primevue/dialog";
+import Loader from "@//components/shared/Loader.vue";
+import { getClinicInfo } from "@//services/service/getClinicInfo";
 const router = useRouter();
 
 const patientName = ref("");
 const service = ref("");
 const clinicName = ref("");
+const clinicId = ref("");
 const doctorName = ref("");
 const appointmentDate = ref("");
 
@@ -31,6 +34,7 @@ onMounted(() => {
   const selectedClinic = JSON.parse(
     localStorage.getItem("selectedClinic") ?? "{}"
   );
+
   const selectedDoctor = JSON.parse(
     localStorage.getItem("selectedDoctor") ?? "{}"
   );
@@ -40,11 +44,11 @@ onMounted(() => {
   const dateTime = `${selectedDate} ${selectedTime}`;
 
   patientName.value = `${patientSecondName} ${patientUName}`.trim();
-
-  service.value = selectedService;
+  clinicId.value = service.value = selectedService;
   clinicName.value = selectedClinic.name ?? "Клиника не указана";
   doctorName.value = selectedDoctor.name ?? "Имя врача не указано";
   appointmentDate.value = dateTime;
+  clinicId.value = selectedClinic.id;
 });
 
 const submitForm = async () => {
@@ -74,6 +78,28 @@ const submitForm = async () => {
   } catch (error) {
     console.error("Ошибка при отправке данных:", error);
   }
+};
+
+const isLoading = ref(true);
+
+const showModal = ref(false);
+const clinicInfo = ref<any>(null);
+const openClinicInfo = async (clinicId: string, event: Event) => {
+  event.stopPropagation();
+  isLoading.value = true;
+  const { data, status } = await getClinicInfo(clinicId);
+  if (status === 200 && data) {
+    clinicInfo.value = data;
+    showModal.value = true;
+  } else {
+    console.error("Ошибка при получении данных о клинике");
+  }
+  isLoading.value = false;
+};
+
+const closeModal = () => {
+  showModal.value = false;
+  clinicInfo.value = null;
 };
 </script>
 
@@ -135,6 +161,7 @@ const submitForm = async () => {
                   <img :src="card" class="ml-[15px]" />
                   <p
                     class="font-semibold text-[11px] leading-[13px] text-[#006879]"
+                    @click.stop="openClinicInfo(clinicId, $event)"
                   >
                     О клинике
                   </p>
@@ -194,5 +221,45 @@ const submitForm = async () => {
         </div>
       </div>
     </div>
+    <Dialog v-model:visible="showModal" modal class="w-[90%]">
+      <template v-if="isLoading">
+        <Loader />
+      </template>
+
+      <template v-else>
+        <div v-if="clinicInfo">
+          <h3 class="font-semibold text-[20px] text-center mb-4">
+            {{ clinicInfo.clinic_name }}
+          </h3>
+          <p class="text-[15px] text-gray-700 mb-2">
+            Оценка: {{ clinicInfo.clinic_rating }}
+          </p>
+          <img
+            :src="'https://idykvrachy.ru' + clinicInfo.clinic_preview_picture"
+            alt="clinic preview"
+            class="w-full mb-4 rounded"
+          />
+          <div
+            v-html="clinicInfo.clinic_preview_text"
+            class="text-gray-700 text-[15px]"
+          ></div>
+        </div>
+
+        <div v-else class="text-center">
+          <p class="text-center text-gray-500 pt-[50px]">
+            Информация о клинике недоступна.
+          </p>
+        </div>
+      </template>
+
+      <template #footer>
+        <button
+          @click="closeModal"
+          class="p-button p-component p-button-danger"
+        >
+          Закрыть
+        </button>
+      </template>
+    </Dialog>
   </PagesTemplate>
 </template>

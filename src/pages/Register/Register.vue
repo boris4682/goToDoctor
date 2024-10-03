@@ -118,11 +118,11 @@
           class="text-center text-[7px] leading-[10px] text-[#666666] mt-[18px] pb-[20px]"
         >
           Нажимая кнопку “Продолжить” я принимаю
-          <u class="cursor-pointer" @click="openPdf(privatePolicyPdf)">
+          <u class="cursor-pointer" @click="openPDF">
             Пользовательское соглашение
           </u>
           и даю согласие на
-          <u class="cursor-pointer" @click="openPdf(privatePolicyPdf)">
+          <u class="cursor-pointer" @click="openPDF">
             обработку персональных данных
           </u>
         </p>
@@ -150,6 +150,15 @@
             Регистрация
           </p>
         </div>
+        <RouterLink
+          to="/auth"
+          class="text-[13px] font-semibold leading-4 text-black mt-[46px] flex justify-center"
+          >Есть аккаунт?
+          <a
+            class="ml- cursor-pointer font-bold text-[#00B9C2] text-[15px] leading-[18px] ml-1"
+            >Войти</a
+          >
+        </RouterLink>
       </div>
     </div>
   </div>
@@ -197,8 +206,11 @@ const setRoleType = (value) => {
   }
 };
 
-const openPdf = (pdfUrl: string) => {
-  window.open(pdfUrl, "_blank");
+const openPDF = () => {
+  window.open(
+    "https://idykvrachy.ru//upload/legal/privatepolicy.pdf",
+    "_blank"
+  );
 };
 
 const updateSpecialization = (event) => {

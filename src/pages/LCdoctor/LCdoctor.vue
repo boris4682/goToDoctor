@@ -66,6 +66,42 @@ const updateUserHandler = async () => {
     console.log("Ошибка сервера");
   }
 };
+
+const handleInput = (event) => {
+  let inputValue = event.target.value;
+
+  inputValue = inputValue.replace(/[^0-9.]/g, "");
+
+  if (inputValue.length >= 3 && inputValue[2] !== ".") {
+    inputValue = inputValue.slice(0, 2) + "." + inputValue.slice(2);
+  }
+  if (inputValue.length >= 6 && inputValue[5] !== ".") {
+    inputValue = inputValue.slice(0, 5) + "." + inputValue.slice(5);
+  }
+
+  if (inputValue.length >= 2) {
+    const day = parseInt(inputValue.slice(0, 2), 10);
+    if (day < 1 || day > 31) {
+      inputValue = inputValue.slice(0, 1);
+    }
+  }
+
+  if (inputValue.length >= 5) {
+    const month = parseInt(inputValue.slice(3, 5), 10);
+    if (month < 1 || month > 12) {
+      inputValue = inputValue.slice(0, 4);
+    }
+  }
+
+  if (inputValue.length === 10) {
+    const year = parseInt(inputValue.slice(6, 10), 10);
+    if (year < 1900 || year > new Date().getFullYear()) {
+      inputValue = inputValue.slice(0, 6);
+    }
+  }
+
+  user.value.birthday = inputValue;
+};
 </script>
 
 <template>
@@ -179,10 +215,12 @@ const updateUserHandler = async () => {
         />
         <input
           class="w-full h-10 bg-[#E5F2FC] mt-[18px] rounded-[10px] px-3 focus:outline-none focus:ring-2 focus:ring-[#00B9C2]"
-          placeholder="Дата рождения"
-          type="date"
+          placeholder="Дата рождения (дд.мм.гггг)"
           v-model="user.birthday"
+          @input="handleInput"
+          maxlength="10"
         />
+
         <input
           class="w-full h-10 bg-[#E5F2FC] mt-[18px] rounded-[10px] pl-3 focus:outline-none focus:ring-2 focus:ring-[#00B9C2]"
           placeholder="ivanov@mail.ru"

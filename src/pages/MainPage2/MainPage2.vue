@@ -52,7 +52,6 @@ const fetchDoctorsCategory = async () => {
   }
 };
 
-// Получение трех текущих приемов
 const appointments = ref([]);
 const fetchAppointments = async (token: string) => {
   const { data, status } = await getAppointmentsForDoc({
@@ -60,7 +59,7 @@ const fetchAppointments = async (token: string) => {
     month: "current",
   });
   if (status === 200 && data.length > 0) {
-    appointments.value = data.slice(0, 3); // Отображаем только 3 записи
+    appointments.value = data.slice(0, 3); 
   } else {
     console.log("Ошибка получения данных о приёмах");
   }

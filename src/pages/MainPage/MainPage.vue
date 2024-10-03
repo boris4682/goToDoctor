@@ -8,7 +8,7 @@ import { useRouter } from "vue-router";
 import { getDoctorsCategory } from "@//services/main-doctors/getDoctorsCategory";
 import { getDoctorsDataByCategoryId } from "@//services/main-doctors/getDoctorsDataByCategoryId";
 import { getUserMessages } from "@/services/User/getUserMessages";
-import {getPatients} from "@/services/patients/getPatients.ts";
+import { getPatients } from "@/services/patients/getPatients.ts";
 import { getUserReceptions } from "@/services/reception/getUserReceptions";
 
 import NotificationBlock from "@/components/NotificationBlock";
@@ -16,9 +16,9 @@ import NotificationBlock from "@/components/NotificationBlock";
 import { DOMEN } from "@//consts";
 import { Slider } from "@/components/FirstPage/Slider";
 
-import Carousel from 'primevue/carousel';
-import Popover from 'primevue/popover';
-import OverlayBadge from 'primevue/overlaybadge';
+import Carousel from "primevue/carousel";
+import Popover from "primevue/popover";
+import OverlayBadge from "primevue/overlaybadge";
 
 const router = useRouter();
 
@@ -76,12 +76,11 @@ const fetchPatients = (token: string) => {
   getPatients(token).then(({ data: patients, status }) => {
     if (status != 200) return;
 
-
-    patients?.forEach(patient => {
+    patients?.forEach((patient) => {
       const data = {
         token,
         patientId: patient.patient_id,
-        complete: '0'
+        complete: "0",
       };
       getUserReceptions(data).then(({ data: receptions, status }) => {
         if (status != 200) return;
@@ -108,8 +107,8 @@ const fetchUserMessages = () => {
 };
 const notifyPopover = ref();
 const toggleNotifyPopover = (e: Event) => {
-  notifyPopover.value.toggle(e)
-}
+  notifyPopover.value.toggle(e);
+};
 
 onMounted(() => {
   fetchUserInfo();
@@ -128,33 +127,34 @@ onMounted(() => {
 
 <template>
   <PagesTemplate class="pb-[80px]" v-if="user">
-    <div
-      class="flex mt-[90px] items-center gap-[8px] ml-[21px]"
-      @click="router.push(routeToPush)"
-    >
-      <img
-        v-if="user.personal_photo"
-        class="size-[50px] object-cover rounded-full"
-        :src="`https://idykvrachy.ru${user.personal_photo}`"
-        alt="Аватар"
-      />
-      <svg
-        v-else
-        version="1.0"
-        xmlns="http://www.w3.org/2000/svg"
-        width="10%"
-        height="10%"
-        viewBox="0 0 512 512"
-        preserveAspectRatio="xMidYMid meet"
-        opacity="0.3"
+    <div class="flex mt-[60px] items-center gap-[15%] ml-[21px] w-[100%]">
+      <div
+        class="flex items-center gap-[8px]"
+        @click="router.push(routeToPush)"
       >
-        <g
-          transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
-          fill="#000000"
-          stroke="none"
+        <img
+          v-if="user.personal_photo"
+          class="size-[50px] object-cover rounded-full"
+          :src="`https://idykvrachy.ru${user.personal_photo}`"
+          alt="Аватар"
+        />
+        <svg
+          v-else
+          version="1.0"
+          xmlns="http://www.w3.org/2000/svg"
+          width="10%"
+          height="10%"
+          viewBox="0 0 512 512"
+          preserveAspectRatio="xMidYMid meet"
+          opacity="0.3"
         >
-          <path
-            d="M2380 5114 c-19 -2 -78 -9 -130 -14 -330 -36 -695 -160 -990 -336
+          <g
+            transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
+            fill="#000000"
+            stroke="none"
+          >
+            <path
+              d="M2380 5114 c-19 -2 -78 -9 -130 -14 -330 -36 -695 -160 -990 -336
               -375 -224 -680 -529 -904 -904 -175 -292 -291 -632 -338 -990 -16 -123 -16
               -497 0 -620 82 -623 356 -1150 820 -1581 256 -239 575 -425 922 -539 274 -91
               491 -124 800 -124 228 0 329 9 530 50 689 141 1304 583 1674 1204 175 292 291
@@ -175,27 +175,35 @@ onMounted(() => {
               -240 -679 -394 -1095 -454 -116 -17 -454 -17 -570 0 -416 60 -787 214 -1095
               454 -36 28 -66 51 -67 52 -2 1 4 39 12 84 91 517 461 950 961 1124 221 77 431
               98 679 66z"
-          />
-        </g>
-      </svg>
+            />
+          </g>
+        </svg>
 
-      <p
-        class="font-semiboldm text-sm leading-[18px] font-semibold text-[#040404]"
+        <p
+          class="font-semiboldm text-sm leading-[18px] font-semibold text-[#040404]"
+        >
+          Здравствуйте, {{ `${user.name}` }}
+        </p>
+      </div>
+      <div
+        style="position: absolute; right: 20px"
+        class="w-[25px]"
+        @click="toggleNotifyPopover"
       >
-        Здравствуйте, {{ `${user.name} ${user.second_name}` }}
-      </p>
+        <OverlayBadge
+          :value="userMessages.length"
+          size="small"
+          severity="danger"
+        >
+          <img :src="colocol" />
+        </OverlayBadge>
+      </div>
     </div>
     <p
       class="font-semibold text-[18px] leading-[18px] text-[#006879] mt-[14px] ml-[19px]"
     >
       Предложения наших партнеров
     </p>
-
-    <div class="translate-y-[-70px] translate-x-[340px] w-[20px]" @click="toggleNotifyPopover">
-      <OverlayBadge :value="userMessages.length" size="small" severity="danger">
-        <img :src="colocol" />
-      </OverlayBadge>
-    </div>
 
     <Popover ref="notifyPopover">
       <NotificationBlock :messages="userMessages" />
@@ -240,10 +248,17 @@ onMounted(() => {
       Запись
     </p>
     <div v-if="!doctors && dataReceptions" class="mt-[34px]">
-
-      <Carousel :value="dataReceptions" :numVisible="1" :numScroll="1" :showIndicators="false">
+      <Carousel
+        :value="dataReceptions"
+        :numVisible="1"
+        :numScroll="1"
+        :showIndicators="false"
+      >
         <template #item="{ data }">
-          <router-link :to="'/treatment2/' + data.reception_id" class="rounded-[14px] border shadow-lg">
+          <router-link
+            :to="'/treatment2/' + data.reception_id"
+            class="rounded-[14px] border shadow-lg"
+          >
             <div class="flex flex-col px-[32px] py-[17px]">
               <p class="font-semibold text-[20px] leading-6 text-[#00B9C2]">
                 {{ data.doctor_specialization }}
@@ -252,7 +267,9 @@ onMounted(() => {
                 {{ new Date(data.datetime).toLocaleString() }}
               </p>
               <div class="flex justify-between mt-[40px]">
-                <p class="font-semibold text-[12px] leading-[15px] text-[#828282]">
+                <p
+                  class="font-semibold text-[12px] leading-[15px] text-[#828282]"
+                >
                   {{ data.doctor_clinic }}
                 </p>
               </div>
@@ -260,7 +277,6 @@ onMounted(() => {
           </router-link>
         </template>
       </Carousel>
-
     </div>
   </PagesTemplate>
 </template>

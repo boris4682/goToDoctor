@@ -4,7 +4,7 @@ import img from "@assets/Auth.png";
 import { ref, onMounted } from "vue";
 import { loginUser } from "../../services/Auth/LoginService";
 import { useRouter } from "vue-router";
-import {useToast} from "primevue/usetoast";
+import { useToast } from "primevue/usetoast";
 import { updateDeviceToken } from "@/services/User/updateDeviceToken";
 
 const userData = ref({
@@ -23,8 +23,7 @@ const fetchLogin = async () => {
       localStorage.setItem("userData", JSON.stringify(data.user));
       updateDeviceToken();
       router.push("/mainpage");
-    }
-    else {
+    } else {
       toast.add({
         severity: "error",
         summary: "Ошибка",
@@ -58,13 +57,13 @@ onMounted(() => {
   <div class="flex justify-center">
     <div class="pt-[66px] w-[290px] pb-[40px]">
       <input
-        class="w-full h-10 bg-[#E5F2FC] mt-[18px] rounded-[10px] pl-3"
+        class="w-full h-10 bg-[#E5F2FC] mt-[18px] rounded-[10px] pl-3 focus:outline-none focus:ring-2 focus:ring-[#00B9C2]"
         type="email"
         v-model="userData.login"
         placeholder="Email"
       />
       <input
-        class="w-full h-10 bg-[#E5F2FC] mt-[18px] rounded-[10px] pl-3"
+        class="w-full h-10 bg-[#E5F2FC] mt-[18px] rounded-[10px] pl-3 focus:outline-none focus:ring-2 focus:ring-[#00B9C2]"
         type="password"
         placeholder="Пароль"
         v-model="userData.password"
@@ -85,10 +84,13 @@ onMounted(() => {
           Войти
         </p>
       </div>
-      <a
-        class="text-[#A4A5A5] text-4 font-medium leading-4 pl-[13px] cursor-pointer flex justify-center items-center mt-10"
-        >Забыли пароль?</a
-      >
+      <RouterLink to="/resetpassword">
+        <a
+          class="text-[#A4A5A5] text-4 font-medium leading-4 pl-[13px] cursor-pointer flex justify-center items-center mt-10"
+          >Забыли пароль?</a
+        >
+      </RouterLink>
+
       <RouterLink
         to="/reg"
         class="text-[13px] font-semibold leading-4 text-black mt-[46px] flex justify-center items-center"

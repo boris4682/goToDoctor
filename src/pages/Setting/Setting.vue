@@ -97,14 +97,14 @@ onMounted(() => {
     <div class="flex justify-between w-full relative">
       <img
         :src="back"
-        class="absolute top-[-100px] left-4 w-[11px] h-[16px] cursor-pointer"
+        class="absolute top-[-120px] left-4 w-[11px] h-[16px] cursor-pointer"
         @click="router.back()"
       />
     </div>
     <input id="avatar" class="hidden" accept="image/*" />
     <label
       for="avatar"
-      class="top-[-40px] translate-y-[-100px] translate-x-[15px]"
+      class="top-[-70px] translate-y-[-100px] translate-x-[15px]"
       style="position: relative"
     >
       <img

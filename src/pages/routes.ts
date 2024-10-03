@@ -256,6 +256,16 @@ export const routes = [
     component: () => import("./PatientRecetpionCard"),
     name: "PatientRecetpionCard",
   },
+  {
+    path: "/resetpassword",
+    component: () => import("./ResetPassword"),
+    name: "ResetPassword",
+  },
+  {
+    path: "/preloader",
+    component: () => import("./Preloader"),
+    name: "Preloader",
+  },
 ];
 
 export const router = createRouter({
