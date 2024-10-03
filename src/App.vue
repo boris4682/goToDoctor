@@ -80,6 +80,7 @@ onMounted(() => {
   z-index: 999999;
   width: 100%;
   height: 100%;
+  top: 0;
   background-color: #fff;
 }
 .v-enter-active,
