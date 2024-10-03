@@ -164,7 +164,7 @@ export const routes = [
     name: "StepThree",
   },
   {
-    path: "/stepthree/:id",
+    path: "/stepthree/:id/:clinic_id",
     component: () => import("./StepFour"),
     name: "StepFour",
   },

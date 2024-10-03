@@ -12,13 +12,13 @@ export interface IDoctor {
 }
 
 export const getDoctorsDataByCategoryId = async (
-  sectionId: string | string[]
+  sectionId: string | string[],
+  clinicId: string | string[]
 ) => {
   try {
     const response = await ApiClient({
       method: "GET",
-      url: `doctors/getDoctorsDataByCategoryId?sectionId=${sectionId}`,
-      // params: `sectionId=${sectionId}`,
+      url: `doctors/getDoctorsDataByCategoryId?sectionId=${sectionId}&clinicId=${clinicId}`,
     });
 
     const { data, status } = response;

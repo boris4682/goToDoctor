@@ -26,8 +26,16 @@ const selectCategory = (category: {
   name: string;
   picture: string;
 }) => {
-  localStorage.setItem("selectedCategory", JSON.stringify(category));
-  router.push(`/stepthree/${category.category_id}`);
+  const selectedClinic = JSON.parse(
+    localStorage.getItem("selectedClinic") || "{}"
+  );
+
+  if (selectedClinic && selectedClinic.id) {
+    localStorage.setItem("selectedCategory", JSON.stringify(category));
+    router.push(`/stepthree/${category.category_id}/${selectedClinic.id}`);
+  } else {
+    console.log("Ошибка: Клиника не найдена в localStorage");
+  }
 };
 
 onMounted(() => {

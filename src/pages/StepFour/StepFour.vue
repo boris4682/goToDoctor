@@ -15,9 +15,10 @@ const route = useRoute();
 const doctors = ref<IDoctor[] | null>(null);
 const isLoading = ref(true);
 const categoryId = route.params.id;
+const clinicId = route.params.clinic_id;
 
 const getDoctorsDataByCategoryIdHandler = async () => {
-  const { data } = await getDoctorsDataByCategoryId(categoryId);
+  const { data } = await getDoctorsDataByCategoryId(categoryId, clinicId);
 
   if (!data) {
     console.log("Ошибка на сервере");
