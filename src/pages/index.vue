@@ -1,13 +1,12 @@
 <script setup lang="ts">
 import FadeLoader from "vue-spinner/src/FadeLoader.vue";
-import { RouteMeta, RouterView, useRouter } from 'vue-router';
-import Loader  from "../components/shared/Loader.vue";
-import { ref } from 'vue';
+import { RouteMeta, RouterView, useRouter } from "vue-router";
+import Loader from "../components/shared/Loader.vue";
+import { ref } from "vue";
 
 const router = useRouter();
 const isShowLoader = ref(false);
 
-  
 const getTransitionName = (transitionMeta: RouteMeta) => {
   if (
     transitionMeta &&
@@ -26,7 +25,6 @@ router.beforeEach(() => {
 router.afterEach(() => {
   isShowLoader.value = false;
 });
-
 </script>
 
 <template>

@@ -1,5 +1,11 @@
 <template>
   <div>
+    <Transition>
+      <div class="preloader" v-if="isPreloader">
+        <Preloader />
+      </div>
+    </Transition>
+
     <DefaultLayout v-if="isAuthenticated">
       <Toast />
       <router-view />
@@ -14,9 +20,10 @@ import { useRouter } from "vue-router";
 import Toast from "primevue/toast";
 import DefaultLayout from "./components/DefaultLayout.vue";
 import { addDeviceToken } from "@/services/User/addDeviceToken";
+import Preloader from "@/pages/Preloader";
 
 import { PushNotifications } from "@capacitor/push-notifications";
-import { Device } from '@capacitor/device';
+import { Device } from "@capacitor/device";
 
 const router = useRouter();
 const isAuthenticated = ref(false);
@@ -46,11 +53,12 @@ const deviceToken = async () => {
         if (status === 200) {
           isToken.value = true;
         }
-      })
+      });
     }
   });
 };
 
+const isPreloader = ref(true);
 onMounted(() => {
   const user = localStorage.getItem("userData");
   if (user) {
@@ -59,5 +67,28 @@ onMounted(() => {
     router.push("/auth");
   }
   registerNotifications();
+
+  setTimeout(() => {
+    isPreloader.value = false;
+  }, 1000);
 });
 </script>
+
+<style scoped>
+.preloader {
+  position: fixed;
+  z-index: 999999;
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+}
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
+</style>

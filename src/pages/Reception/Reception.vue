@@ -235,10 +235,10 @@ onMounted(() => {
           />
         </div>
 
-        <div class="field-checkbox">
-          <Checkbox v-model="isComplited" />
-          <label for="isComplited" class="ml-2">Закрыть прием</label>
-        </div>
+        <label class="field-checkbox">
+          <Checkbox v-model="isComplited" binary />
+          <span class="ml-2">Закрыть прием</span>
+        </label>
 
         <div class="flex space-between mt-4">
           <Button

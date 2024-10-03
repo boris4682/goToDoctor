@@ -1,4 +1,4 @@
-<script setup lang="ts">
+  <script setup lang="ts">
 import mainpreloader from "@assets/preloader.svg";
 import logopreloader from "@assets/preloaderlogo.svg";
 import doctorandboy from "@assets/doctorandboy.png";
