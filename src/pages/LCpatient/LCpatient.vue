@@ -97,6 +97,11 @@ const handleInput = (event) => {
 
   user.value.birthday = inputValue;
 };
+
+const logout = () => {
+  delete localStorage.userData;
+  router.push("/auth");
+};
 </script>
 
 <template>
@@ -276,6 +281,17 @@ const handleInput = (event) => {
               class="text-[20px] leading-[24px] font-bold text-white cursor-pointer"
             >
               Оформить подписку
+            </p>
+          </div>
+
+          <div
+            @click="logout"
+            class="w-full h-[55px] rounded-[30px] bg-[#c94646] flex items-center justify-center mt-[34px]"
+          >
+            <p
+              class="text-[20px] leading-[24px] font-bold text-white cursor-pointer"
+            >
+              Выйти
             </p>
           </div>
         </div>
