@@ -119,13 +119,22 @@ const sendForm = () => {
   console.log(data);
 
   saveAnswers(data)
-    .then(() => {
-      toast.add({
-        severity: "success",
-        summary: "Сохранено!",
-        detail: "Опрос успешно сохранен",
-        life: 3000,
-      });
+    .then(({ data: res }) => {
+      if (res.success) {
+        toast.add({
+          severity: "success",
+          summary: "Сохранено!",
+          detail: "Опрос успешно сохранен",
+          life: 3000,
+        });
+      } else {
+        toast.add({
+          severity: "error",
+          summary: "Ошибка",
+          detail: res.data,
+          life: 3000,
+        });
+      }
     })
     .finally(() => {
       loadingForm.value = false;
