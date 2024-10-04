@@ -6,7 +6,7 @@ import third from "@assets/icons/third.png";
 import PagesTemplate from "@//components/shared/PagesTemplate.vue";
 
 import { getPatientChecklists } from "@/services/preparation/getPatientChecklists";
-import {getPatientVotes} from "@/services/preparation/getPatientVotes";
+import { getPatientVotes } from "@/services/preparation/getPatientVotes";
 import { getUserReceptions } from "@/services/reception/getUserReceptions";
 
 import { useRouter } from "vue-router";
@@ -22,25 +22,29 @@ const fetchChecklists = () => {
   getPatientChecklists().then(({ data, status }) => {
     if (status != 200) return;
 
-    const patientData = JSON.parse(localStorage.selectedPatient ?? '{}');
-    checklists.value = data.filter((item: any) => item.vote_patient_id == patientData.patient_id);
-  })
-}
+    const patientData = JSON.parse(localStorage.selectedPatient ?? "{}");
+    checklists.value = data.filter(
+      (item: any) => item.vote_patient_id == patientData.patient_id
+    );
+  });
+};
 
 const votes = ref([]);
 const fetchVotes = () => {
   getPatientVotes().then(({ data, status }) => {
     if (status != 200) return;
 
-    const patientData = JSON.parse(localStorage.selectedPatient ?? '{}');
-    votes.value = data.filter((item: any) => item.vote_patient_id == patientData.patient_id);
-  })
-}
+    const patientData = JSON.parse(localStorage.selectedPatient ?? "{}");
+    votes.value = data.filter(
+      (item: any) => item.vote_patient_id == patientData.patient_id
+    );
+  });
+};
 
 const receptionsPlanned = ref<any[]>([]);
 const fetchUserReceptions = () => {
-  const userData = JSON.parse(localStorage.userData ?? '{}');
-  const patientData = JSON.parse(localStorage.selectedPatient ?? '{}');
+  const userData = JSON.parse(localStorage.userData ?? "{}");
+  const patientData = JSON.parse(localStorage.selectedPatient ?? "{}");
 
   const params = {
     token: userData.auth_token,
@@ -51,8 +55,8 @@ const fetchUserReceptions = () => {
     if (status != 200) return;
 
     receptionsPlanned.value = data;
-  })
-}
+  });
+};
 
 onMounted(() => {
   fetchChecklists();
@@ -72,13 +76,13 @@ const goToReceptionMenu2 = () => {
 };
 
 const goToChecklist = () => {
-  if (checklists.value.length > 0)
-    router.push("/checklist");
+  const patientData = JSON.parse(localStorage.selectedPatient ?? "{}");
+  router.push(`/checklist-form/2/${patientData.patient_id}`);
 };
 
 const goToChecklist2 = () => {
-  if (votes.value.length > 0)
-    router.push("/votes-list");
+  const patientData = JSON.parse(localStorage.selectedPatient ?? "{}");
+  router.push(`/questionnaire/1/${patientData.patient_id}`);
 };
 </script>
 
@@ -129,15 +133,6 @@ const goToChecklist2 = () => {
               <p class="text-[16px] font-semibold leading-6 text-[#00B9C2]">
                 Анкета
               </p>
-              <div
-                class="rounded-full border w-[30px] h-[30px] bg-gradient-to-b from-[#006879] to-[#00B9C2] flex justify-center items-center"
-              >
-                <p
-                  class="text-center text-[16px] font-semibold leading-5 text-white"
-                >
-                  {{ votes.length }}
-                </p>
-              </div>
             </div>
             <img :src="second" class="ml-[15px]" />
           </div>
@@ -150,15 +145,6 @@ const goToChecklist2 = () => {
               <p class="text-[16px] font-semibold leading-6 text-[#00B9C2]">
                 Чек-лист
               </p>
-              <div
-                class="rounded-full border w-[30px] h-[30px] bg-gradient-to-b from-[#006879] to-[#00B9C2] flex justify-center items-center"
-              >
-                <p
-                  class="text-center text-[16px] font-semibold leading-5 text-white"
-                >
-                  {{ checklists.length }}
-                </p>
-              </div>
             </div>
             <img :src="third" class="ml-[15px]" />
           </div>

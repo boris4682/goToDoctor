@@ -102,6 +102,9 @@ onMounted(() => {
   getPatientsData();
 });
 const goToReceptionMenu = (patient) => {
+  localStorage.setItem("Patient_second_name", patient.patient_last_name);
+  localStorage.setItem("Patient_u_name", patient.patient_u_name);
+
   localStorage.setItem("selectedPatient", JSON.stringify(patient));
   router.push("/receptionmenu");
 };

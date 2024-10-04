@@ -24,6 +24,7 @@ const patientName = ref("");
 const currentDate = ref("");
 
 const voteInfo = ref();
+const isError = ref(false);
 const fetchVoteInfo = async () => {
   const token = JSON.parse(localStorage.userData).auth_token;
   const params = {
@@ -31,10 +32,17 @@ const fetchVoteInfo = async () => {
     patientId: route.params.patientId as string,
     voteId: route.params.id as string,
   };
-  return getVoteInfo(params).then(({ data, status }) => {
-    if (status != 200) return;
-    voteInfo.value = data;
-  });
+  return getVoteInfo(params)
+    .then(({ data, status }) => {
+      if (status != 200) {
+        isError.value = true;
+        return;
+      }
+      voteInfo.value = data;
+    })
+    .catch(() => {
+      isError.value = true;
+    });
 };
 
 const checkListName = ref("");
@@ -53,8 +61,10 @@ onMounted(async () => {
   if (route.params.patientId) {
     await fetchVoteInfo();
 
-    currentDate.value = voteInfo.value.date_pass;
-    patientName.value = voteInfo.value.patient_name;
+    if (!isError.value) {
+      currentDate.value = voteInfo.value.date_pass;
+      patientName.value = voteInfo.value.patient_name;
+    }
   }
 
   console.log(voteInfo.value);
@@ -73,9 +83,7 @@ onMounted(async () => {
 
         let answer = null;
         if (!!voteInfo.value) {
-          if (q.fields[0].field_type == "radio")
-            answer = Object.keys(voteInfo.value.answers[q.id])[0];
-          else answer = voteInfo.value.answers[q.id][q.fields[0].id];
+          answer = voteInfo.value.answers[q.id];
         }
 
         blockQuestions.value[bn].push({
@@ -144,7 +152,10 @@ const sendForm = () => {
           <p class="font-semibold text-[18px] leading-[18px] text-[#00B9C2]">
             {{ patientName }}
           </p>
-          <div class="flex gap-[15px] justify-between items-end">
+          <div
+            v-if="!isError"
+            class="flex gap-[15px] justify-between items-end"
+          >
             <h3 class="text-[rgb(0,104,121)] text-[16px] font-semibold">
               {{ checkListName }}
             </h3>
@@ -153,36 +164,40 @@ const sendForm = () => {
         </div>
       </div>
 
-      <div v-for="(questions, id) in blockQuestions" :key="id">
-        <Question
-          v-if="selectedBlock == id"
-          v-for="question in questions"
-          :key="question.id"
-          :question="question"
-          :disabled="!!voteInfo"
-          v-model:answer="question.answer"
-        />
-      </div>
+      <p v-if="isError" class="text-center">Анкета не заполнена</p>
 
-      <div v-if="blockQuestions[2]" class="paginate">
-        <div
-          v-for="(_questions, id) in blockQuestions"
-          :key="id"
-          class="paginate__item"
-          :class="{ active: selectedBlock == id }"
-          @click="selectedBlock = id"
-        ></div>
-      </div>
+      <div v-else>
+        <div v-for="(questions, id) in blockQuestions" :key="id">
+          <Question
+            v-if="selectedBlock == id"
+            v-for="question in questions"
+            :key="question.id"
+            :question="question"
+            :disabled="!!voteInfo"
+            v-model:answer="question.answer"
+          />
+        </div>
 
-      <div v-if="!voteInfo" class="text-center px-[10px]">
-        <Button
-          type="button"
-          :loading="loadingForm"
-          @click="sendForm"
-          class="mt-[15px] w-full"
-        >
-          Сохранить
-        </Button>
+        <div v-if="blockQuestions[2]" class="paginate">
+          <div
+            v-for="(_questions, id) in blockQuestions"
+            :key="id"
+            class="paginate__item"
+            :class="{ active: selectedBlock == id }"
+            @click="selectedBlock = id"
+          ></div>
+        </div>
+
+        <div v-if="!voteInfo" class="text-center px-[10px]">
+          <Button
+            type="button"
+            :loading="loadingForm"
+            @click="sendForm"
+            class="mt-[15px] w-full"
+          >
+            Сохранить
+          </Button>
+        </div>
       </div>
     </div>
   </PagesTemplate>

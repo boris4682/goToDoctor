@@ -24,6 +24,7 @@ const toast = useToast();
 const blockQuestions = ref({});
 
 const checklistInfo = ref();
+const isError = ref(false);
 const fetchChecklistInfo = async () => {
   const token = JSON.parse(localStorage.userData).auth_token;
   const params = {
@@ -31,10 +32,17 @@ const fetchChecklistInfo = async () => {
     patientId: route.params.patientId as string,
     voteId: route.params.id as string,
   };
-  return getChecklistInfo(params).then(({ data, status }) => {
-    if (status != 200) return;
-    checklistInfo.value = data;
-  });
+  return getChecklistInfo(params)
+    .then(({ data, status }) => {
+      if (status != 200) {
+        isError.value = true;
+        return;
+      }
+      checklistInfo.value = data;
+    })
+    .catch(() => {
+      isError.value = true;
+    });
 };
 
 const checkListName = ref("");
@@ -54,8 +62,10 @@ onMounted(async () => {
   if (route.params.patientId) {
     await fetchChecklistInfo();
 
-    currentDate.value = checklistInfo.value.date_pass;
-    patientName.value = checklistInfo.value.patient_name;
+    if (!isError.value) {
+      currentDate.value = checklistInfo.value.date_pass;
+      patientName.value = checklistInfo.value.patient_name;
+    }
   }
 
   console.log(checklistInfo.value);
@@ -213,7 +223,10 @@ const sendForm = () => {
           <p class="font-semibold text-[18px] leading-[18px] text-[#00B9C2]">
             {{ patientName }}
           </p>
-          <div class="flex gap-[15px] justify-between items-end">
+          <div
+            v-if="!isError"
+            class="flex gap-[15px] justify-between items-end"
+          >
             <h3 class="text-[rgb(0,104,121)] text-[16px] font-semibold">
               {{ checkListName }}
             </h3>
@@ -222,83 +235,89 @@ const sendForm = () => {
         </div>
       </div>
 
-      <div v-for="(questions, id) in blockQuestions" :key="id">
-        <DataTable :value="questions" v-if="selectedBlock == id">
-          <Column field="index" header="№" class="text-[12px]">
-            <template #body="{ index }">{{ getNumberRow(index, id) }}</template>
-          </Column>
-          <Column field="text" header="Действие" class="text-[12px]"></Column>
-          <Column field="field2" header="2б">
-            <template #body="{ data }">
-              <RadioButton
-                v-model="data.selected"
-                :value="data.fields[2]"
-                :disabled="!!checklistInfo"
-              />
-            </template>
-          </Column>
-          <Column field="field1" header="1б">
-            <template #body="{ data }">
-              <RadioButton
-                v-model="data.selected"
-                :value="data.fields[1]"
-                :disabled="!!checklistInfo"
-              />
-            </template>
-          </Column>
-          <Column field="field0" header="0б">
-            <template #body="{ data }">
-              <RadioButton
-                v-model="data.selected"
-                :value="data.fields[0]"
-                :disabled="!!checklistInfo"
-              />
-            </template>
-          </Column>
-        </DataTable>
-      </div>
+      <p v-if="isError" class="text-center">Чек-лист не заполнен</p>
 
-      <div class="paginate">
-        <div
-          v-for="(_questions, id) in blockQuestions"
-          :key="id"
-          class="paginate__item"
-          :class="{ active: selectedBlock == id }"
-          @click="selectedBlock = id"
-        ></div>
-      </div>
+      <div v-else>
+        <div v-for="(questions, id) in blockQuestions" :key="id">
+          <DataTable :value="questions" v-if="selectedBlock == id">
+            <Column field="index" header="№" class="text-[12px]">
+              <template #body="{ index }">{{
+                getNumberRow(index, id)
+              }}</template>
+            </Column>
+            <Column field="text" header="Действие" class="text-[12px]"></Column>
+            <Column field="field2" header="2б">
+              <template #body="{ data }">
+                <RadioButton
+                  v-model="data.selected"
+                  :value="data.fields[2]"
+                  :disabled="!!checklistInfo"
+                />
+              </template>
+            </Column>
+            <Column field="field1" header="1б">
+              <template #body="{ data }">
+                <RadioButton
+                  v-model="data.selected"
+                  :value="data.fields[1]"
+                  :disabled="!!checklistInfo"
+                />
+              </template>
+            </Column>
+            <Column field="field0" header="0б">
+              <template #body="{ data }">
+                <RadioButton
+                  v-model="data.selected"
+                  :value="data.fields[0]"
+                  :disabled="!!checklistInfo"
+                />
+              </template>
+            </Column>
+          </DataTable>
+        </div>
 
-      <div class="results w-[354px] mx-auto">
-        <h4 class="text-[16px] text-[rgb(0,185,194)]">
-          Итоги по каждому блоку действий
-        </h4>
+        <div class="paginate">
+          <div
+            v-for="(_questions, id) in blockQuestions"
+            :key="id"
+            class="paginate__item"
+            :class="{ active: selectedBlock == id }"
+            @click="selectedBlock = id"
+          ></div>
+        </div>
 
-        <DataTable :value="resultsTable">
-          <Column field="index" class="text-[12px] font-bold"></Column>
-          <Column field="name" class="text-[12px]">
-            <template #body="{ data }">
-              <span
-                :class="{
-                  'text-[rgb(0,104,121)] text-[16px]': data.index == '',
-                }"
-              >
-                {{ data.name }}
-              </span>
-            </template>
-          </Column>
-          <Column field="res"></Column>
-        </DataTable>
-      </div>
+        <div class="results w-[354px] mx-auto">
+          <h4 class="text-[16px] text-[rgb(0,185,194)]">
+            Итоги по каждому блоку действий
+          </h4>
 
-      <div v-if="!checklistInfo" class="text-center px-[10px]">
-        <Button
-          type="button"
-          :loading="loadingForm"
-          @click="sendForm"
-          class="mt-[15px] w-full"
-        >
-          Сохранить
-        </Button>
+          <DataTable :value="resultsTable">
+            <Column field="index" class="text-[12px] font-bold"></Column>
+            <Column field="name" class="text-[12px]">
+              <template #body="{ data }">
+                <span
+                  :class="{
+                    'text-[rgb(0,104,121)] text-[16px]': data.index == '',
+                  }"
+                >
+                  {{ data.name }}
+                </span>
+              </template>
+            </Column>
+            <Column field="res"></Column>
+          </DataTable>
+        </div>
+
+        <div v-if="!checklistInfo" class="text-center px-[10px]">
+          <Button
+            type="button"
+            :loading="loadingForm"
+            @click="sendForm"
+            class="mt-[15px] w-full"
+          >
+            Сохранить
+          </Button>
+        </div>
       </div>
     </div>
   </PagesTemplate>
