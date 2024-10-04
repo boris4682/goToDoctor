@@ -38,10 +38,9 @@ onMounted(() => {
   const selectedDoctor = JSON.parse(
     localStorage.getItem("selectedDoctor") ?? "{}"
   );
-  const selectedDate = localStorage.getItem("selectedDate") ?? "";
   const selectedTime =
     localStorage.getItem("selectedTime") ?? "Время не указано";
-  const dateTime = `${selectedDate} ${selectedTime}`;
+  const dateTime = `${selectedTime}`;
 
   patientName.value = `${patientSecondName} ${patientUName}`.trim();
   clinicId.value = service.value = selectedService;
@@ -182,12 +181,6 @@ const closeModal = () => {
                     class="font-light text-[18px] leading-[22px] text-[#5D5D5D]"
                   >
                     {{ doctorName }}
-                  </p>
-                  <img :src="card" class="ml-[30px]" />
-                  <p
-                    class="font-semibold text-[11px] leading-[13px] text-[#006879]"
-                  >
-                    О враче
                   </p>
                 </div>
               </div>
