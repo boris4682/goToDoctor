@@ -115,6 +115,15 @@ const checkCodeAndChangePassword = async () => {
           {{ isCodeSent ? "Подтвердить и сменить пароль" : "Отправить код" }}
         </p>
       </div>
+      <RouterLink
+        to="/auth"
+        class="text-[13px] font-semibold leading-4 text-black mt-[46px] flex justify-center"
+        >Вспомнили пароль?
+        <a
+          class="ml- cursor-pointer font-bold text-[#00B9C2] text-[15px] leading-[18px] ml-1"
+          >Войти</a
+        >
+      </RouterLink>
     </div>
   </div>
 </template>
