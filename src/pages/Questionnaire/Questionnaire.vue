@@ -45,12 +45,15 @@ const fetchVoteInfo = async () => {
     });
 };
 
+const userData = ref();
 const checkListName = ref("");
 const loading = ref(true);
 onMounted(async () => {
   const patientSecondName = localStorage.getItem("Patient_second_name");
   const patientUName = localStorage.getItem("Patient_u_name");
   patientName.value = `${patientSecondName} ${patientUName}`;
+
+  userData.value = JSON.parse(localStorage.userData ?? "{}");
 
   const today = new Date();
   const day = String(today.getDate()).padStart(2, "0");
@@ -173,7 +176,9 @@ const sendForm = () => {
         </div>
       </div>
 
-      <p v-if="isError" class="text-center">Анкета не заполнена</p>
+      <p v-if="isError && userData.isDoctor" class="text-center">
+        Анкета не заполнена
+      </p>
 
       <div v-else>
         <div v-for="(questions, id) in blockQuestions" :key="id">
