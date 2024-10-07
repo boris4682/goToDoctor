@@ -59,7 +59,7 @@ const fetchAppointments = async (token: string) => {
     month: "current",
   });
   if (status === 200 && data.length > 0) {
-    appointments.value = data.slice(0, 3); 
+    appointments.value = data.slice(0, 3);
   } else {
     console.log("Ошибка получения данных о приёмах");
   }
@@ -99,33 +99,34 @@ onMounted(() => {
 
 <template>
   <PagesTemplate class="pb-[80px]" v-if="user">
-    <div
-      class="flex mt-[90px] items-center gap-[8px] ml-[21px]"
-      @click="router.push(routeToPush)"
-    >
-      <img
-        v-if="user.personal_photo"
-        class="size-[50px] object-cover rounded-full"
-        :src="`https://idykvrachy.ru${user.personal_photo}`"
-        alt="Аватар"
-      />
-      <svg
-        v-else
-        version="1.0"
-        xmlns="http://www.w3.org/2000/svg"
-        width="10%"
-        height="10%"
-        viewBox="0 0 512 512"
-        preserveAspectRatio="xMidYMid meet"
-        opacity="0.3"
+    <div class="flex mt-[60px] items-center gap-[15%] ml-[21px]">
+      <div
+        class="flex items-center gap-[8px]"
+        @click="router.push(routeToPush)"
       >
-        <g
-          transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
-          fill="#000000"
-          stroke="none"
+        <img
+          v-if="user.personal_photo"
+          class="size-[50px] object-cover rounded-full"
+          :src="`https://idykvrachy.ru${user.personal_photo}`"
+          alt="Аватар"
+        />
+        <svg
+          v-else
+          version="1.0"
+          xmlns="http://www.w3.org/2000/svg"
+          width="10%"
+          height="10%"
+          viewBox="0 0 512 512"
+          preserveAspectRatio="xMidYMid meet"
+          opacity="0.3"
         >
-          <path
-            d="M2380 5114 c-19 -2 -78 -9 -130 -14 -330 -36 -695 -160 -990 -336
+          <g
+            transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
+            fill="#000000"
+            stroke="none"
+          >
+            <path
+              d="M2380 5114 c-19 -2 -78 -9 -130 -14 -330 -36 -695 -160 -990 -336
               -375 -224 -680 -529 -904 -904 -175 -292 -291 -632 -338 -990 -16 -123 -16
               -497 0 -620 82 -623 356 -1150 820 -1581 256 -239 575 -425 922 -539 274 -91
               491 -124 800 -124 228 0 329 9 530 50 689 141 1304 583 1674 1204 175 292 291
@@ -146,25 +147,30 @@ onMounted(() => {
               -240 -679 -394 -1095 -454 -116 -17 -454 -17 -570 0 -416 60 -787 214 -1095
               454 -36 28 -66 51 -67 52 -2 1 4 39 12 84 91 517 461 950 961 1124 221 77 431
               98 679 66z"
-          />
-        </g>
-      </svg>
+            />
+          </g>
+        </svg>
 
-      <p
-        class="font-semibold text-sm leading-[18px] font-semibold text-[#040404]"
+        <p
+          class="font-semiboldm text-sm leading-[18px] font-semibold text-[#040404]"
+        >
+          Здравствуйте, {{ `${user.name}` }}
+        </p>
+      </div>
+      <div
+        style="position: absolute; right: 20px"
+        class="w-[25px]"
+        @click="toggleNotifyPopover"
       >
-        Здравствуйте, {{ user.name }} {{ user.second_name }}
-      </p>
+        <OverlayBadge
+          :value="userMessages.length"
+          size="small"
+          severity="danger"
+        >
+          <img :src="colocol" />
+        </OverlayBadge>
+      </div>
     </div>
-    <div
-      class="translate-y-[-30px] translate-x-[340px] w-[20px]"
-      @click="toggleNotifyPopover"
-    >
-      <OverlayBadge :value="userMessages.length" size="small" severity="danger">
-        <img :src="colocol" />
-      </OverlayBadge>
-    </div>
-
     <Popover ref="notifyPopover">
       <NotificationBlock :messages="userMessages" />
     </Popover>
@@ -222,5 +228,10 @@ onMounted(() => {
   left: 0;
   top: 0;
   color: #007bff;
+}
+.p-badge {
+  border-radius: 100% !important;
+  height: 20px !important;
+  width: 20px !important;
 }
 </style>

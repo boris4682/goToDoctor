@@ -112,7 +112,7 @@ const checkCodeAndChangePassword = async () => {
         "
       >
         <p class="text-[20px] leading-[24px] font-bold text-white">
-          {{ isCodeSent ? "Подтвердить и сменить пароль" : "Отправить код" }}
+          {{ isCodeSent ? "Подтвердить " : "Отправить код" }}
         </p>
       </div>
       <RouterLink

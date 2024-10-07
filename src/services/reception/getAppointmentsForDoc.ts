@@ -4,11 +4,12 @@ import { ApiClient } from "../Client";
 export const getAppointmentsForDoc = async (data: {
   token: string;
   month: string;
+  isCompleted: string;
 }) => {
   const formData = new FormData();
 
   for (const key in data) {
-    formData.append(key, data[key as keyof { token: string; month: string }]);
+    formData.append(key, data[key as keyof typeof data]);
   }
 
   try {
@@ -18,9 +19,9 @@ export const getAppointmentsForDoc = async (data: {
       data: formData,
     });
 
-    const { data, status } = response;
+    const { data: responseData, status } = response;
     if (status === 200) {
-      return { data, status };
+      return { data: responseData, status };
     } else {
       console.error(`Ошибка на сервере. Статус: ${status}`);
       return { data: null, status };

@@ -27,7 +27,8 @@ const isLoading = ref(false);
 
 const displayDialog = ref(false);
 const selectedReceptionId = ref<string | null>(null);
-
+const selectedTab = ref("planned");
+const selectedMonth = ref("current");
 const complaints = ref("");
 const diagnosis = ref("");
 const doctorOpinion = ref("");
@@ -55,7 +56,14 @@ const doctorsCategory = ref([
 const fetchAppointmentsData = async (month: string) => {
   isLoading.value = true;
   try {
-    const { data } = await getAppointmentsForDoc({ token, month });
+    let requestData: { token: string; month: string; isCompleted?: string } = {
+      token,
+      month,
+    };
+    if (month === "current") {
+      requestData.isCompleted = selectedTab.value === "completed" ? "1" : "0";
+    }
+    const { data } = await getAppointmentsForDoc(requestData);
     receptions.value = data;
   } catch (error) {
     console.error(error);
@@ -63,6 +71,18 @@ const fetchAppointmentsData = async (month: string) => {
     isLoading.value = false;
   }
 };
+const selectTab = (tab: string) => {
+  selectedTab.value = tab;
+  if (selectedMonth.value === "current") {
+    fetchAppointmentsData(selectedMonth.value);
+  }
+};
+
+const selectMonth = (month: string) => {
+  selectedMonth.value = month;
+  fetchAppointmentsData(month);
+};
+
 const openDialog = (receptionId: string) => {
   selectedReceptionId.value = receptionId;
   displayDialog.value = true;
@@ -122,7 +142,7 @@ const submitForm = async () => {
 };
 
 onMounted(() => {
-  fetchAppointmentsData("current");
+  fetchAppointmentsData(selectedMonth.value);
 });
 </script>
 
@@ -141,10 +161,16 @@ onMounted(() => {
       <div
         class="min-w-[70vw] h-[47px] rounded-[28px] bg-[#E5F2FC] mt-[28px] flex items-center justify-center gap-[12px] cursor-pointer"
         v-for="(item, index) in doctorsCategory"
-        @click="() => fetchAppointmentsData(item.category_id)"
+        @click="selectMonth(item.category_id)"
         :key="index"
       >
-        <p class="font-semibold text-[14px] leading-6 text-[#000000]">
+        <p
+          class="font-semibold text-[14px] leading-6"
+          :class="{
+            'text-[#00B9C2]': selectedMonth === item.category_id,
+            'text-[#000000]': selectedMonth !== item.category_id,
+          }"
+        >
           {{ item.name }}
         </p>
       </div>
@@ -152,6 +178,32 @@ onMounted(() => {
 
     <div v-if="isLoading" class="flex justify-center mt-5">
       <Loader />
+    </div>
+    <div
+      v-if="selectedMonth === 'current'"
+      class="flex gap-[15px] justify-between mt-[35px]"
+      style="width: 80%; margin-left: auto; margin-right: auto"
+    >
+      <p
+        class="font-semibold text-[15px] leading-9 cursor-pointer"
+        :class="{
+          'text-[#00B9C2]': selectedTab === 'planned',
+          'text-[#A3A3A3]': selectedTab !== 'planned',
+        }"
+        @click="selectTab('planned')"
+      >
+        Запланированные
+      </p>
+      <p
+        class="font-semibold text-[15px] leading-9 cursor-pointer"
+        :class="{
+          'text-[#00B9C2]': selectedTab === 'completed',
+          'text-[#A3A3A3]': selectedTab !== 'completed',
+        }"
+        @click="selectTab('completed')"
+      >
+        Завершенные
+      </p>
     </div>
     <div
       v-if="receptions.length"

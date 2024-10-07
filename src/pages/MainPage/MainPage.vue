@@ -127,7 +127,7 @@ onMounted(() => {
 
 <template>
   <PagesTemplate class="pb-[80px]" v-if="user">
-    <div class="flex mt-[60px] items-center gap-[15%] ml-[21px] w-[100%]">
+    <div class="flex mt-[60px] items-center gap-[15%] ml-[21px]">
       <div
         class="flex items-center gap-[8px]"
         @click="router.push(routeToPush)"
@@ -300,5 +300,10 @@ onMounted(() => {
   left: 0;
   top: 0;
   color: #007bff;
+}
+.p-badge {
+  border-radius: 100%!important;
+  height: 20px!important;
+  width: 20px!important;
 }
 </style>
