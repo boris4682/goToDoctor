@@ -320,7 +320,7 @@ const logout = () => {
   </PagesTemplate>
   <div v-else class="">Зарегистируйтесь</div>
 </template>
-<style>
+<style scoped>
 .p-datepicker-input {
   background: #e5f2fc;
   border: none;

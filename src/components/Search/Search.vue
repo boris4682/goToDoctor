@@ -3,7 +3,7 @@
   <input type="text" name="search" placeholder="Наименование">
 </template>
 
-<style>
+<style scoped>
 input[type=text] {
   width: 364px;
   height: 49px;
@@ -13,7 +13,7 @@ input[type=text] {
   font-size: 19px;
   background-color: white;
   background-image: url('@assets/icons/Magnifier.svg');
-  background-position:10px; 
+  background-position:10px;
   background-repeat: no-repeat;
   padding: 12px 20px 12px 50px;
 }

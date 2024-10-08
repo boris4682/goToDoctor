@@ -46,4 +46,4 @@ router.afterEach(() => {
     </template>
   </RouterView>
 </template>
-<style></style>
+<style scoped></style>

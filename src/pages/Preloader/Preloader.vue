@@ -15,7 +15,7 @@ import doctorandboy from "@assets/doctorandboy.png";
   </div>
 </template>
 
-<style>
+<style scoped>
 .preloader-container {
   position: relative;
   width: 100vw;

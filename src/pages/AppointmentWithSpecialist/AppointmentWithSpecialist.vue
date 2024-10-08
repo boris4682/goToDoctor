@@ -158,7 +158,7 @@ onMounted(() => {
   </PagesTemplate>
 </template>
 
-<style>
+<style scoped>
 .p-toast {
   width: 90% !important;
   right: 15px !important;

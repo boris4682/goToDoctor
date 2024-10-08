@@ -72,7 +72,7 @@ const selectService = (service: string) => {
   </PagesTemplate>
 </template>
 
-<style>
+<style scoped>
 input[type="text"] {
   width: 364px;
   height: 49px;
