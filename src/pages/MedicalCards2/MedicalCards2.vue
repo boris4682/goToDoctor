@@ -25,13 +25,20 @@ const router = useRouter();
 
 const fetchPatientIds = async (): Promise<string[]> => {
   const patientIds = new Set<string>();
-  const months = ["current", "prev", "next"];
+  const months = ["prev", "next"];
 
   try {
-    const promises = months.map((month) =>
+    const currentMonthPromises = [
+      getAppointmentsForDoc({ token, month: "current", isCompleted: 0 }),
+      getAppointmentsForDoc({ token, month: "current", isCompleted: 1 }),
+    ];
+
+    const otherMonthPromises = months.map((month) =>
       getAppointmentsForDoc({ token, month })
     );
-    const responses = await Promise.all(promises);
+
+    const allPromises = [...currentMonthPromises, ...otherMonthPromises];
+    const responses = await Promise.all(allPromises);
 
     responses.forEach((response) => {
       if (response.data && Array.isArray(response.data)) {
