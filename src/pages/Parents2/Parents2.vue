@@ -69,8 +69,8 @@ const selectPatientAndGo = (patient) => {
     localStorage.setItem("Patient_u_name", patient.patient_u_name);
     const destination =
       selectedAction.value === "questionnaire"
-        ? `/questionnaire/${ufVoteId}`
-        : `/checklist-form/${ufChecklistId}`;
+        ? `/questionnaire/${ufVoteId}/${patient.patient_id}`
+        : `/checklist-form/${ufChecklistId}/${patient.patient_id}`;
 
     router.push(destination);
   } else {
