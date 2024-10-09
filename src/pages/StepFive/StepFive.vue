@@ -93,6 +93,11 @@ const openModal = (event: Event) => {
 const closeModal = () => {
   showModal.value = false;
 };
+
+const formatDate = (date: string) => {
+  const t = date.split("-");
+  return `${t[2]}-${t[1]}-${t[0]}`;
+};
 </script>
 
 <template>
@@ -160,7 +165,7 @@ const closeModal = () => {
               class="w-[163px] h-[37px] rounded-[27px] bg-[#00B9C2] text-white border shadow-lg"
               @click="openDatePicker"
             >
-              {{ selectedDate || "Выбрать дату" }}
+              {{ formatDate(selectedDate) || "Выбрать дату" }}
             </button>
             <button
               class="w-[163px] h-[37px] rounded-[27px] bg-[#FFFFFF] border shadow-lg"
@@ -185,9 +190,9 @@ const closeModal = () => {
                     v-for="(item, index) in schedule"
                     :key="index"
                     @click="selectDate(item.date)"
-                    class="py-2 px-4 bg-[#00B9C2] text-white rounded w-[47%]"
+                    class="py-2 px-4 bg-[#00B9C2] text-white rounded w-full"
                   >
-                    {{ item.date }}
+                    {{ formatDate(item.date) }}
                   </button>
                 </div>
               </div>

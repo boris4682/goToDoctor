@@ -83,7 +83,7 @@ onMounted(getPatientsHandler);
             </p></RouterLink
           >
           <p class="text-xl font-bold leading-6 text-[#006879] cursor-pointer">
-            Пациенты
+            Дети
           </p>
         </div>
 
@@ -190,7 +190,7 @@ onMounted(getPatientsHandler);
               @click="router.push('/lcchild')"
               class="text-[20px] leading-[24px] font-bold text-[#00B9C2] cursor-pointer"
             >
-              Добавить пациента +
+              Добавить ребенка +
             </p>
           </div>
         </div>
