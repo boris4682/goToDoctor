@@ -127,7 +127,7 @@ onMounted(() => {
 
 <template>
   <PagesTemplate class="pb-[80px]" v-if="user">
-    <div class="flex mt-[60px] items-center gap-[15%] ml-[21px]">
+    <div class="flex mt-[60px] items-center gap-[15%]">
       <div
         class="flex items-center gap-[8px]"
         @click="router.push(routeToPush)"
@@ -200,7 +200,7 @@ onMounted(() => {
       </div>
     </div>
     <p
-      class="font-semibold text-[18px] leading-[18px] text-[#006879] mt-[14px] ml-[19px]"
+      class="font-semibold text-[18px] leading-[18px] text-[#006879] mt-[14px]"
     >
       Предложения наших партнеров
     </p>
@@ -302,8 +302,8 @@ onMounted(() => {
   color: #007bff;
 }
 .p-badge {
-  border-radius: 100%!important;
-  height: 20px!important;
-  width: 20px!important;
+  border-radius: 100% !important;
+  height: 20px !important;
+  width: 20px !important;
 }
 </style>

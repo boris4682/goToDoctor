@@ -1,9 +1,13 @@
 <template>
-    <div>
-      <slot></slot>
-    </div>
-  </template>
-  
-  <script setup>
-  </script>
-  
+  <div class="container">
+    <slot></slot>
+  </div>
+</template>
+
+<script setup></script>
+
+<style scoped>
+.container {
+  padding: 0 10px;
+}
+</style>

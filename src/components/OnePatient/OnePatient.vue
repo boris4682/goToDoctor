@@ -12,7 +12,7 @@ const props = defineProps<{
 
 <template>
   <div
-    class="flex items-center justify-center bg-[#F3F9FE] w-full h-[72px] rounded-[10px] mt-[9px]"
+    class="flex items-center justify-center bg-[#F3F9FE] w-full h-[72px] rounded-[10px] mt-[9px] px-2"
   >
     <img
       v-if="props.img"
