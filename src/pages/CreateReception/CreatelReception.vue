@@ -114,7 +114,7 @@ const closeModal = () => {
     </div>
 
     <div class="flex justify-center">
-      <div class="w-[354px] pb-[20px]">
+      <div class="w-[354px] max-w-full pb-[20px]">
         <div class="flex flex-col gap-[22px] translate-y-[-10px]">
           <div class="flex justify-between">
             <div class="flex items-center justify-center">

@@ -40,7 +40,7 @@ onMounted(getPollThreeHandler);
     </div>
 
     <div class="flex justify-center">
-      <div class="w-[354px] pb-[20px]">
+      <div class="w-[354px] max-w-full pb-[20px]">
         <div class="flex flex-col gap-[22px] translate-y-[-10px]">
           <input type="text" name="search" placeholder="Выбор врача" />
           <div class="mt-[20px] flex flex-col gap-[18px]">
@@ -69,7 +69,6 @@ onMounted(getPollThreeHandler);
 
 <style scoped>
 input[type="text"] {
-  width: 364px;
   height: 49px;
   box-sizing: border-box;
   border: 1px solid #cdcdcd;

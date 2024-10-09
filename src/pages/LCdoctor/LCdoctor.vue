@@ -195,7 +195,7 @@ const logout = () => {
     </label>
 
     <div class="flex justify-center">
-      <div class="w-[354px] pb-[20px] pt-[20px]">
+      <div class="w-[354px] max-w-full pb-[20px] pt-[20px]">
         <div class="flex justify-center pb-[31px]">
           <p
             class="text-xl justify-center font-bold leading-6 text-[#006879] cursor-pointer"

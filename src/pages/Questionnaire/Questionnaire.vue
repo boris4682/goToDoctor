@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, computed } from "vue";
+import { ref, onMounted } from "vue";
 import back from "@assets/icons/back.png";
 import PagesTemplate from "@//components/shared/PagesTemplate.vue";
 import { useRouter, useRoute } from "vue-router";
@@ -104,7 +104,7 @@ const selectedBlock = ref(1);
 
 const loadingForm = ref(false);
 const sendForm = () => {
-  loadingForm.value = true;
+  // loadingForm.value = true;
 
   const answers = {};
   for (let id in blockQuestions.value) {

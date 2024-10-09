@@ -27,7 +27,7 @@ import PagesTemplate from "@//components/shared/PagesTemplate.vue";
     </div>
 
     <div class="flex justify-center">
-      <div class="pt-[20px] w-[354px] pb-[20px]">
+      <div class="pt-[20px] w-[354px] max-w-full pb-[20px]">
         <div
           class="w-full h-[55px] rounded-[30px] bg-[#00B9C2] flex items-center justify-center"
         >

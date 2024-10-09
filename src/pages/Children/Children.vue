@@ -16,9 +16,9 @@ const router = useRouter()
       <div class="flex">
         <img :src="back" class=" mx-auto w-[11px] h-[16px] translate-y-[-70px] translate-x-[-165px] cursor-pointer" @click="router.back()"/>
       </div>
-      
+
       <div class="flex justify-center">
-        <div class=" w-[354px] pb-[20px]">
+        <div class=" w-[354px] max-w-full pb-[20px]">
             <div class="flex flex-col gap-[22px] translate-y-[-10px]">
                 <p class=" font-semibold text-[15px] leading-[18px] text-[#006879]">Ребёнку</p>
             </div>
@@ -40,11 +40,10 @@ const router = useRouter()
                     <p class="font-semibold text-[17px] leading-[18px] text-[#00B9C2] ml-[27px] mb-[30px]">Онлайн игра-тренажёр</p>
                 </div></RouterLink>
             </div>
-            
-            
+
+
         </div>
       </div>
     </PagesTemplate>
-      
-</template>
 
+</template>

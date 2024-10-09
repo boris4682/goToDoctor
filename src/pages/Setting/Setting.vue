@@ -157,7 +157,7 @@ onMounted(() => {
     </label>
 
     <div class="flex justify-center">
-      <div class="pt-[20px] w-[354px] pb-[20px] mx-auto">
+      <div class="pt-[20px] w-[354px] max-w-full pb-[20px] mx-auto">
         <div class="flex justify-center pb-[31px]">
           <p class="text-xl font-bold leading-6 text-[#006879] cursor-pointer">
             Изменение пароля

@@ -300,7 +300,7 @@ const sendForm = () => {
           ></div>
         </div>
 
-        <div class="results w-[354px] mx-auto">
+        <div class="results w-[354px] max-w-full mx-auto">
           <h4 class="text-[16px] text-[rgb(0,185,194)]">
             Итоги по каждому блоку действий
           </h4>

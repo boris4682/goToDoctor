@@ -128,7 +128,7 @@ const goToReceptionMenu = (patient) => {
       />
     </div>
     <div class="flex justify-center">
-      <div class="w-[354px] pb-[20px]">
+      <div class="w-[354px] max-w-full pb-[20px]">
         <div class="flex justify-center items-center">
           <p class="font-semibold text-[15px] leading-[18px] text-[#006879]">
             Медкарты

@@ -211,7 +211,7 @@ const handleInput = (event) => {
     </div>
 
     <div class="flex justify-center">
-      <div class="w-[354px] pb-[122px]">
+      <div class="w-[354px] max-w-full pb-[122px]">
         <input
           class="w-full h-10 bg-[#E5F2FC] mt-[18px] rounded-[10px] pl-3 focus:outline-none focus:ring-2 focus:ring-[#00B9C2]"
           placeholder="Иванов"
