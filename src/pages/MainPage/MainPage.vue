@@ -200,7 +200,7 @@ onMounted(() => {
       </div>
     </div>
     <p
-      class="font-semibold text-[18px] leading-[18px] text-[#006879] mt-[14px]"
+      class="font-semibold text-[18px] leading-[18px] text-[#006879] mt-[18px]"
     >
       Предложения наших партнеров
     </p>
