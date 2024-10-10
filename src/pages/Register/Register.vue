@@ -290,13 +290,18 @@ const sendEmailCode = async () => {
         life: 3000,
       });
     } else {
-      const errorMessage = response.data.error || "Ошибка отправки кода";
+      let errorMessage = response.data.error || "Ошибка отправки кода";
       console.log(errorMessage);
+      if (errorMessage == "Аккаунт уже создан") {
+        errorMessage =
+          "Вы уже зарегистрированы в приложении. Войдите под своей учетной записью";
+      }
+
       toast.add({
-        severity: "success",
-        summary: "Предупреждение",
-        detail: "errorMessage",
-        life: 3000,
+        severity: "error",
+        summary: "Ошибка",
+        detail: errorMessage,
+        life: 5000,
       });
     }
   } catch (error) {
@@ -413,7 +418,7 @@ onMounted(() => {
 });
 </script>
 
-<style>
+<style scoped>
 .p-toast {
   width: 90% !important;
   right: 15px !important;

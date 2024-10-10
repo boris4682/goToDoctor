@@ -22,7 +22,7 @@ const router = useRouter();
     </div>
 
     <div class="flex justify-center">
-      <div class="w-[354px] pb-[20px]">
+      <div class="w-[354px] max-w-full pb-[20px]">
         <div class="flex flex-col gap-[22px] translate-y-[-10px]">
           <div class="w-full mt-[25px] h-[124px] bg-[#E5F2FC] rounded-[10px]">
             <div class="flex justify-between px-[15px] py-[5px]">

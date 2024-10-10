@@ -15,21 +15,20 @@ const router = useRouter()
       <div class="flex">
         <img :src="back" class=" mx-auto w-[11px] h-[16px] translate-y-[-70px] translate-x-[-165px] cursor-pointer" @click="router.back()"/>
       </div>
-      
+
       <div class="flex justify-center">
-        <div class=" w-[354px] pb-[20px]">
-            
+        <div class=" w-[354px] max-w-full pb-[20px]">
+
           <Search class=" translate-y-[-30px] z-50"/>
           <div class="mt-[26px]">
             <OneRecord/>
             <OneRecord/>
             <OneRecord/>
           </div>
-          
+
         </div>
-        
+
       </div>
     </PagesTemplate>
-      
-</template>
 
+</template>

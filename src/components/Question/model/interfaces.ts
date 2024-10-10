@@ -2,6 +2,7 @@ export enum FieldTypes {
   Text = "text",
   Textarea = "textarea",
   Radio = "radio",
+  Checkbox = "checkbox",
 }
 export interface Field {
   id: number;

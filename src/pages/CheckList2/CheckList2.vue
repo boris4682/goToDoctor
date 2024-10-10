@@ -115,7 +115,7 @@ const resultsTable = computed(() => {
     <Loader v-if="loading" />
 
     <div v-else class="pb-[30px]">
-      <div class="w-[354px] pb-[20px] mx-auto">
+      <div class="w-[354px] max-w-full pb-[20px] mx-auto">
         <div class="flex flex-col gap-[30px] translate-y-[-10px]">
           <p class="font-semibold text-[18px] leading-[18px] text-[#00B9C2]">
             {{ patientName }}
@@ -159,7 +159,7 @@ const resultsTable = computed(() => {
         ></div>
       </div>
 
-      <div class="results w-[354px] mx-auto">
+      <div class="results w-[354px] max-w-full mx-auto">
         <h4 class="text-[16px] text-[rgb(0,185,194)]">
           Итоги по каждому блоку действий
         </h4>

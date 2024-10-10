@@ -19,7 +19,7 @@ const router = useRouter();
     </div>
 
     <div class="flex justify-center">
-      <div class="w-[354px] pb-[20px]">
+      <div class="w-[354px] max-w-full pb-[20px]">
         <div class="flex flex-col gap-[22px] translate-y-[-10px]">
           <div class="flex gap-[15px] justify-between mt-[35px]">
             <p class="font-semibold text-[15px] leading-9 text-[#00B9C2]">

@@ -12,6 +12,7 @@ import { useRouter } from "vue-router";
 import { onMounted } from "vue";
 import { getAppointmentsForDoc } from "@/services/reception/getAppointmentsForDoc";
 import { useToast } from "primevue/usetoast";
+import { getInfoReception } from "@/services/reception/getInfoReception";
 
 interface Reception {
   reception_id: string;
@@ -26,7 +27,7 @@ const receptions = ref<Reception[]>([]);
 const isLoading = ref(false);
 
 const displayDialog = ref(false);
-const selectedReceptionId = ref<string | null>(null);
+const selectedReceptionId = ref<number | null>(null);
 const selectedTab = ref("planned");
 const selectedMonth = ref("current");
 const complaints = ref("");
@@ -83,8 +84,20 @@ const selectMonth = (month: string) => {
   fetchAppointmentsData(month);
 };
 
-const openDialog = (receptionId: string) => {
+const fetchInfoReception = (id: number) => {
+  getInfoReception(id).then(({ data, status }) => {
+    if (status != 200) return;
+
+    complaints.value = data.reception_complaints ?? "";
+    diagnosis.value = data.reception_diagnosis ?? "";
+    doctorOpinion.value = data.reception_doctor_opinion ?? "";
+    doctorRecommendations.value = data.reception_doctor_recommendations ?? "";
+  });
+};
+
+const openDialog = (receptionId: number) => {
   selectedReceptionId.value = receptionId;
+  fetchInfoReception(receptionId);
   displayDialog.value = true;
 };
 
@@ -215,7 +228,7 @@ onMounted(() => {
             v-for="(item, index) in receptions"
             :key="index"
             class="mb-[10px] p-[10px] bg-[#E5F2FC] rounded-[10px] cursor-pointer"
-            @click="openDialog(item.reception_id)"
+            @click="openDialog(+item.reception_id)"
           >
             <p class="text-[#006879] text-lg font-bold">
               {{ item.patient_name }}
@@ -248,6 +261,7 @@ onMounted(() => {
             rows="1"
             autoResize
             class="w-full"
+            :readonly="selectedTab === 'completed'"
           />
         </div>
 
@@ -260,6 +274,7 @@ onMounted(() => {
             rows="1"
             autoResize
             class="w-full"
+            :readonly="selectedTab === 'completed'"
           />
         </div>
 
@@ -272,6 +287,7 @@ onMounted(() => {
             rows="1"
             autoResize
             class="w-full"
+            :readonly="selectedTab === 'completed'"
           />
         </div>
 
@@ -284,23 +300,25 @@ onMounted(() => {
             rows="1"
             autoResize
             class="w-full"
+            :readonly="selectedTab === 'completed'"
           />
         </div>
 
-        <label class="field-checkbox">
+        <label v-if="selectedTab !== 'completed'" class="field-checkbox">
           <Checkbox v-model="isComplited" binary />
           <span class="ml-2">Закрыть прием</span>
         </label>
 
-        <div class="flex space-between mt-4">
+        <div class="flex space-between mt-4 gap">
           <Button
+            v-if="selectedTab !== 'completed'"
             label="Сохранить"
-            class="p-button-success w-[50%]"
+            class="p-button-success w-full"
             @click="submitForm"
           />
           <Button
             label="Отмена"
-            class="p-button-secondary ml-2 w-[50%]"
+            class="p-button-secondary ml-2 w-full"
             @click="resetForm"
           />
         </div>

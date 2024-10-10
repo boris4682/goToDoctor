@@ -22,7 +22,7 @@ import PagesTemplate from '@//components/shared/PagesTemplate.vue';
     </div>
 
     <div class="flex justify-center">
-      <div class=" pt-[20px] w-[354px] pb-[20px]">
+      <div class=" pt-[20px] w-[354px] max-w-full pb-[20px]">
         <div class="flex gap-[10px] justify-center items-center mt-[32px]">
           <input class="border w-[45px] h-[52px] rounded-[8px] text-center" type="number">
           <input class="border w-[45px] h-[52px] rounded-[8px] text-center" type="number">

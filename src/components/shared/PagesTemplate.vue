@@ -1,6 +1,6 @@
 <script setup lang='ts'>
 import FooterPanel from '@//components/FooterPanel/FooterPanel.vue';
-  
+
 </script>
 <template>
   <div>
@@ -10,7 +10,7 @@ import FooterPanel from '@//components/FooterPanel/FooterPanel.vue';
     <FooterPanel class="fixed bottom-0 bg-white w-full flex"/>
   </div>
 </template>
-<style>
+<style scoped>
 .bg {
   background: url('../../assets/backgrounds/HeaderBackground.png') 0 0/100% auto no-repeat;
   height: 24vh;

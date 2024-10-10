@@ -209,7 +209,7 @@ onMounted(() => {
   </PagesTemplate>
 </template>
 
-<style>
+<style scoped>
 .embla__text ul {
   list-style-type: none;
   padding: 0;

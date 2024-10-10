@@ -10,7 +10,7 @@ import FadeLoader from "vue-spinner/src/FadeLoader.vue";
   </teleport>
 </template>
 
-<style>
+<style scoped>
 .loader-component {
   min-width: 100vw;
   min-height: 100%;

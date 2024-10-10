@@ -190,7 +190,7 @@ const logout = () => {
     </label>
 
     <div class="flex justify-center">
-      <div class="w-[354px] pb-[20px] pt-[20px]">
+      <div class="w-[354px] max-w-full pb-[20px] pt-[20px]">
         <div class="flex justify-between pb-[31px]">
           <p class="text-xl font-bold leading-6 text-[#006879] cursor-pointer">
             Профиль
@@ -300,7 +300,7 @@ const logout = () => {
   </PagesTemplate>
   <div v-else class="">Зарегистируйтесь</div>
 </template>
-<style>
+<style scoped>
 .p-datepicker-input {
   background: #e5f2fc;
   border: none;

@@ -20,11 +20,11 @@ const router = useRouter()
         <img :src="back" class=" mx-auto w-[11px] h-[16px] translate-y-[-70px] translate-x-[-148px] cursor-pointer" @click="router.back()"/>
         <img :src="avatar" class="translate-x-[-10px] translate-y-[-75px]"/>
       </div>
-      
+
       <div class="flex justify-center">
-        <div class=" w-[354px] pb-[20px]">
+        <div class=" w-[354px] max-w-full pb-[20px]">
             <div class="flex flex-col gap-[22px] translate-y-[-10px]">
-                
+
                 <div class=" w-full h-[124px] mt-[25px] bg-[#E5F2FC] rounded-[10px]">
                     <div class="flex justify-between px-[15px] py-[5px]">
                         <p class="text-[16px] font-semibold leading-6 text-[#00B9C2]">История посещений</p>
@@ -56,6 +56,5 @@ const router = useRouter()
         </div>
       </div>
     </PagesTemplate>
-      
-</template>
 
+</template>

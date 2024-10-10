@@ -4,6 +4,7 @@ import { Props, FieldTypes } from "./model/interfaces";
 import InputText from "primevue/inputtext";
 import RadioButton from "primevue/radiobutton";
 import Textarea from "primevue/textarea";
+import Checkbox from "primevue/checkbox";
 
 const { question, disabled } = defineProps<Props>();
 const answer = defineModel("answer");
@@ -33,11 +34,14 @@ const answer = defineModel("answer");
       />
       <label v-else-if="field.field_type == FieldTypes.Radio">
         {{ field.text }}
-        <RadioButton
-            v-model="answer"
-            :value="field.id"
-            :disabled="disabled"
-        />
+        <RadioButton v-model="answer" :value="field.id" :disabled="disabled" />
+      </label>
+      <label
+        v-else-if="field.field_type == FieldTypes.Checkbox"
+        class="flex gap-2 mb-1"
+      >
+        <Checkbox v-model="answer" :value="field.id" :disabled="disabled" />
+        {{ field.text }}
       </label>
     </div>
   </div>
