@@ -140,7 +140,7 @@ onMounted(() => {
             </RouterLink>
 
             <p class="text-center text-gray-500 pt-[50px]">
-              Хотите создать пациента?
+              Хотите добавить ребенка?
             </p>
             <RouterLink to="/lcchild">
               <div

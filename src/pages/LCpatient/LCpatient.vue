@@ -198,7 +198,7 @@ const logout = () => {
           <RouterLink to="/patientschildren"
             ><a
               class="text-xl font-bold leading-6 text-[#A3A3A3] cursor-pointer"
-              >Пациенты</a
+              >Дети</a
             ></RouterLink
           >
         </div>

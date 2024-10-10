@@ -143,7 +143,7 @@ onMounted(() => {
 
             <div v-else class="text-center">
               <p class="text-center text-gray-500 pt-[50px]">
-                Нет доступных медкарт пациентов. Хотите добавить пациента?
+                Нет доступных медкарт. Хотите добавить ребенка?
               </p>
               <RouterLink to="/lcchild">
                 <div
