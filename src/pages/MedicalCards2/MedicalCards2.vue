@@ -12,6 +12,7 @@ import { useToast } from "primevue/usetoast";
 interface Patient {
   patient_id: string;
   patient_second_name: string;
+  patient_last_name: string;
   patient_u_name: string;
   patient_phone: string;
   photo: string | null;
@@ -109,7 +110,7 @@ onMounted(() => {
   getPatientsData();
 });
 const goToReceptionMenu = (patient) => {
-  localStorage.setItem("Patient_second_name", patient.patient_last_name);
+  localStorage.setItem("patient_last_name", patient.patient_last_name);
   localStorage.setItem("Patient_u_name", patient.patient_u_name);
 
   localStorage.setItem("selectedPatient", JSON.stringify(patient));
@@ -148,7 +149,7 @@ const goToReceptionMenu = (patient) => {
               >
                 <OnePatient
                   :img="item.photo"
-                  :patient_second_name="item.patient_second_name"
+                  :patient_last_name="item.patient_last_name"
                   :patient_u_name="item.patient_u_name"
                   :patient_phone="item.patient_phone"
                 />

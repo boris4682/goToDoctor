@@ -69,12 +69,12 @@ const checkUserData = (item: IPatient) => {
 
 const savePatientId = (
   patientId: string,
-  patient_second_name: string,
+  patient_last_name: string,
   patient_u_name: string
 ) => {
   try {
     localStorage.setItem("selectedPatientId", patientId);
-    localStorage.setItem("Patient_second_name", patient_second_name);
+    localStorage.setItem("Patient_last_name", patient_last_name);
     localStorage.setItem("Patient_u_name", patient_u_name);
     console.log(
       "Patient ID сохранен:",
@@ -126,14 +126,14 @@ onMounted(() => {
               @click.native="
                 savePatientId(
                   item.patient_id,
-                  item.patient_second_name,
+                  item.patient_last_name,
                   item.patient_u_name
                 )
               "
             >
               <OnePatient
                 v-bind:img="item.photo"
-                v-bind:patient_second_name="item.patient_second_name"
+                v-bind:patient_last_name="item.patient_last_name"
                 v-bind:patient_u_name="item.patient_u_name"
                 v-bind:patient_phone="item.patient_phone"
               />

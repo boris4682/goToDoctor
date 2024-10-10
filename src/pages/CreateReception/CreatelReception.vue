@@ -25,7 +25,7 @@ const appointmentDate = ref("");
 
 onMounted(() => {
   const patientSecondName =
-    localStorage.getItem("Patient_second_name") ?? "Фамилия не указана";
+    localStorage.getItem("Patient_last_name") ?? "Фамилия не указана";
   const patientUName =
     localStorage.getItem("Patient_u_name") ?? "Имя не указано";
 

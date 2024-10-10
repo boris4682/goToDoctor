@@ -215,7 +215,7 @@ const handleInput = (event) => {
         <input
           class="w-full h-10 bg-[#E5F2FC] mt-[18px] rounded-[10px] pl-3 focus:outline-none focus:ring-2 focus:ring-[#00B9C2]"
           placeholder="Иванов"
-          v-model="userData.secondName"
+          v-model="userData.lastName"
         />
         <input
           class="w-full h-10 bg-[#E5F2FC] mt-[18px] rounded-[10px] pl-3 focus:outline-none focus:ring-2 focus:ring-[#00B9C2]"
@@ -226,7 +226,7 @@ const handleInput = (event) => {
         <input
           class="w-full h-10 bg-[#E5F2FC] mt-[18px] rounded-[10px] pl-3 focus:outline-none focus:ring-2 focus:ring-[#00B9C2]"
           placeholder="Иванович"
-          v-model="userData.lastName"
+          v-model="userData.secondName"
         />
         <input
           class="w-full h-10 bg-[#E5F2FC] mt-[18px] rounded-[10px] px-3 focus:outline-none focus:ring-2 focus:ring-[#00B9C2]"

@@ -156,7 +156,7 @@ onMounted(getPatientsHandler);
                     <p
                       class="text-[15px] font-semibold leading-[18px] text-[#00B9C2]"
                     >
-                      {{ patient.patient_second_name }}
+                      {{ patient.patient_last_name }}
                       {{ patient.patient_u_name }}
                     </p>
                     <p

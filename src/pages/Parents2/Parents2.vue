@@ -65,7 +65,7 @@ const selectPatientAndGo = (patient) => {
     const ufVoteId = person.uf_vote_id;
     const ufChecklistId = person.uf_check_list;
     localStorage.setItem("selectedPatientId", patient.patient_id);
-    localStorage.setItem("Patient_second_name", patient.patient_second_name);
+    localStorage.setItem("Patient_last_name", patient.patient_last_name);
     localStorage.setItem("Patient_u_name", patient.patient_u_name);
     const destination =
       selectedAction.value === "questionnaire"
@@ -167,7 +167,7 @@ onMounted(() => {
           >
             <OnePatient
               v-bind:img="item.photo"
-              v-bind:patient_second_name="item.patient_second_name"
+              v-bind:patient_last_name="item.patient_last_name"
               v-bind:patient_u_name="item.patient_u_name"
               v-bind:patient_phone="item.patient_phone"
             />
