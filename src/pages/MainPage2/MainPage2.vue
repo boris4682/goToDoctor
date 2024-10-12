@@ -152,7 +152,7 @@ onMounted(() => {
         </svg>
 
         <p
-          class="font-semiboldm text-sm leading-[18px] font-semibold text-[#040404]"
+          class="font-semiboldm text-sm leading-[18px] font-semibold text-[#040404] bg-white py-1 px-3 rounded shadow"
         >
           Здравствуйте, {{ `${user.name}` }}
         </p>

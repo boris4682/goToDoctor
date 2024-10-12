@@ -64,7 +64,7 @@ onMounted(getBannersHandler);
           <div
             class="embla__content bg-secondary w-full flex items-center flex-col rounded-md pt-10"
           >
-            <h2 class="font-bold text-base">{{ item.name }}</h2>
+            <h2 class="font-bold text-base mb-1">{{ item.name }}</h2>
             <div
               class="embla__text flex items-center flex-col w-full"
               v-html="item.detail_text"
@@ -95,8 +95,18 @@ onMounted(getBannersHandler);
   min-width: 0;
 }
 .embla__content {
-  padding: 2.5rem 1rem 1rem 1rem;
+  padding: 1rem;
   width: 100%;
   text-align: justify;
+}
+.embla__text {
+  text-align: left;
+}
+</style>
+
+<style>
+.embla__text ul {
+  list-style: disc;
+  padding-left: 13px;
 }
 </style>

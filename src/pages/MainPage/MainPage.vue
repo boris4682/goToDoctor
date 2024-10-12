@@ -180,7 +180,7 @@ onMounted(() => {
         </svg>
 
         <p
-          class="font-semiboldm text-sm leading-[18px] font-semibold text-[#040404]"
+          class="font-semiboldm text-sm leading-[18px] font-semibold text-[#040404] bg-white py-1 px-3 rounded shadow"
         >
           Здравствуйте, {{ `${user.name}` }}
         </p>
@@ -215,14 +215,14 @@ onMounted(() => {
     >
       Все врачи
     </p>
-    <div class="flex gap-5 overflow-auto py-2">
+    <div class="flex gap-2 overflow-auto py-2">
       <div
-        class="min-w-[70vw] h-[47px] rounded-[28px] bg-[#E5F2FC] mt-[28px] flex items-center justify-center gap-[12px]"
+        class="h-[47px] rounded-[28px] bg-[#E5F2FC] mt-[28px] flex items-center justify-center gap-[12px] whitespace-nowrap px-6"
         v-for="(item, index) in doctorsCategory"
         @click="() => fetchDoctorsDataByCategoryId(item.category_id)"
         :key="index"
       >
-        <img style="height: 90%" :src="`${DOMEN}${item.picture}`" />
+        <img style="height: 50%" :src="`${DOMEN}${item.picture}`" />
         <p class="font-semibold text-[14px] leading-6 text-[#000000]">
           {{ item.name }}
         </p>
@@ -265,7 +265,7 @@ onMounted(() => {
               <p class="font-normal text-[15px] leading-6 text-[#979797]">
                 {{ new Date(data.datetime).toLocaleString() }}
               </p>
-              <div class="flex justify-between mt-[40px]">
+              <div class="flex justify-between mt-[20px]">
                 <p
                   class="font-semibold text-[12px] leading-[15px] text-[#828282]"
                 >

@@ -295,6 +295,10 @@ const sendEmailCode = async () => {
           "Вы уже зарегистрированы в приложении. Войдите под своей учетной записью";
       }
 
+      console.log(errorMessage);
+
+      console.log(toast);
+
       toast.add({
         severity: "error",
         summary: "Ошибка",

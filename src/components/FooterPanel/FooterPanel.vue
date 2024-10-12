@@ -22,44 +22,51 @@ const mainpageRoute = computed(() => {
 </script>
 
 <template>
-  <div class="flex justify-around pb-5">
-    <RouterLink :to="mainpageRoute">
-      <div class="flex flex-col justify-center items-center cursor-pointer">
-        <img :src="imgHome" />
-        <p class="text-[11px] font-medium leading-[13px] text-[#A3A3A3]">
-          Главная
-        </p>
-      </div>
-    </RouterLink>
-    <RouterLink :to="appointmentRoute">
-      <div class="flex flex-col justify-center items-center cursor-pointer">
-        <img :src="imgNotebook" />
-        <p class="text-[11px] font-medium leading-[13px] text-[#A3A3A3]">
-          Запись
-        </p>
-      </div>
-    </RouterLink>
+  <Teleport to="body">
+    <div
+      class="footer-panel flex justify-around py-3 w-full fixed bottom-0 bg-white"
+    >
+      <RouterLink :to="mainpageRoute">
+        <div class="flex flex-col justify-center items-center cursor-pointer">
+          <img :src="imgHome" />
+          <p class="text-[11px] font-medium leading-[13px] text-[#A3A3A3]">
+            Главная
+          </p>
+        </div>
+      </RouterLink>
+      <RouterLink :to="appointmentRoute">
+        <div class="flex flex-col justify-center items-center cursor-pointer">
+          <img :src="imgNotebook" />
+          <p class="text-[11px] font-medium leading-[13px] text-[#A3A3A3]">
+            Запись
+          </p>
+        </div>
+      </RouterLink>
 
-    <RouterLink :to="preparationRoute">
-      <div class="flex flex-col justify-center items-center cursor-pointer">
-        <img :src="imgMedical" />
-        <p class="text-[11px] font-medium leading-[13px] text-[#A3A3A3]">
-          Подготовка
-        </p>
-      </div>
-    </RouterLink>
-    <RouterLink :to="medicalcardsRoute">
-      <div class="flex flex-col justify-center items-center cursor-pointer">
-        <img :src="imgProfile" />
-        <p class="text-[11px] font-medium leading-[13px] text-[#A3A3A3]">
-          Медкарта
-        </p>
-      </div>
-    </RouterLink>
-  </div>
+      <RouterLink :to="preparationRoute">
+        <div class="flex flex-col justify-center items-center cursor-pointer">
+          <img :src="imgMedical" />
+          <p class="text-[11px] font-medium leading-[13px] text-[#A3A3A3]">
+            Подготовка
+          </p>
+        </div>
+      </RouterLink>
+      <RouterLink :to="medicalcardsRoute">
+        <div class="flex flex-col justify-center items-center cursor-pointer">
+          <img :src="imgProfile" />
+          <p class="text-[11px] font-medium leading-[13px] text-[#A3A3A3]">
+            Медкарта
+          </p>
+        </div>
+      </RouterLink>
+    </div>
+  </Teleport>
 </template>
 <style scoped>
 img {
-  height: 44px;
+  height: 30px;
+}
+.footer-panel {
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.3);
 }
 </style>

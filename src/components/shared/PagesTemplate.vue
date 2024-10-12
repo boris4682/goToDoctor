@@ -1,18 +1,17 @@
-<script setup lang='ts'>
-import FooterPanel from '@//components/FooterPanel/FooterPanel.vue';
-
+<script setup lang="ts">
+import FooterPanel from "@//components/FooterPanel/FooterPanel.vue";
 </script>
 <template>
   <div>
-    <div class="bg w-full bg-center absolute top-0 left-0 z-[-2]">
-    </div>
+    <div class="bg w-full bg-center absolute top-0 left-0 z-[-2]"></div>
     <slot />
-    <FooterPanel class="fixed bottom-0 bg-white w-full flex"/>
+    <FooterPanel />
   </div>
 </template>
 <style scoped>
 .bg {
-  background: url('../../assets/backgrounds/HeaderBackground.png') 0 0/100% auto no-repeat;
+  background: url("../../assets/backgrounds/HeaderBackground.png") 0 0/100% auto
+    no-repeat;
   height: 24vh;
- }
+}
 </style>
