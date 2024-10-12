@@ -63,8 +63,6 @@ onMounted(() => {
   const user = localStorage.getItem("userData");
   if (user) {
     isAuthenticated.value = true;
-  } else {
-    router.push("/auth");
   }
   registerNotifications();
 

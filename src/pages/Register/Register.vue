@@ -2,7 +2,7 @@
   <div>
     <MainTemplate>
       <div class="h-[15vh]"></div>
-      <div class="px-4">
+      <div class="px-4 d-none">
         <img :src="img" class="w-[225px] h-[248px] mx-auto" />
       </div>
     </MainTemplate>
