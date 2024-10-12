@@ -46,7 +46,7 @@ onMounted(() => {
   <MainTemplate>
     <div class="h-[15vh]"></div>
     <div class="px-4">
-      <img :src="img" class="w-[225px] h-[248px] mx-auto" />
+      <img :src="img" class="w-[200px] mx-auto" />
     </div>
   </MainTemplate>
   <h3
@@ -55,7 +55,7 @@ onMounted(() => {
     Авторизация
   </h3>
   <div class="flex justify-center">
-    <div class="pt-[66px] w-[290px] pb-[40px]">
+    <div class="pt-[35px] w-[290px] pb-[40px]">
       <input
         class="w-full h-10 bg-[#E5F2FC] mt-[18px] rounded-[10px] pl-3 focus:outline-none focus:ring-2 focus:ring-[#00B9C2]"
         type="email"
@@ -68,7 +68,7 @@ onMounted(() => {
         placeholder="Пароль"
         v-model="userData.password"
       />
-      <div class="flex mt-[16px] pb-[50px]">
+      <div class="flex mt-[16px] pb-[20px]">
         <input class="bg-[#E5F2FC]" type="checkbox" />
         <p class="text-[#A4A5A5] text-[13px] font-medium leading-4 pl-[13px]">
           Запомнить меня
@@ -86,14 +86,14 @@ onMounted(() => {
       </div>
       <RouterLink to="/resetpassword">
         <a
-          class="text-[#A4A5A5] text-4 font-medium leading-4 pl-[13px] cursor-pointer flex justify-center items-center mt-10"
+          class="text-[#A4A5A5] text-4 font-medium leading-4 pl-[13px] cursor-pointer flex justify-center items-center mt-4"
           >Забыли пароль?</a
         >
       </RouterLink>
 
       <RouterLink
         to="/reg"
-        class="text-[13px] font-semibold leading-4 text-black mt-[46px] flex justify-center items-center"
+        class="text-[13px] font-semibold leading-4 text-black mt-[25px] flex justify-center items-center"
         >Нет аккаунта?
         <a
           class="ml- cursor-pointer font-bold text-[#00B9C2] text-[15px] leading-[18px] ml-1"

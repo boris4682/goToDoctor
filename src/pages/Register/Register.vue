@@ -2,23 +2,23 @@
   <div>
     <MainTemplate>
       <div class="h-[15vh]"></div>
-      <div class="px-4 d-none">
+      <div class="px-4 hidden">
         <img :src="img" class="w-[225px] h-[248px] mx-auto" />
       </div>
     </MainTemplate>
     <h3
-      class="flex text-lg font-semibold leading-5 text-[#006879] justify-center mt-9"
+      class="flex text-lg font-semibold leading-5 text-[#006879] justify-center"
     >
       Регистрация
     </h3>
     <div class="flex justify-center">
-      <div class="pt-[66px] w-[290px] pb-[40px]">
+      <div class="pt-[35px] w-[290px] pb-[40px]">
         <div class="flex justify-between">
           <div
             @click="setRoleType(1)"
             :class="[
               'w-[125px]',
-              'h-[57px]',
+              'h-[40px]',
               'flex',
               'justify-center',
               'items-center',
@@ -35,7 +35,7 @@
             @click="setRoleType(2)"
             :class="[
               'w-[125px]',
-              'h-[57px]',
+              'h-[40px]',
               'flex',
               'justify-center',
               'items-center',
@@ -114,9 +114,7 @@
           Пожалуйста, введите код подтверждения
         </p>
 
-        <p
-          class="text-center text-[7px] leading-[10px] text-[#666666] mt-[18px] pb-[20px]"
-        >
+        <p class="text-center text-[11px] text-[#666666] mt-[18px] pb-[20px]">
           Нажимая кнопку “Продолжить” я принимаю
           <u class="cursor-pointer" @click="openPDF">
             Пользовательское соглашение
@@ -152,7 +150,7 @@
         </div>
         <RouterLink
           to="/auth"
-          class="text-[13px] font-semibold leading-4 text-black mt-[46px] flex justify-center"
+          class="text-[13px] font-semibold leading-4 text-black mt-[20px] flex justify-center"
           >Есть аккаунт?
           <a
             class="ml- cursor-pointer font-bold text-[#00B9C2] text-[15px] leading-[18px] ml-1"
