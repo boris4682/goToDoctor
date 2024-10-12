@@ -95,6 +95,8 @@ const closeModal = () => {
 };
 
 const formatDate = (date: string) => {
+  if (!date) return false;
+
   const t = date.split("-");
   return `${t[2]}-${t[1]}-${t[0]}`;
 };

@@ -48,7 +48,7 @@ onMounted(getPollThreeHandler);
               v-for="item in doctors"
               :key="item.category_id"
               @click="selectPatient(item)"
-              class="w-full h-[73px] rounded-[13px] border shadow-lg flex px-[12px] py-[10px] gap-[9px] cursor-pointer"
+              class="w-full h-[73px] rounded-[13px] border shadow-lg flex px-[12px] py-[10px] gap-[9px] cursor-pointer items-center"
             >
               <img
                 class="w-[50px] h-[50px]"

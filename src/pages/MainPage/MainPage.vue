@@ -255,11 +255,10 @@ onMounted(() => {
         :showIndicators="false"
       >
         <template #item="{ data }">
-          <router-link
-            :to="'/treatment2/' + data.reception_id"
-            class="rounded-[14px] border shadow-lg"
-          >
-            <div class="flex flex-col px-[32px] py-[17px]">
+          <router-link :to="'/treatment2/' + data.reception_id">
+            <div
+              class="flex flex-col px-[32px] py-[17px] rounded-[14px] border shadow"
+            >
               <p class="font-semibold text-[20px] leading-6 text-[#00B9C2]">
                 {{ data.doctor_specialization }}
               </p>

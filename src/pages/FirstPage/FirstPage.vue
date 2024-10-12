@@ -18,14 +18,14 @@ import arrow from "@assets/icons/arrow.svg";
       <div class="flex flex-col gap-2 mt-2">
         <RouterLink to="/reg">
           <button
-            class="bg-main text-white w-[70%] mx-auto h-[55px] rounded-full block"
+            class="bg-main text-white w-[70%] mx-auto h-[55px] rounded-full block text-[20px]"
           >
             Регистрация
           </button>
         </RouterLink>
         <RouterLink to="/auth">
           <button
-            class="bg-main text-white w-[70%] mx-auto h-[55px] rounded-full block"
+            class="bg-main text-white w-[70%] mx-auto h-[55px] rounded-full block text-[20px] mt-[10px]"
           >
             Войти
           </button>

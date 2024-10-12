@@ -21,7 +21,7 @@ const route = useRoute();
 
 const toast = useToast();
 
-const blockQuestions = ref({});
+const questions = ref({});
 
 const checklistInfo = ref();
 const isError = ref(false);
@@ -79,13 +79,14 @@ onMounted(async () => {
 
       checkListName.value = data.data.name;
 
-      const questions = data.data.questions.map((q) => {
+      questions.value = data.data.questions.map((q, i) => {
         const fields = {};
         q.fields.forEach((field: any) => {
           fields[field.weight] = field.id;
         });
 
         return {
+          index: i + 1,
           text: q.text,
           id: q.id,
           fields,
@@ -96,13 +97,13 @@ onMounted(async () => {
         };
       });
 
-      blockQuestions.value = {};
-      questions.forEach((q: any) => {
-        if (!blockQuestions.value[q.block_number])
-          blockQuestions.value[q.block_number] = [];
+      // blockQuestions.value = {};
+      // questions.forEach((q: any) => {
+      //   if (!blockQuestions.value[q.block_number])
+      //     blockQuestions.value[q.block_number] = [];
 
-        blockQuestions.value[q.block_number].push(q);
-      });
+      //   blockQuestions.value[q.block_number].push(q);
+      // });
     })
     .finally(() => {
       loading.value = false;
@@ -112,12 +113,12 @@ onMounted(async () => {
 const patientName = ref("");
 const currentDate = ref("");
 
-const getNumberRow = (index: number, block: number) => {
-  let res = index + 1;
-  for (let i = 1; i < block; i++) res += blockQuestions.value[i].length;
+// const getNumberRow = (index: number, block: number) => {
+//   let res = index + 1;
+//   for (let i = 1; i < block; i++) res += blockQuestions.value[i].length;
 
-  return res;
-};
+//   return res;
+// };
 
 const selectedBlock = ref(1);
 
@@ -128,13 +129,19 @@ const resultsTable = computed(() => {
     3: 0,
     4: 0,
   };
-  for (let id in blockQuestions.value) {
-    blockQuestions.value[id].forEach((q: any) => {
-      for (let i = 0; i <= 2; i++) {
-        if (q.fields[i] == q.selected) resultsAnswer[id] += i;
-      }
-    });
-  }
+  // for (let id in blockQuestions.value) {
+  //   blockQuestions.value[id].forEach((q: any) => {
+  //     for (let i = 0; i <= 2; i++) {
+  //       if (q.fields[i] == q.selected) resultsAnswer[id] += i;
+  //     }
+  //   });
+  // }
+
+  questions.value.forEach((q) => {
+    for (let i = 0; i <= 2; i++) {
+      if (q.fields[i] == q.selected) resultsAnswer[q.block_number] += i;
+    }
+  });
 
   let total = 0;
   for (let id in resultsAnswer) {
@@ -178,11 +185,15 @@ const sendForm = () => {
   loadingForm.value = true;
 
   const answers = {};
-  for (let id in blockQuestions.value) {
-    blockQuestions.value[id].map((q) => {
-      answers[q.id] = q.selected;
-    });
-  }
+  // for (let id in blockQuestions.value) {
+  //   blockQuestions.value[id].map((q) => {
+  //     answers[q.id] = q.selected;
+  //   });
+  // }
+  questions.value.forEach((q) => {
+    answers[q.id] = q.selected;
+  });
+
   const patientId = localStorage.getItem("selectedPatientId");
   const data = {
     answers: JSON.stringify(answers),
@@ -252,55 +263,39 @@ const sendForm = () => {
       </p>
 
       <div v-else>
-        <div v-for="(questions, id) in blockQuestions" :key="id">
-          <DataTable :value="questions" v-if="selectedBlock == id">
-            <Column field="index" header="№" class="text-[12px]">
-              <template #body="{ index }">{{
-                getNumberRow(index, id)
-              }}</template>
-            </Column>
-            <Column field="text" header="Действие" class="text-[12px]"></Column>
-            <Column field="field2" header="2б">
-              <template #body="{ data }">
-                <RadioButton
-                  v-model="data.selected"
-                  :value="data.fields[2]"
-                  :disabled="!!checklistInfo"
-                />
-              </template>
-            </Column>
-            <Column field="field1" header="1б">
-              <template #body="{ data }">
-                <RadioButton
-                  v-model="data.selected"
-                  :value="data.fields[1]"
-                  :disabled="!!checklistInfo"
-                />
-              </template>
-            </Column>
-            <Column field="field0" header="0б">
-              <template #body="{ data }">
-                <RadioButton
-                  v-model="data.selected"
-                  :value="data.fields[0]"
-                  :disabled="!!checklistInfo"
-                />
-              </template>
-            </Column>
-          </DataTable>
-        </div>
+        <DataTable :value="questions" paginator :rows="15" :pageLinkSize="4">
+          <Column field="index" header="№" class="text-[12px]"></Column>
+          <Column field="text" header="Действие" class="text-[12px]"></Column>
+          <Column field="field2" header="2б">
+            <template #body="{ data }">
+              <RadioButton
+                v-model="data.selected"
+                :value="data.fields[2]"
+                :disabled="!!checklistInfo"
+              />
+            </template>
+          </Column>
+          <Column field="field1" header="1б">
+            <template #body="{ data }">
+              <RadioButton
+                v-model="data.selected"
+                :value="data.fields[1]"
+                :disabled="!!checklistInfo"
+              />
+            </template>
+          </Column>
+          <Column field="field0" header="0б">
+            <template #body="{ data }">
+              <RadioButton
+                v-model="data.selected"
+                :value="data.fields[0]"
+                :disabled="!!checklistInfo"
+              />
+            </template>
+          </Column>
+        </DataTable>
 
-        <div class="paginate">
-          <div
-            v-for="(_questions, id) in blockQuestions"
-            :key="id"
-            class="paginate__item"
-            :class="{ active: selectedBlock == id }"
-            @click="selectedBlock = id"
-          ></div>
-        </div>
-
-        <div class="results w-[354px] max-w-full mx-auto">
+        <div class="results w-[354px] max-w-full mx-auto mt-[30px]">
           <h4 class="text-[16px] text-[rgb(0,185,194)]">
             Итоги по каждому блоку действий
           </h4>
@@ -354,5 +349,10 @@ const sendForm = () => {
 }
 .paginate__item.active {
   background-color: rgba(0, 185, 194, 1);
+}
+
+:deep(.p-paginator-first),
+:deep(.p-paginator-last) {
+  display: none;
 }
 </style>
