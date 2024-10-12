@@ -352,7 +352,7 @@ export const routes = [
     path: "/resetpassword",
     component: () => import("./ResetPassword"),
     name: "ResetPassword",
-    meta: { auth: true },
+    meta: { noAuth: true },
   },
   {
     path: "/preloader",

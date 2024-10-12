@@ -2,14 +2,8 @@
 import { ref } from "vue";
 import back from "@assets/icons/back.png";
 import PagesTemplate from "@/components/shared/PagesTemplate.vue";
-import photo1 from "@assets/play1.png";
-import photo2 from "@assets/play2.png";
-import photo3 from "@assets/play3.png";
-import photo4 from "@assets/play4.png";
 import { useRouter } from "vue-router";
-
-import Carousel from 'primevue/carousel';
-
+import Carousel from "primevue/carousel";
 
 const router = useRouter();
 
@@ -44,7 +38,10 @@ const selectedStory = ref();
           <div class="w-[314px]">
             <div class="flex gap-[43px]">
               <div @click="selectedStory = 'Мама+девочка'">
-                <img :src="photo1" />
+                <img
+                  class="prewiev-img"
+                  :src="`https://idykvrachy.ru/upload/iblock/502/kuzztut7heub8e7vzbw2vr2eh4h31nk2.jpg`"
+                />
                 <p
                   class="font-semibold text-[16px] leading-[17px] text-[#00B9C2] text-center mt-[13px]"
                 >
@@ -52,7 +49,10 @@ const selectedStory = ref();
                 </p>
               </div>
               <div @click="selectedStory = 'Папа+девочка'">
-                <img :src="photo2" />
+                <img
+                  class="prewiev-img"
+                  :src="`https://idykvrachy.ru/upload/iblock/101/mgko1uascbcalwkdj050fflrsqcv87d3.jpg`"
+                />
                 <p
                   class="font-semibold text-[16px] leading-[17px] text-[#00B9C2] text-center mt-[13px]"
                 >
@@ -62,7 +62,10 @@ const selectedStory = ref();
             </div>
             <div class="flex gap-[43px] mt-[60px]">
               <div @click="selectedStory = 'Мама+мальчик'">
-                <img :src="photo3" />
+                <img
+                  class="prewiev-img"
+                  :src="`https://idykvrachy.ru/upload/iblock/30f/4opxlszi3i9gza67vmmbwo10b06aj5qb.jpg`"
+                />
                 <p
                   class="font-semibold text-[16px] leading-[17px] text-[#00B9C2] text-center mt-[13px]"
                 >
@@ -70,7 +73,10 @@ const selectedStory = ref();
                 </p>
               </div>
               <div @click="selectedStory = 'Папа+мальчик'">
-                <img :src="photo4" />
+                <img
+                  class="prewiev-img"
+                  :src="`https://idykvrachy.ru/upload/iblock/a90/40b6j9brua6lhizwnn2dmwad0zwgw70p.jpg`"
+                />
                 <p
                   class="font-semibold text-[16px] leading-[17px] text-[#00B9C2] text-center mt-[13px]"
                 >
@@ -81,12 +87,17 @@ const selectedStory = ref();
           </div>
         </div>
         <div v-else>
-          <Carousel :value="dataPerson.uf_social_stories[selectedStory]" :numVisible="1" :numScroll="1" :showIndicators="false">
+          <Carousel
+            :value="dataPerson.uf_social_stories[selectedStory]"
+            :numVisible="1"
+            :numScroll="1"
+            :showIndicators="false"
+          >
             <template #item="{ data }">
               <div class="text-center mb-[25px]">
                 <img
-                    :src="'https://idykvrachy.ru' + data.uf_picture_slide"
-                    class="rounded-2xl"
+                  :src="'https://idykvrachy.ru' + data.uf_picture_slide"
+                  class="rounded-2xl"
                 />
                 <p class="text-[14px] mt-[5px]">{{ data.uf_text_slide }}</p>
               </div>
@@ -97,3 +108,9 @@ const selectedStory = ref();
     </div>
   </PagesTemplate>
 </template>
+<style scoped>
+.prewiev-img {
+  width: 130px;
+  border-radius: 15px;
+}
+</style>
