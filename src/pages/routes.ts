@@ -1,285 +1,363 @@
-import { createRouter, createWebHistory } from "vue-router";
-
 export const routes = [
-  { path: "/", component: () => import("./FirstPage"), name: "Main" },
+  {
+    path: "/",
+    component: () => import("./FirstPage"),
+    name: "Main",
+    meta: { noAuth: true },
+  },
   {
     path: "/mainpage",
     component: () => import("./MainPage"),
     name: "MainPage",
+    meta: { auth: true },
   },
   {
     path: "/mainpage2",
     component: () => import("./MainPage2"),
     name: "MainPage2",
+    meta: { auth: true },
   },
-  { path: "/reg", component: () => import("./Register"), name: "Reg" },
-  { path: "/auth", component: () => import("./Authorization"), name: "Auth" },
+  {
+    path: "/reg",
+    component: () => import("./Register"),
+    name: "Reg",
+    meta: { noAuth: true },
+  },
+  {
+    path: "/auth",
+    component: () => import("./Authorization"),
+    name: "Auth",
+    meta: { noAuth: true },
+  },
   {
     path: "/lcdoctor",
     component: () => import("./LCdoctor"),
     name: "LCdoctor",
+    meta: { auth: true },
   },
-  { path: "/setting", component: () => import("./Setting"), name: "Setting" },
+  {
+    path: "/setting",
+    component: () => import("./Setting"),
+    name: "Setting",
+    meta: { auth: true },
+  },
   {
     path: "/changepassword",
     component: () => import("./ChangePassword"),
     name: "ChangePassword",
+    meta: { noAuth: true },
   },
   {
     path: "/successfullychanged",
     component: () => import("./SuccessfullyChanged"),
     name: "SuccessfullyChanged",
+    meta: { noAuth: true },
   },
   {
     path: "/lcpatient",
     component: () => import("./LCpatient"),
     name: "LCpatient",
+    meta: { auth: true },
   },
   {
     path: "/patientschildren",
     component: () => import("./PatientsChildren"),
     name: "PatientsChildren",
+    meta: { auth: true },
   },
-  { path: "/lcchild", component: () => import("./LCchild"), name: "LCchild" },
+  {
+    path: "/lcchild",
+    component: () => import("./LCchild"),
+    name: "LCchild",
+    meta: { auth: true },
+  },
   {
     path: "/medicalcards",
     component: () => import("./MedicalCards"),
     name: "MedicalCards",
+    meta: { auth: true },
   },
   {
     path: "/medicalcards2",
     component: () => import("./MedicalCards2"),
     name: "MedicalCards2",
+    meta: { auth: true },
   },
-  { path: "/records", component: () => import("./Records"), name: "Records" },
+  {
+    path: "/records",
+    component: () => import("./Records"),
+    name: "Records",
+    meta: { auth: true },
+  },
   {
     path: "/receptionmenu",
     component: () => import("./ReceptionMenu"),
     name: "ReceptionMenu",
+    meta: { auth: true },
   },
   {
     path: "/receptionmenu2",
     component: () => import("./ReceptionMenu2"),
     name: "ReceptionMenu2",
+    meta: { auth: true },
   },
   {
     path: "/receptionmenu3",
     component: () => import("./ReceptionMenu3"),
     name: "ReceptionMenu3",
+    meta: { auth: true },
   },
   {
     path: "/receptionmenu4",
     component: () => import("./ReceptionMenu4"),
     name: "ReceptionMenu4",
+    meta: { auth: true },
   },
   {
     path: "/checklist-form/:id/:patientId?",
     component: () => import("./CheckListForm"),
     name: "CheckList-form",
+    meta: { auth: true },
   },
   {
     path: "/votes-list",
     component: () => import("./VotesList"),
     name: "voteslist",
+    meta: { auth: true },
   },
   {
     path: "/questionnaire/:id/:patientId?",
     component: () => import("./Questionnaire"),
     name: "uestionnaire",
+    meta: { auth: true },
   },
   {
     path: "/checklist",
     component: () => import("./CheckList.vue"),
     name: "CheckList",
+    meta: { auth: true },
   },
   {
     path: "/checklist2",
     component: () => import("./CheckList2"),
     name: "CheckList2",
+    meta: { auth: true },
   },
   {
     path: "/treatment",
     component: () => import("./Treatment"),
     name: "Treatment",
+    meta: { auth: true },
   },
   {
     path: "/treatment2/:id",
     component: () => import("./Treatment2"),
     name: "Treatment2",
+    meta: { auth: true },
   },
   {
     path: "/patients",
     component: () => import("./Patients"),
     name: "Patients",
+    meta: { auth: true },
   },
   {
     path: "/reception",
     component: () => import("./Reception"),
     name: "Reception",
+    meta: { auth: true },
   },
   {
     path: "/completedreception",
     component: () => import("./CompletedReception"),
     name: "CompletedReception",
+    meta: { auth: true },
   },
   {
     path: "/cancelreception",
     component: () => import("./CancelReception"),
     name: "CancelReception",
+    meta: { auth: true },
   },
   {
     path: "/createreception",
     component: () => import("./CreateReception"),
     name: "CreateReception",
+    meta: { auth: true },
   },
   {
     path: "/plannedreception",
     component: () => import("./PlannedReception"),
     name: "PlannedReception",
+    meta: { auth: true },
   },
   {
     path: "/gradereception",
     component: () => import("./GradeReception"),
     name: "GradeReception",
+    meta: { auth: true },
   },
   {
     path: "/appointmentwithspecialist",
     component: () => import("./AppointmentWithSpecialist"),
     name: "AppointmentWithSpecialist",
+    meta: { auth: true },
   },
   {
     path: "/steptwo",
     component: () => import("./StepOne"),
     name: "StepOne",
+    meta: { auth: true },
   },
   {
     path: "/steponeappointment",
     component: () => import("./StepOneAppointment"),
     name: "StepOneAppointment",
+    meta: { auth: true },
   },
-  { path: "/stepfour", component: () => import("./StepTwo"), name: "StepTwo" },
+  {
+    path: "/stepfour",
+    component: () => import("./StepTwo"),
+    name: "StepTwo",
+    meta: { auth: true },
+  },
   {
     path: "/stepone",
     component: () => import("./StepThree"),
     name: "StepThree",
+    meta: { auth: true },
   },
   {
     path: "/stepthree/:id/:clinic_id",
     component: () => import("./StepFour"),
     name: "StepFour",
+    meta: { auth: true },
   },
   {
     path: "/stepfive",
     component: () => import("./StepFive"),
     name: "StepFive",
+    meta: { auth: true },
   },
   {
     path: "/successfulentry",
     component: () => import("./SuccessfulEntry"),
     name: "SuccessfulEntry",
+    meta: { auth: true },
   },
   {
     path: "/preparation/:id",
     component: () => import("./Preparation"),
     name: "Preparation",
+    meta: { auth: true },
   },
   {
     path: "/preparationdoc",
     component: () => import("./PreparationDoctor"),
     name: "Preparationdoc",
+    meta: { auth: true },
   },
   {
     path: "/whowillgo/:id",
     component: () => import("./WhoWillGo"),
     name: "WhoWillGo",
+    meta: { auth: true },
   },
   {
     path: "/children",
     component: () => import("./Children"),
     name: "Children",
+    meta: { auth: true },
   },
-  { path: "/parents", component: () => import("./Parents"), name: "Parents" },
+  {
+    path: "/parents",
+    component: () => import("./Parents"),
+    name: "Parents",
+    meta: { auth: true },
+  },
 
   {
     path: "/parents2",
     component: () => import("./Parents2"),
     name: "Parents2",
+    meta: { auth: true },
   },
   {
     path: "/animcinema",
     component: () => import("./AnimCinema"),
     name: "AnimCinema",
+    meta: { auth: true },
   },
   {
     path: "/social-stories",
     component: () => import("./SocialStories"),
     name: "SocialStories",
+    meta: { auth: true },
   },
   {
     path: "/trainingplay",
     component: () => import("./TrainingPlay"),
     name: "TrainingPlay",
+    meta: { auth: true },
   },
-  { path: "/video", component: () => import("./Video"), name: "Video" },
+  {
+    path: "/video",
+    component: () => import("./Video"),
+    name: "Video",
+    meta: { auth: true },
+  },
   {
     path: "/recommendations",
     component: () => import("./Recommendations"),
     name: "Recommendations",
+    meta: { auth: true },
   },
   {
     path: "/recommendations2",
     component: () => import("./Recommendations2"),
     name: "Recommendations2",
+    meta: { auth: true },
   },
   {
     path: "/recommendations3",
     component: () => import("./Recommendations3"),
     name: "Recommendations3",
+    meta: { auth: true },
   },
   {
     path: "/recommendations4",
     component: () => import("./Recommendations4"),
     name: "Recommendations4",
+    meta: { auth: true },
   },
   {
     path: "/recommendations5",
     component: () => import("./Recommendations5"),
     name: "Recommendations5",
+    meta: { auth: true },
   },
   {
     path: "/recommendations6",
     component: () => import("./Recommendations6"),
     name: "Recommendations6",
+    meta: { auth: true },
   },
   {
     path: "/patientrecetpioncard",
     component: () => import("./PatientRecetpionCard"),
     name: "PatientRecetpionCard",
+    meta: { auth: true },
   },
   {
     path: "/resetpassword",
     component: () => import("./ResetPassword"),
     name: "ResetPassword",
+    meta: { auth: true },
   },
   {
     path: "/preloader",
     component: () => import("./Preloader"),
     name: "Preloader",
+    meta: { auth: true },
   },
 ];
-
-export const router = createRouter({
-  history: createWebHistory(),
-  routes,
-});
-
-router.beforeEach((to, _from, next) => {
-  const isAuthenticated = localStorage.getItem("userData") !== null;
-  if (to.path === "/auth" || to.path === "/reg") {
-    next();
-  } else if (!isAuthenticated) {
-    next({ name: "Auth" });
-  } else {
-    next();
-  }
-});
