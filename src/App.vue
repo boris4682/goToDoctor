@@ -29,7 +29,6 @@ const registerNotifications = async () => {
   if (permStatus.receive === "prompt") {
     permStatus = await PushNotifications.requestPermissions();
   }
-
   if (permStatus.receive !== "granted") {
     throw new Error("User denied permissions!");
   }
@@ -40,6 +39,7 @@ const registerNotifications = async () => {
 const isToken = ref(false);
 const deviceToken = async () => {
   await PushNotifications.addListener("registration", async (token) => {
+
     localStorage.setItem("deviceToken", token.value);
     if (!isToken.value) {
       const platform = (await Device.getInfo()).platform;
